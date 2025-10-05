@@ -1,7 +1,7 @@
 import fs from "fs/promises"
 import * as path from "path"
 import matter from "gray-matter"
-import { getGlobalRooDirectory, getProjectRooDirectoryForCwd } from "../roo-config"
+import { getGlobalRooDirectory, getProjectRooDirectoryForCwd } from "../rycode-ext-config"
 import { getBuiltInCommands, getBuiltInCommand } from "./built-in-commands"
 
 export interface Command {
