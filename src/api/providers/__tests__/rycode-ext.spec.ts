@@ -1,4 +1,4 @@
-// npx vitest run api/providers/__tests__/roo.spec.ts
+// npx vitest run api/providers/__tests__/rycode-ext.spec.ts
 
 import { Anthropic } from "@anthropic-ai/sdk"
 import { rooDefaultModelId, rooModels } from "@rycode-ext/types"
@@ -87,7 +87,7 @@ vitest.mock("../../../i18n", () => ({
 }))
 
 // Import after mocks are set up
-import { RooHandler } from "../roo"
+import { RooHandler } from "../rycode-ext"
 import { CloudService } from "@rycode-ext/cloud"
 
 describe("RooHandler", () => {

@@ -1,0 +1,492 @@
+/**
+ * RyCode Matrix Theme
+ * Inspired by toolkit-cli.com - A terminal-first, matrix-themed design system
+ *
+ * "Where LLMs Collaborate, Not Compete"
+ */
+
+@layer theme {
+	/* ===== Matrix Core Colors ===== */
+	--matrix-green-primary: #00ff00;
+	--matrix-green-glow: rgba(0, 255, 0, 0.5);
+	--matrix-green-dark: #00cc00;
+	--matrix-green-darker: #008800;
+
+	/* LLM-specific accent colors from toolkit-cli */
+	--claude-blue: #7aa2f7;
+	--gemini-green: #9ece6a;
+	--codex-magenta: #bb9af7;
+	--qwen-cyan: #00ffff;
+
+	/* Matrix dark theme */
+	--matrix-bg-dark: #0a0e0a;
+	--matrix-bg-darker: #050705;
+	--matrix-bg-code: #0d120d;
+	--matrix-text-primary: #c0caf5;
+	--matrix-text-secondary: #9ece6a;
+	--matrix-text-muted: #7aa2f7;
+
+	/* Terminal borders and shadows */
+	--matrix-border: rgba(0, 255, 0, 0.3);
+	--matrix-border-bright: rgba(0, 255, 0, 0.6);
+	--matrix-glow-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+	--matrix-glow-shadow-strong: 0 0 20px rgba(0, 255, 0, 0.5);
+
+	/* TUI monospace fonts */
+	--font-mono: "Fira Code", "Cascadia Code", "JetBrains Mono", "Monaco", "Consolas", monospace;
+	--font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ===== Matrix Animation Keyframes ===== */
+
+@keyframes matrix-cursor-blink {
+	0%,
+	49% {
+		opacity: 1;
+	}
+	50%,
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes matrix-glow-pulse {
+	0%,
+	100% {
+		box-shadow: var(--matrix-glow-shadow);
+	}
+	50% {
+		box-shadow: var(--matrix-glow-shadow-strong);
+	}
+}
+
+@keyframes matrix-scan-line {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(100vh);
+	}
+}
+
+@keyframes gradient-shift {
+	0%,
+	100% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+}
+
+@keyframes float-orb {
+	0%,
+	100% {
+		transform: translate(0, 0);
+	}
+	25% {
+		transform: translate(10px, -10px);
+	}
+	50% {
+		transform: translate(-5px, -20px);
+	}
+	75% {
+		transform: translate(-15px, -5px);
+	}
+}
+
+@keyframes matrix-text-flicker {
+	0%,
+	100% {
+		opacity: 1;
+		text-shadow: 0 0 5px var(--matrix-green-glow);
+	}
+	50% {
+		opacity: 0.95;
+		text-shadow: 0 0 10px var(--matrix-green-glow);
+	}
+}
+
+@keyframes slide-up-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ===== Matrix TUI Theme Classes ===== */
+
+.matrix-theme {
+	background: var(--matrix-bg-dark);
+	color: var(--matrix-text-primary);
+	font-family: var(--font-mono);
+	position: relative;
+	overflow: hidden;
+}
+
+/* Animated scanline effect */
+.matrix-scanline {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: linear-gradient(to bottom, transparent, var(--matrix-green-glow), transparent);
+	pointer-events: none;
+	z-index: 9999;
+	animation: matrix-scan-line 8s linear infinite;
+	opacity: 0.3;
+}
+
+/* Floating orbs background effect */
+.matrix-orbs {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	overflow: hidden;
+}
+
+.matrix-orb {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(60px);
+	opacity: 0.15;
+	animation: float-orb 20s ease-in-out infinite;
+}
+
+.matrix-orb:nth-child(1) {
+	width: 400px;
+	height: 400px;
+	background: var(--claude-blue);
+	top: 10%;
+	left: 10%;
+	animation-delay: 0s;
+}
+
+.matrix-orb:nth-child(2) {
+	width: 300px;
+	height: 300px;
+	background: var(--gemini-green);
+	top: 60%;
+	right: 10%;
+	animation-delay: 5s;
+}
+
+.matrix-orb:nth-child(3) {
+	width: 350px;
+	height: 350px;
+	background: var(--matrix-green-primary);
+	bottom: 20%;
+	left: 50%;
+	animation-delay: 10s;
+}
+
+/* Terminal cursor */
+.matrix-cursor {
+	display: inline-block;
+	width: 8px;
+	height: 1em;
+	background: var(--matrix-green-primary);
+	margin-left: 2px;
+	animation: matrix-cursor-blink 1s step-end infinite;
+	box-shadow: 0 0 5px var(--matrix-green-glow);
+}
+
+/* Matrix-styled input */
+.matrix-input {
+	background: var(--matrix-bg-code);
+	border: 1px solid var(--matrix-border);
+	color: var(--matrix-green-primary);
+	font-family: var(--font-mono);
+	padding: 12px;
+	border-radius: 4px;
+	transition: all 0.3s ease;
+}
+
+.matrix-input:focus {
+	outline: none;
+	border-color: var(--matrix-border-bright);
+	box-shadow: var(--matrix-glow-shadow);
+}
+
+.matrix-input::placeholder {
+	color: var(--matrix-text-muted);
+	opacity: 0.5;
+}
+
+/* Matrix-styled button */
+.matrix-button {
+	background: var(--matrix-bg-code);
+	border: 1px solid var(--matrix-border);
+	color: var(--matrix-green-primary);
+	font-family: var(--font-mono);
+	padding: 10px 20px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+.matrix-button::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, var(--matrix-green-glow), transparent);
+	transition: left 0.5s ease;
+}
+
+.matrix-button:hover::before {
+	left: 100%;
+}
+
+.matrix-button:hover {
+	border-color: var(--matrix-border-bright);
+	box-shadow: var(--matrix-glow-shadow);
+	transform: translateY(-2px);
+}
+
+.matrix-button:active {
+	transform: translateY(0);
+}
+
+/* Matrix code block */
+.matrix-code-block {
+	background: var(--matrix-bg-code);
+	border: 1px solid var(--matrix-border);
+	border-left: 3px solid var(--matrix-green-primary);
+	padding: 16px;
+	margin: 12px 0;
+	border-radius: 4px;
+	font-family: var(--font-mono);
+	position: relative;
+	overflow-x: auto;
+}
+
+.matrix-code-block::before {
+	content: ">";
+	position: absolute;
+	left: 8px;
+	color: var(--matrix-green-primary);
+	font-weight: bold;
+}
+
+/* Matrix chat message */
+.matrix-message {
+	background: var(--matrix-bg-darker);
+	border: 1px solid var(--matrix-border);
+	padding: 16px;
+	margin: 8px 0;
+	border-radius: 4px;
+	animation: slide-up-fade-in 0.3s ease-out;
+	position: relative;
+}
+
+.matrix-message.user {
+	border-left: 3px solid var(--claude-blue);
+}
+
+.matrix-message.assistant {
+	border-left: 3px solid var(--matrix-green-primary);
+}
+
+.matrix-message.system {
+	border-left: 3px solid var(--qwen-cyan);
+}
+
+/* Matrix badge */
+.matrix-badge {
+	display: inline-block;
+	background: var(--matrix-bg-code);
+	border: 1px solid var(--matrix-border);
+	color: var(--matrix-green-primary);
+	padding: 4px 12px;
+	border-radius: 12px;
+	font-size: 0.85em;
+	font-family: var(--font-mono);
+	font-weight: 500;
+}
+
+/* Matrix loading spinner */
+.matrix-spinner {
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--matrix-border);
+	border-top-color: var(--matrix-green-primary);
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Matrix header/title */
+.matrix-header {
+	color: var(--matrix-green-primary);
+	font-family: var(--font-mono);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	position: relative;
+	display: inline-block;
+}
+
+.matrix-header::after {
+	content: "";
+	position: absolute;
+	bottom: -4px;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: linear-gradient(90deg, var(--matrix-green-primary), transparent);
+}
+
+/* Matrix link */
+.matrix-link {
+	color: var(--claude-blue);
+	text-decoration: none;
+	position: relative;
+	transition: color 0.3s ease;
+}
+
+.matrix-link::after {
+	content: "";
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	right: 100%;
+	height: 1px;
+	background: var(--claude-blue);
+	transition: right 0.3s ease;
+}
+
+.matrix-link:hover {
+	color: var(--gemini-green);
+}
+
+.matrix-link:hover::after {
+	right: 0;
+	background: var(--gemini-green);
+}
+
+/* Matrix panel/card */
+.matrix-panel {
+	background: var(--matrix-bg-darker);
+	border: 1px solid var(--matrix-border);
+	border-radius: 8px;
+	padding: 20px;
+	position: relative;
+	overflow: hidden;
+}
+
+.matrix-panel::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--matrix-green-primary), transparent);
+}
+
+/* ASCII Art Container */
+.matrix-ascii-art {
+	font-family: var(--font-mono);
+	color: var(--matrix-green-primary);
+	white-space: pre;
+	line-height: 1;
+	opacity: 0.8;
+	font-size: 0.7em;
+	text-shadow: 0 0 5px var(--matrix-green-glow);
+}
+
+/* Gradient text effect */
+.matrix-gradient-text {
+	background: linear-gradient(
+		90deg,
+		var(--matrix-green-primary),
+		var(--claude-blue),
+		var(--gemini-green),
+		var(--matrix-green-primary)
+	);
+	background-size: 200% auto;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: gradient-shift 8s ease infinite;
+}
+
+/* Terminal prompt */
+.matrix-prompt {
+	color: var(--matrix-green-primary);
+	font-family: var(--font-mono);
+}
+
+.matrix-prompt::before {
+	content: "$ ";
+	color: var(--gemini-green);
+	font-weight: bold;
+}
+
+/* Status indicators */
+.matrix-status-active {
+	color: var(--matrix-green-primary);
+	animation: matrix-text-flicker 2s ease-in-out infinite;
+}
+
+.matrix-status-error {
+	color: #ff6b6b;
+}
+
+.matrix-status-warning {
+	color: #ffa500;
+}
+
+.matrix-status-info {
+	color: var(--claude-blue);
+}
+
+/* Scrollbar styling for matrix theme */
+.matrix-scrollbar::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.matrix-scrollbar::-webkit-scrollbar-track {
+	background: var(--matrix-bg-darker);
+	border-left: 1px solid var(--matrix-border);
+}
+
+.matrix-scrollbar::-webkit-scrollbar-thumb {
+	background: var(--matrix-border-bright);
+	border-radius: 4px;
+}
+
+.matrix-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: var(--matrix-green-primary);
+	box-shadow: var(--matrix-glow-shadow);
+}
+
+/* Utility classes */
+.matrix-glow {
+	box-shadow: var(--matrix-glow-shadow);
+}
+
+.matrix-glow-strong {
+	box-shadow: var(--matrix-glow-shadow-strong);
+}
+
+.matrix-animate-glow {
+	animation: matrix-glow-pulse 2s ease-in-out infinite;
+}

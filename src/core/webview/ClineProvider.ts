@@ -1375,7 +1375,7 @@ export class ClineProvider
 			await fs.mkdir(mcpServersDir, { recursive: true })
 		} catch (error) {
 			// Fallback to a relative path if directory creation fails
-			return path.join(os.homedir(), ".rycode-ext", "mcp")
+			return path.join(os.homedir(), ".specify", "mcp")
 		}
 		return mcpServersDir
 	}
