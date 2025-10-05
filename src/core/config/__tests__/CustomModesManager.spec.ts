@@ -49,7 +49,7 @@ describe("CustomModesManager", () => {
 	const mockStoragePath = `${path.sep}mock${path.sep}settings`
 	const mockSettingsPath = path.join(mockStoragePath, "settings", GlobalFileNames.customModes)
 	const mockWorkspacePath = path.resolve("/mock/workspace")
-	const mockRoomodes = path.join(mockWorkspacePath, ".rycodeextmodes")
+	const mockRoo = path.join(mockWorkspacePath, ".roo")
 
 	beforeEach(() => {
 		mockOnUpdate = vi.fn()
@@ -71,7 +71,11 @@ describe("CustomModesManager", () => {
 		;(vscode.workspace.onDidSaveTextDocument as Mock).mockReturnValue({ dispose: vi.fn() })
 		;(getWorkspacePath as Mock).mockReturnValue(mockWorkspacePath)
 		;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-			return path === mockSettingsPath || path === mockRoomodes
+			// Only settings and .roo exist, no .specify files
+			if (path === mockSettingsPath || path === mockRoo) {
+				return true
+			}
+			return false
 		})
 		;(fs.mkdir as Mock).mockResolvedValue(undefined)
 		;(fs.writeFile as Mock).mockResolvedValue(undefined)
@@ -94,17 +98,17 @@ describe("CustomModesManager", () => {
 	})
 
 	describe("getCustomModes", () => {
-		it("should handle valid YAML in .rycodeextmodes file and JSON for global customModes", async () => {
+		it("should handle valid YAML in .roo file and JSON for global customModes", async () => {
 			const settingsModes = [{ slug: "mode1", name: "Mode 1", roleDefinition: "Role 1", groups: ["read"] }]
 
-			const roomodesModes = [{ slug: "mode2", name: "Mode 2", roleDefinition: "Role 2", groups: ["read"] }]
+			const rooModes = [{ slug: "mode2", name: "Mode 2", roleDefinition: "Role 2", groups: ["read"] }]
 
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
 				if (path === mockSettingsPath) {
 					return yaml.stringify({ customModes: settingsModes })
 				}
-				if (path === mockRoomodes) {
-					return yaml.stringify({ customModes: roomodesModes })
+				if (path === mockRoo) {
+					return yaml.stringify({ customModes: rooModes })
 				}
 				throw new Error("File not found")
 			})
@@ -114,13 +118,13 @@ describe("CustomModesManager", () => {
 			expect(modes).toHaveLength(2)
 		})
 
-		it("should merge modes with .rycodeextmodes taking precedence", async () => {
+		it("should merge modes with .roo taking precedence", async () => {
 			const settingsModes = [
 				{ slug: "mode1", name: "Mode 1", roleDefinition: "Role 1", groups: ["read"] },
 				{ slug: "mode2", name: "Mode 2", roleDefinition: "Role 2", groups: ["read"] },
 			]
 
-			const roomodesModes = [
+			const rooModes = [
 				{ slug: "mode2", name: "Mode 2 Override", roleDefinition: "Role 2 Override", groups: ["read"] },
 				{ slug: "mode3", name: "Mode 3", roleDefinition: "Role 3", groups: ["read"] },
 			]
@@ -129,25 +133,25 @@ describe("CustomModesManager", () => {
 				if (path === mockSettingsPath) {
 					return yaml.stringify({ customModes: settingsModes })
 				}
-				if (path === mockRoomodes) {
-					return yaml.stringify({ customModes: roomodesModes })
+				if (path === mockRoo) {
+					return yaml.stringify({ customModes: rooModes })
 				}
 				throw new Error("File not found")
 			})
 
 			const modes = await manager.getCustomModes()
 
-			// Should contain 3 modes (mode1 from settings, mode2 and mode3 from roomodes)
+			// Should contain 3 modes (mode1 from settings, mode2 and mode3 from roo)
 			expect(modes).toHaveLength(3)
 			expect(modes.map((m) => m.slug)).toEqual(["mode2", "mode3", "mode1"])
 
-			// mode2 should come from .rycodeextmodes since it takes precedence
+			// mode2 should come from .roo since it takes precedence
 			const mode2 = modes.find((m) => m.slug === "mode2")
 			expect(mode2?.name).toBe("Mode 2 Override")
 			expect(mode2?.roleDefinition).toBe("Role 2 Override")
 		})
 
-		it("should handle missing .rycodeextmodes file", async () => {
+		it("should handle missing .roo file", async () => {
 			const settingsModes = [{ slug: "mode1", name: "Mode 1", roleDefinition: "Role 1", groups: ["read"] }]
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
@@ -166,14 +170,14 @@ describe("CustomModesManager", () => {
 			expect(modes[0].slug).toBe("mode1")
 		})
 
-		it("should handle invalid YAML in .rycodeextmodes", async () => {
+		it("should handle invalid YAML in .roo", async () => {
 			const settingsModes = [{ slug: "mode1", name: "Mode 1", roleDefinition: "Role 1", groups: ["read"] }]
 
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
 				if (path === mockSettingsPath) {
 					return yaml.stringify({ customModes: settingsModes })
 				}
-				if (path === mockRoomodes) {
+				if (path === mockRoo) {
 					return "invalid yaml content"
 				}
 				throw new Error("File not found")
@@ -181,7 +185,7 @@ describe("CustomModesManager", () => {
 
 			const modes = await manager.getCustomModes()
 
-			// Should fall back to settings modes when .rycodeextmodes is invalid
+			// Should fall back to settings modes when .roo is invalid
 			expect(modes).toHaveLength(1)
 			expect(modes[0].slug).toBe("mode1")
 		})
@@ -439,7 +443,7 @@ describe("CustomModesManager", () => {
 	})
 
 	describe("updateCustomMode", () => {
-		it("should update mode in settings file while preserving .rycodeextmodes precedence", async () => {
+		it("should update mode in settings file while preserving .roo precedence", async () => {
 			const newMode: ModeConfig = {
 				slug: "mode1",
 				name: "Updated Mode 1",
@@ -448,7 +452,7 @@ describe("CustomModesManager", () => {
 				source: "global",
 			}
 
-			const roomodesModes = [
+			const rooModes = [
 				{
 					slug: "mode1",
 					name: "Roomodes Mode 1",
@@ -463,11 +467,11 @@ describe("CustomModesManager", () => {
 			]
 
 			let settingsContent = { customModes: existingModes }
-			let roomodesContent = { customModes: roomodesModes }
+			let rooContent = { customModes: rooModes }
 
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				if (path === mockSettingsPath) {
 					return yaml.stringify(settingsContent)
@@ -478,8 +482,8 @@ describe("CustomModesManager", () => {
 				if (path === mockSettingsPath) {
 					settingsContent = yaml.parse(content)
 				}
-				if (path === mockRoomodes) {
-					roomodesContent = yaml.parse(content)
+				if (path === mockRoo) {
+					rooContent = yaml.parse(content)
 				}
 				return Promise.resolve()
 			})
@@ -501,13 +505,13 @@ describe("CustomModesManager", () => {
 				}),
 			)
 
-			// Should update global state with merged modes where .rycodeextmodes takes precedence
+			// Should update global state with merged modes where .roo takes precedence
 			expect(mockContext.globalState.update).toHaveBeenCalledWith(
 				"customModes",
 				expect.arrayContaining([
 					expect.objectContaining({
 						slug: "mode1",
-						name: "Roomodes Mode 1", // .rycodeextmodes version should take precedence
+						name: "Roomodes Mode 1", // .roo version should take precedence
 						source: "project",
 					}),
 				]),
@@ -517,7 +521,7 @@ describe("CustomModesManager", () => {
 			expect(mockOnUpdate).toHaveBeenCalled()
 		})
 
-		it("creates .rycodeextmodes file when adding project-specific mode", async () => {
+		it("creates .roo file when adding project-specific mode", async () => {
 			const projectMode: ModeConfig = {
 				slug: "project-mode",
 				name: "Project Mode",
@@ -526,8 +530,8 @@ describe("CustomModesManager", () => {
 				source: "project",
 			}
 
-			// Mock .rycodeextmodes to not exist initially
-			let roomodesContent: any = null
+			// Mock .roo to not exist initially
+			let rooContent: any = null
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
 				return path === mockSettingsPath
 			})
@@ -535,24 +539,24 @@ describe("CustomModesManager", () => {
 				if (path === mockSettingsPath) {
 					return yaml.stringify({ customModes: [] })
 				}
-				if (path === mockRoomodes) {
-					if (!roomodesContent) {
+				if (path === mockRoo) {
+					if (!rooContent) {
 						throw new Error("File not found")
 					}
-					return yaml.stringify(roomodesContent)
+					return yaml.stringify(rooContent)
 				}
 				throw new Error("File not found")
 			})
 			;(fs.writeFile as Mock).mockImplementation(async (path: string, content: string) => {
-				if (path === mockRoomodes) {
-					roomodesContent = yaml.parse(content)
+				if (path === mockRoo) {
+					rooContent = yaml.parse(content)
 				}
 				return Promise.resolve()
 			})
 
 			await manager.updateCustomMode("project-mode", projectMode)
 
-			// Verify .rycodeextmodes was created with the project mode
+			// Verify .roo was created with the project mode
 			expect(fs.writeFile).toHaveBeenCalledWith(
 				expect.any(String), // Don't check exact path as it may have different separators on different platforms
 				expect.stringContaining("project-mode"),
@@ -561,10 +565,10 @@ describe("CustomModesManager", () => {
 
 			// Verify the path is correct regardless of separators
 			const writeCall = (fs.writeFile as Mock).mock.calls[0]
-			expect(path.normalize(writeCall[0])).toBe(path.normalize(mockRoomodes))
+			expect(path.normalize(writeCall[0])).toBe(path.normalize(mockRoo))
 
-			// Verify the content written to .rycodeextmodes
-			expect(roomodesContent).toEqual({
+			// Verify the content written to .roo
+			expect(rooContent).toEqual({
 				customModes: [
 					expect.objectContaining({
 						slug: "project-mode",
@@ -850,19 +854,19 @@ describe("CustomModesManager", () => {
 					],
 				})
 
-				let roomodesContent: any = null
+				let rooContent: any = null
 				;(fs.readFile as Mock).mockImplementation(async (path: string) => {
 					if (path === mockSettingsPath) {
 						return yaml.stringify({ customModes: [] })
 					}
-					if (path === mockRoomodes && roomodesContent) {
-						return yaml.stringify(roomodesContent)
+					if (path === mockRoo && rooContent) {
+						return yaml.stringify(rooContent)
 					}
 					throw new Error("File not found")
 				})
 				;(fs.writeFile as Mock).mockImplementation(async (path: string, content: string) => {
-					if (path === mockRoomodes) {
-						roomodesContent = yaml.parse(content)
+					if (path === mockRoo) {
+						rooContent = yaml.parse(content)
 					}
 					return Promise.resolve()
 				})
@@ -871,7 +875,7 @@ describe("CustomModesManager", () => {
 
 				expect(result.success).toBe(true)
 				expect(fs.writeFile).toHaveBeenCalledWith(
-					expect.stringContaining(".rycodeextmodes"),
+					expect.stringContaining(".roo"),
 					expect.stringContaining("imported-mode"),
 					"utf-8",
 				)
@@ -899,20 +903,20 @@ describe("CustomModesManager", () => {
 					],
 				})
 
-				let roomodesContent: any = null
+				let rooContent: any = null
 				let writtenFiles: Record<string, string> = {}
 				;(fs.readFile as Mock).mockImplementation(async (path: string) => {
 					if (path === mockSettingsPath) {
 						return yaml.stringify({ customModes: [] })
 					}
-					if (path === mockRoomodes && roomodesContent) {
-						return yaml.stringify(roomodesContent)
+					if (path === mockRoo && rooContent) {
+						return yaml.stringify(rooContent)
 					}
 					throw new Error("File not found")
 				})
 				;(fs.writeFile as Mock).mockImplementation(async (path: string, content: string) => {
-					if (path === mockRoomodes) {
-						roomodesContent = yaml.parse(content)
+					if (path === mockRoo) {
+						rooContent = yaml.parse(content)
 					} else {
 						writtenFiles[path] = content
 					}
@@ -926,7 +930,7 @@ describe("CustomModesManager", () => {
 
 				// Verify mode was imported
 				expect(fs.writeFile).toHaveBeenCalledWith(
-					expect.stringContaining(".rycodeextmodes"),
+					expect.stringContaining(".roo"),
 					expect.stringContaining("imported-mode"),
 					"utf-8",
 				)
@@ -971,19 +975,19 @@ describe("CustomModesManager", () => {
 					],
 				})
 
-				let roomodesContent: any = null
+				let rooContent: any = null
 				;(fs.readFile as Mock).mockImplementation(async (path: string) => {
 					if (path === mockSettingsPath) {
 						return yaml.stringify({ customModes: [] })
 					}
-					if (path === mockRoomodes && roomodesContent) {
-						return yaml.stringify(roomodesContent)
+					if (path === mockRoo && rooContent) {
+						return yaml.stringify(rooContent)
 					}
 					throw new Error("File not found")
 				})
 				;(fs.writeFile as Mock).mockImplementation(async (path: string, content: string) => {
-					if (path === mockRoomodes) {
-						roomodesContent = yaml.parse(content)
+					if (path === mockRoo) {
+						rooContent = yaml.parse(content)
 					}
 					return Promise.resolve()
 				})
@@ -991,9 +995,9 @@ describe("CustomModesManager", () => {
 				const result = await manager.importModeWithRules(importYaml)
 
 				expect(result.success).toBe(true)
-				expect(roomodesContent.customModes).toHaveLength(2)
-				expect(roomodesContent.customModes[0].slug).toBe("mode1")
-				expect(roomodesContent.customModes[1].slug).toBe("mode2")
+				expect(rooContent.customModes).toHaveLength(2)
+				expect(rooContent.customModes[0].slug).toBe("mode1")
+				expect(rooContent.customModes[1].slug).toBe("mode2")
 			})
 
 			it("should handle import errors gracefully", async () => {
@@ -1019,7 +1023,7 @@ describe("CustomModesManager", () => {
 					if (path === mockSettingsPath) {
 						return yaml.stringify({ customModes: [] })
 					}
-					if (path === mockRoomodes) {
+					if (path === mockRoo) {
 						throw new Error("File not found")
 					}
 					throw new Error("File not found")
@@ -1028,7 +1032,7 @@ describe("CustomModesManager", () => {
 				// Mock fs.mkdir to fail when creating rules directory
 				;(fs.mkdir as Mock).mockRejectedValue(new Error("Permission denied"))
 
-				// Mock fs.writeFile to work normally for .rycodeextmodes but we won't get there
+				// Mock fs.writeFile to work normally for .roo but we won't get there
 				;(fs.writeFile as Mock).mockResolvedValue(undefined)
 
 				const result = await manager.importModeWithRules(importYaml)
@@ -1082,7 +1086,7 @@ describe("CustomModesManager", () => {
 
 				// Verify that no files were written outside the .roo directory
 				const mockWorkspacePath = path.resolve("/mock/workspace")
-				const writtenRuleFiles = writtenFiles.filter((p) => !p.includes(".rycodeextmodes"))
+				const writtenRuleFiles = writtenFiles.filter((p) => !p.includes(".roo"))
 				writtenRuleFiles.forEach((filePath) => {
 					const normalizedPath = path.normalize(filePath)
 					const expectedBasePath = path.normalize(path.join(mockWorkspacePath, ".roo"))
@@ -1142,19 +1146,19 @@ describe("CustomModesManager", () => {
 					],
 				})
 
-				let roomodesContent: any = null
+				let rooContent: any = null
 				;(fs.readFile as Mock).mockImplementation(async (path: string) => {
 					if (path === mockSettingsPath) {
 						return yaml.stringify({ customModes: [] })
 					}
-					if (path === mockRoomodes && roomodesContent) {
-						return yaml.stringify(roomodesContent)
+					if (path === mockRoo && rooContent) {
+						return yaml.stringify(rooContent)
 					}
 					throw new Error("File not found")
 				})
 				;(fs.writeFile as Mock).mockImplementation(async (path: string, content: string) => {
-					if (path === mockRoomodes) {
-						roomodesContent = yaml.parse(content)
+					if (path === mockRoo) {
+						rooContent = yaml.parse(content)
 					}
 					return Promise.resolve()
 				})
@@ -1172,7 +1176,7 @@ describe("CustomModesManager", () => {
 
 				// Verify mode was imported
 				expect(fs.writeFile).toHaveBeenCalledWith(
-					expect.stringContaining(".rycodeextmodes"),
+					expect.stringContaining(".roo"),
 					expect.stringContaining("test-mode"),
 					"utf-8",
 				)
@@ -1196,20 +1200,20 @@ describe("CustomModesManager", () => {
 					],
 				})
 
-				let roomodesContent: any = null
+				let rooContent: any = null
 				let writtenFiles: Record<string, string> = {}
 				;(fs.readFile as Mock).mockImplementation(async (path: string) => {
 					if (path === mockSettingsPath) {
 						return yaml.stringify({ customModes: [] })
 					}
-					if (path === mockRoomodes && roomodesContent) {
-						return yaml.stringify(roomodesContent)
+					if (path === mockRoo && rooContent) {
+						return yaml.stringify(rooContent)
 					}
 					throw new Error("File not found")
 				})
 				;(fs.writeFile as Mock).mockImplementation(async (path: string, content: string) => {
-					if (path === mockRoomodes) {
-						roomodesContent = yaml.parse(content)
+					if (path === mockRoo) {
+						rooContent = yaml.parse(content)
 					} else {
 						writtenFiles[path] = content
 					}
@@ -1247,14 +1251,14 @@ describe("CustomModesManager", () => {
 			expect(result).toBe(false)
 		})
 
-		it("should return false when mode is not in .rycodeextmodes file", async () => {
-			const roomodesContent = { customModes: [{ slug: "other-mode", name: "Other Mode" }] }
+		it("should return false when mode is not in .roo file", async () => {
+			const rooContent = { customModes: [{ slug: "other-mode", name: "Other Mode" }] }
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				throw new Error("File not found")
 			})
@@ -1264,7 +1268,7 @@ describe("CustomModesManager", () => {
 			expect(result).toBe(false)
 		})
 
-		it("should return false when .rycodeextmodes doesn't exist and mode is not a custom mode", async () => {
+		it("should return false when .roo doesn't exist and mode is not a custom mode", async () => {
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
 				return path === mockSettingsPath
 			})
@@ -1281,13 +1285,13 @@ describe("CustomModesManager", () => {
 		})
 
 		it("should return false when rules directory doesn't exist", async () => {
-			const roomodesContent = { customModes: [{ slug: "test-mode", name: "Test Mode" }] }
+			const rooContent = { customModes: [{ slug: "test-mode", name: "Test Mode" }] }
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				throw new Error("File not found")
 			})
@@ -1299,13 +1303,13 @@ describe("CustomModesManager", () => {
 		})
 
 		it("should return false when rules directory is empty", async () => {
-			const roomodesContent = { customModes: [{ slug: "test-mode", name: "Test Mode" }] }
+			const rooContent = { customModes: [{ slug: "test-mode", name: "Test Mode" }] }
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				throw new Error("File not found")
 			})
@@ -1318,13 +1322,13 @@ describe("CustomModesManager", () => {
 		})
 
 		it("should return true when rules directory has content files", async () => {
-			const roomodesContent = { customModes: [{ slug: "test-mode", name: "Test Mode" }] }
+			const rooContent = { customModes: [{ slug: "test-mode", name: "Test Mode" }] }
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				if (path.includes("rules-test-mode")) {
 					return "Some rule content"
@@ -1341,7 +1345,7 @@ describe("CustomModesManager", () => {
 			expect(result).toBe(true)
 		})
 
-		it("should work with global custom modes when .rycodeextmodes doesn't exist", async () => {
+		it("should work with global custom modes when .roo doesn't exist", async () => {
 			const settingsContent = {
 				customModes: [{ slug: "test-mode", name: "Test Mode", groups: ["read"], roleDefinition: "Test Role" }],
 			}
@@ -1350,7 +1354,7 @@ describe("CustomModesManager", () => {
 			const freshManager = new CustomModesManager(mockContext, mockOnUpdate)
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockSettingsPath // .rycodeextmodes doesn't exist
+				return path === mockSettingsPath // .roo doesn't exist
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
 				if (path === mockSettingsPath) {
@@ -1412,15 +1416,15 @@ describe("CustomModesManager", () => {
 		})
 
 		it("should successfully export mode without rules when rules directory doesn't exist", async () => {
-			const roomodesContent = {
+			const rooContent = {
 				customModes: [{ slug: "test-mode", name: "Test Mode", roleDefinition: "Test Role", groups: ["read"] }],
 			}
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				throw new Error("File not found")
 			})
@@ -1434,15 +1438,15 @@ describe("CustomModesManager", () => {
 		})
 
 		it("should successfully export mode without rules when no rule files are found", async () => {
-			const roomodesContent = {
+			const rooContent = {
 				customModes: [{ slug: "test-mode", name: "Test Mode", roleDefinition: "Test Role", groups: ["read"] }],
 			}
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				throw new Error("File not found")
 			})
@@ -1455,8 +1459,8 @@ describe("CustomModesManager", () => {
 			expect(result.yaml).toContain("test-mode")
 		})
 
-		it("should successfully export mode with rules for a custom mode in .rycodeextmodes", async () => {
-			const roomodesContent = {
+		it("should successfully export mode with rules for a custom mode in .roo", async () => {
+			const rooContent = {
 				customModes: [
 					{
 						slug: "test-mode",
@@ -1469,11 +1473,11 @@ describe("CustomModesManager", () => {
 			}
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				if (path.includes("rules-test-mode")) {
 					return "New rule content from files"
@@ -1495,8 +1499,8 @@ describe("CustomModesManager", () => {
 			expect(fs.rm).not.toHaveBeenCalled()
 		})
 
-		it("should successfully export mode with rules for a built-in mode customized in .rycodeextmodes", async () => {
-			const roomodesContent = {
+		it("should successfully export mode with rules for a built-in mode customized in .roo", async () => {
+			const rooContent = {
 				customModes: [
 					{
 						slug: "code",
@@ -1508,11 +1512,11 @@ describe("CustomModesManager", () => {
 			}
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				if (path.includes("rules-code")) {
 					return "Custom rules for code mode"
@@ -1537,7 +1541,7 @@ describe("CustomModesManager", () => {
 		})
 
 		it("should handle file read errors gracefully", async () => {
-			const roomodesContent = {
+			const rooContent = {
 				customModes: [
 					{
 						slug: "test-mode",
@@ -1549,11 +1553,11 @@ describe("CustomModesManager", () => {
 			}
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				if (path.includes("rules-test-mode")) {
 					throw new Error("Permission denied")
@@ -1701,7 +1705,7 @@ describe("CustomModesManager", () => {
 		})
 
 		it("should normalize paths to use forward slashes in exported YAML", async () => {
-			const roomodesContent = {
+			const rooContent = {
 				customModes: [
 					{
 						slug: "test-mode",
@@ -1713,11 +1717,11 @@ describe("CustomModesManager", () => {
 			}
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (path: string) => {
-				return path === mockRoomodes
+				return path === mockRoo
 			})
 			;(fs.readFile as Mock).mockImplementation(async (path: string) => {
-				if (path === mockRoomodes) {
-					return yaml.stringify(roomodesContent)
+				if (path === mockRoo) {
+					return yaml.stringify(rooContent)
 				}
 				if (path.includes("rules-test-mode")) {
 					return "Rule content"

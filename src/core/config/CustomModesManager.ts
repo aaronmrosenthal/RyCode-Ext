@@ -16,7 +16,7 @@ import { GlobalFileNames } from "../../shared/globalFileNames"
 import { ensureSettingsDirectoryExists } from "../../utils/globalContext"
 import { t } from "../../i18n"
 
-const ROOMODES_FILENAME = ".rycodeextmodes"
+const ROO_FILENAME = ".roo"
 const SPECIFY_CONFIG_PATH = ".specify/config.yml"
 const SPECIFY_MODES_DIR = ".specify/memory/specifications/modes"
 
@@ -91,7 +91,7 @@ export class CustomModesManager {
 		}
 	}
 
-	private async getWorkspaceRoomodes(): Promise<string | undefined> {
+	private async getWorkspaceRoo(): Promise<string | undefined> {
 		const workspaceFolders = vscode.workspace.workspaceFolders
 
 		if (!workspaceFolders || workspaceFolders.length === 0) {
@@ -99,9 +99,203 @@ export class CustomModesManager {
 		}
 
 		const workspaceRoot = getWorkspacePath()
-		const roomodesPath = path.join(workspaceRoot, ROOMODES_FILENAME)
-		const exists = await fileExistsAtPath(roomodesPath)
-		return exists ? roomodesPath : undefined
+		const rooPath = path.join(workspaceRoot, ROO_FILENAME)
+		const exists = await fileExistsAtPath(rooPath)
+		return exists ? rooPath : undefined
+	}
+
+	private async getSpecifyConfigPath(): Promise<string | undefined> {
+		const workspaceFolders = vscode.workspace.workspaceFolders
+
+		if (!workspaceFolders || workspaceFolders.length === 0) {
+			return undefined
+		}
+
+		const workspaceRoot = getWorkspacePath()
+		const specifyConfigPath = path.join(workspaceRoot, SPECIFY_CONFIG_PATH)
+		const exists = await fileExistsAtPath(specifyConfigPath)
+		return exists ? specifyConfigPath : undefined
+	}
+
+	private async getSpecifyModesDir(): Promise<string | undefined> {
+		const workspaceFolders = vscode.workspace.workspaceFolders
+
+		if (!workspaceFolders || workspaceFolders.length === 0) {
+			return undefined
+		}
+
+		const workspaceRoot = getWorkspacePath()
+		const modesDir = path.join(workspaceRoot, SPECIFY_MODES_DIR)
+
+		try {
+			const stat = await fs.stat(modesDir)
+			return stat.isDirectory() ? modesDir : undefined
+		} catch {
+			return undefined
+		}
+	}
+
+	/**
+	 * Parse mode specification from markdown file
+	 * Extracts configuration from markdown sections
+	 */
+	private parseModeSpecification(content: string, slug: string): Partial<ModeConfig> {
+		const config: Partial<ModeConfig> = { slug }
+
+		// Extract title/name from first heading
+		const titleMatch = content.match(/^#\s+(.+)$/m)
+		if (titleMatch) {
+			config.name = titleMatch[1].trim()
+		}
+
+		// Extract role definition
+		const roleMatch = content.match(/##\s+Role Definition\s*\n\n([\s\S]*?)(?=\n##|$)/i)
+		if (roleMatch) {
+			config.roleDefinition = roleMatch[1].trim()
+		}
+
+		// Extract when to use
+		const whenMatch = content.match(/##\s+When to Use\s*\n\n([\s\S]*?)(?=\n##|$)/i)
+		if (whenMatch) {
+			config.whenToUse = whenMatch[1].trim()
+		}
+
+		// Extract overview/description
+		const overviewMatch = content.match(/##\s+Overview\s*\n\n([\s\S]*?)(?=\n##|$)/i)
+		if (overviewMatch) {
+			config.description = overviewMatch[1].trim()
+		}
+
+		// Extract custom instructions
+		const instructionsMatch = content.match(/##\s+Custom Instructions\s*\n\n([\s\S]*?)(?=\n##|$)/i)
+		if (instructionsMatch) {
+			const instructions = instructionsMatch[1].trim()
+			if (instructions && instructions !== "No custom instructions") {
+				config.customInstructions = instructions
+			}
+		}
+
+		// Extract permissions/groups from "Permissions & Tool Access" section
+		const permissionsMatch = content.match(/##\s+Permissions & Tool Access\s*\n\n([\s\S]*?)(?=\n##|$)/i)
+		if (permissionsMatch) {
+			const permissionsText = permissionsMatch[1]
+			const groups: Array<string | [string, { fileRegex: string; description?: string }]> = []
+
+			// Parse simple permissions (lines starting with -)
+			const simplePerms = permissionsText.match(/^-\s+(\w+)\s*$/gm)
+			if (simplePerms) {
+				simplePerms.forEach((line) => {
+					const perm = line.replace(/^-\s+/, "").trim()
+					if (perm && !line.includes("[")) {
+						groups.push(perm)
+					}
+				})
+			}
+
+			// Parse complex permissions with restrictions (multi-line format)
+			const complexPermPattern =
+				/^-\s+(\w+)\s*\n\s+\[\s*\n\s+"(\w+)",\s*\n\s+\{[\s\S]*?"fileRegex":\s*"([^"]+)"[\s\S]*?"description":\s*"([^"]+)"[\s\S]*?\}\s*\n\s+\]/gm
+			let complexMatch
+			while ((complexMatch = complexPermPattern.exec(permissionsText)) !== null) {
+				const [, , tool, fileRegex, description] = complexMatch
+				groups.push([tool, { fileRegex, description }])
+			}
+
+			if (groups.length > 0) {
+				config.groups = groups
+			}
+		}
+
+		return config
+	}
+
+	/**
+	 * Load modes from .specify/config.yml and corresponding markdown files
+	 */
+	private async loadSpecifyModes(): Promise<ModeConfig[]> {
+		const specifyConfigPath = await this.getSpecifyConfigPath()
+		const specifyModesDir = await this.getSpecifyModesDir()
+
+		if (!specifyConfigPath) {
+			return []
+		}
+
+		try {
+			const content = await fs.readFile(specifyConfigPath, "utf-8")
+			const config = this.parseYamlSafely(content, specifyConfigPath)
+
+			if (!config || !config.modes || !Array.isArray(config.modes)) {
+				return []
+			}
+
+			const modes: ModeConfig[] = []
+
+			for (const modeEntry of config.modes) {
+				if (!modeEntry.slug) {
+					continue
+				}
+
+				// Start with config.yml data
+				let modeConfig: ModeConfig = {
+					slug: modeEntry.slug,
+					name: modeEntry.name || modeEntry.slug,
+					roleDefinition: modeEntry.roleDefinition || "",
+					groups: modeEntry.groups || ["read"],
+					source: "project" as const,
+				}
+
+				// Add optional fields from config.yml
+				if (modeEntry.description) {
+					modeConfig.description = modeEntry.description
+				}
+				if (modeEntry.whenToUse) {
+					modeConfig.whenToUse = modeEntry.whenToUse
+				}
+				if (modeEntry.customInstructions) {
+					modeConfig.customInstructions = modeEntry.customInstructions
+				}
+
+				// Try to load and merge markdown specification
+				if (specifyModesDir) {
+					const mdPath = path.join(specifyModesDir, `${modeEntry.slug}.md`)
+					const mdExists = await fileExistsAtPath(mdPath)
+
+					if (mdExists) {
+						try {
+							const mdContent = await fs.readFile(mdPath, "utf-8")
+							const mdConfig = this.parseModeSpecification(mdContent, modeEntry.slug)
+
+							// Merge markdown config with config.yml (config.yml takes precedence for explicit values)
+							modeConfig = {
+								...mdConfig,
+								...modeConfig,
+								// For roleDefinition, prefer markdown if config.yml is empty
+								roleDefinition: modeConfig.roleDefinition || mdConfig.roleDefinition || "",
+								// Merge groups if markdown provides them and config.yml doesn't
+								groups: modeConfig.groups?.length ? modeConfig.groups : mdConfig.groups || ["read"],
+							}
+						} catch (error) {
+							logger.warn(
+								`Failed to load mode specification from ${mdPath}: ${error instanceof Error ? error.message : String(error)}`,
+							)
+						}
+					}
+				}
+
+				// Validate the final mode config
+				const validationResult = modeConfigSchema.safeParse(modeConfig)
+				if (validationResult.success) {
+					modes.push(validationResult.data)
+				} else {
+					logger.warn(`Invalid mode configuration for ${modeEntry.slug}:`, validationResult.error)
+				}
+			}
+
+			return modes
+		} catch (error) {
+			logger.warn(`Failed to load Spec-Kit modes: ${error instanceof Error ? error.message : String(error)}`)
+			return []
+		}
 	}
 
 	/**
@@ -155,8 +349,8 @@ export class CustomModesManager {
 			// Ensure we never return null or undefined
 			return parsed ?? {}
 		} catch (yamlError) {
-			// For .rycodeextmodes files, try JSON as fallback
-			if (filePath.endsWith(ROOMODES_FILENAME)) {
+			// For .roo files, try JSON as fallback
+			if (filePath.endsWith(ROO_FILENAME)) {
 				try {
 					// Try parsing the original content as JSON (not the cleaned content)
 					return JSON.parse(content)
@@ -174,7 +368,7 @@ export class CustomModesManager {
 				}
 			}
 
-			// For non-.rycodeextmodes files, just log and return empty object
+			// For non-.roo files, just log and return empty object
 			const errorMsg = yamlError instanceof Error ? yamlError.message : String(yamlError)
 			console.error(`[CustomModesManager] Failed to parse YAML from ${filePath}:`, errorMsg)
 			return {}
@@ -196,8 +390,8 @@ export class CustomModesManager {
 			if (!result.success) {
 				console.error(`[CustomModesManager] Schema validation failed for ${filePath}:`, result.error)
 
-				// Show user-friendly error for .rycodeextmodes files
-				if (filePath.endsWith(ROOMODES_FILENAME)) {
+				// Show user-friendly error for .roo files
+				if (filePath.endsWith(ROO_FILENAME)) {
 					const issues = result.error.issues
 						.map((issue) => `• ${issue.path.join(".")}: ${issue.message}`)
 						.join("\n")
@@ -209,8 +403,8 @@ export class CustomModesManager {
 			}
 
 			// Determine source based on file path
-			const isRoomodes = filePath.endsWith(ROOMODES_FILENAME)
-			const source = isRoomodes ? ("project" as const) : ("global" as const)
+			const isRoo = filePath.endsWith(ROO_FILENAME)
+			const source = isRoo ? ("project" as const) : ("global" as const)
 
 			// Add source to each mode
 			return result.data.customModes.map((mode) => ({ ...mode, source }))
@@ -295,12 +489,12 @@ export class CustomModesManager {
 					return
 				}
 
-				// Get modes from .rycodeextmodes if it exists (takes precedence)
-				const roomodesPath = await this.getWorkspaceRoomodes()
-				const roomodesModes = roomodesPath ? await this.loadModesFromFile(roomodesPath) : []
+				// Get modes from .roo if it exists (takes precedence)
+				const rooPath = await this.getWorkspaceRoo()
+				const rooModes = rooPath ? await this.loadModesFromFile(rooPath) : []
 
-				// Merge modes from both sources (.rycodeextmodes takes precedence)
-				const mergedModes = await this.mergeCustomModes(roomodesModes, result.data.customModes)
+				// Merge modes from both sources (.roo takes precedence)
+				const mergedModes = await this.mergeCustomModes(rooModes, result.data.customModes)
 				await this.context.globalState.update("customModes", mergedModes)
 				this.clearCache()
 				await this.onUpdate()
@@ -314,43 +508,81 @@ export class CustomModesManager {
 		this.disposables.push(settingsWatcher.onDidDelete(handleSettingsChange))
 		this.disposables.push(settingsWatcher)
 
-		// Watch .rycodeextmodes file - watch the path even if it doesn't exist yet
+		// Watch .roo file - watch the path even if it doesn't exist yet
 		const workspaceFolders = vscode.workspace.workspaceFolders
 		if (workspaceFolders && workspaceFolders.length > 0) {
 			const workspaceRoot = getWorkspacePath()
-			const roomodesPath = path.join(workspaceRoot, ROOMODES_FILENAME)
-			const roomodesWatcher = vscode.workspace.createFileSystemWatcher(roomodesPath)
+			const rooPath = path.join(workspaceRoot, ROO_FILENAME)
+			const rooWatcher = vscode.workspace.createFileSystemWatcher(rooPath)
 
-			const handleRoomodesChange = async () => {
+			const handleRooChange = async () => {
 				try {
 					const settingsModes = await this.loadModesFromFile(settingsPath)
-					const roomodesModes = await this.loadModesFromFile(roomodesPath)
-					// .rycodeextmodes takes precedence
-					const mergedModes = await this.mergeCustomModes(roomodesModes, settingsModes)
+					const rooModes = await this.loadModesFromFile(rooPath)
+					// .roo takes precedence
+					const mergedModes = await this.mergeCustomModes(rooModes, settingsModes)
 					await this.context.globalState.update("customModes", mergedModes)
 					this.clearCache()
 					await this.onUpdate()
 				} catch (error) {
-					console.error(`[CustomModesManager] Error handling .rycodeextmodes file change:`, error)
+					console.error(`[CustomModesManager] Error handling .roo file change:`, error)
 				}
 			}
 
-			this.disposables.push(roomodesWatcher.onDidChange(handleRoomodesChange))
-			this.disposables.push(roomodesWatcher.onDidCreate(handleRoomodesChange))
+			this.disposables.push(rooWatcher.onDidChange(handleRooChange))
+			this.disposables.push(rooWatcher.onDidCreate(handleRooChange))
 			this.disposables.push(
-				roomodesWatcher.onDidDelete(async () => {
-					// When .rycodeextmodes is deleted, refresh with only settings modes
+				rooWatcher.onDidDelete(async () => {
+					// When .roo is deleted, refresh with only settings modes
 					try {
 						const settingsModes = await this.loadModesFromFile(settingsPath)
 						await this.context.globalState.update("customModes", settingsModes)
 						this.clearCache()
 						await this.onUpdate()
 					} catch (error) {
-						console.error(`[CustomModesManager] Error handling .rycodeextmodes file deletion:`, error)
+						console.error(`[CustomModesManager] Error handling .roo file deletion:`, error)
 					}
 				}),
 			)
-			this.disposables.push(roomodesWatcher)
+			this.disposables.push(rooWatcher)
+
+			// Watch .specify/config.yml file
+			const specifyConfigPath = path.join(workspaceRoot, SPECIFY_CONFIG_PATH)
+			const specifyWatcher = vscode.workspace.createFileSystemWatcher(specifyConfigPath)
+
+			const handleSpecifyChange = async () => {
+				try {
+					// Clear cache to force reload
+					this.clearCache()
+					await this.onUpdate()
+				} catch (error) {
+					console.error(`[CustomModesManager] Error handling .specify/config.yml change:`, error)
+				}
+			}
+
+			this.disposables.push(specifyWatcher.onDidChange(handleSpecifyChange))
+			this.disposables.push(specifyWatcher.onDidCreate(handleSpecifyChange))
+			this.disposables.push(specifyWatcher.onDidDelete(handleSpecifyChange))
+			this.disposables.push(specifyWatcher)
+
+			// Watch .specify/memory/specifications/modes directory for changes to markdown files
+			const specifyModesGlob = new vscode.RelativePattern(workspaceRoot, `${SPECIFY_MODES_DIR}/**/*.md`)
+			const modesWatcher = vscode.workspace.createFileSystemWatcher(specifyModesGlob)
+
+			const handleModesChange = async () => {
+				try {
+					// Clear cache to force reload
+					this.clearCache()
+					await this.onUpdate()
+				} catch (error) {
+					console.error(`[CustomModesManager] Error handling mode specification change:`, error)
+				}
+			}
+
+			this.disposables.push(modesWatcher.onDidChange(handleModesChange))
+			this.disposables.push(modesWatcher.onDidCreate(handleModesChange))
+			this.disposables.push(modesWatcher.onDidDelete(handleModesChange))
+			this.disposables.push(modesWatcher)
 		}
 	}
 
@@ -362,35 +594,46 @@ export class CustomModesManager {
 			return this.cachedModes
 		}
 
-		// Get modes from settings file.
+		// Get modes from settings file (global).
 		const settingsPath = await this.getCustomModesFilePath()
 		const settingsModes = await this.loadModesFromFile(settingsPath)
 
-		// Get modes from .rycodeextmodes if it exists.
-		const roomodesPath = await this.getWorkspaceRoomodes()
-		const roomodesModes = roomodesPath ? await this.loadModesFromFile(roomodesPath) : []
+		// Get modes from spec-kit (.specify/config.yml + markdown specs).
+		const specifyModes = await this.loadSpecifyModes()
 
-		// Create maps to store modes by source.
-		const projectModes = new Map<string, ModeConfig>()
-		const globalModes = new Map<string, ModeConfig>()
+		// Get modes from .roo if it exists (legacy project modes for backward compatibility).
+		const rooPath = await this.getWorkspaceRoo()
+		const rooModes = rooPath ? await this.loadModesFromFile(rooPath) : []
 
-		// Add project modes (they take precedence).
-		for (const mode of roomodesModes) {
-			projectModes.set(mode.slug, { ...mode, source: "project" as const })
-		}
+		// Create a map to track which slugs are taken by project modes.
+		const projectSlugs = new Set<string>()
 
-		// Add global modes.
-		for (const mode of settingsModes) {
-			if (!projectModes.has(mode.slug)) {
-				globalModes.set(mode.slug, { ...mode, source: "global" as const })
+		// Priority order for project modes:
+		// 1. .roo (legacy Roo-Code format, takes highest precedence for backward compatibility)
+		// 2. spec-kit modes (.specify/config.yml + markdown) - preferred modern format
+		const allProjectModes: ModeConfig[] = []
+
+		// Add .roo modes first (highest priority for project modes during migration)
+		for (const mode of rooModes) {
+			if (!projectSlugs.has(mode.slug)) {
+				projectSlugs.add(mode.slug)
+				allProjectModes.push({ ...mode, source: "project" as const })
 			}
 		}
 
-		// Combine modes in the correct order: project modes first, then global modes.
+		// Add spec-kit modes (only if slug not already taken by .roo)
+		for (const mode of specifyModes) {
+			if (!projectSlugs.has(mode.slug)) {
+				projectSlugs.add(mode.slug)
+				allProjectModes.push({ ...mode, source: "project" as const })
+			}
+		}
+
+		// Combine modes: project modes first, then global modes that don't conflict
 		const mergedModes = [
-			...rycodeextmodesModes.map((mode) => ({ ...mode, source: "project" as const })),
+			...allProjectModes,
 			...settingsModes
-				.filter((mode) => !projectModes.has(mode.slug))
+				.filter((mode) => !projectSlugs.has(mode.slug))
 				.map((mode) => ({ ...mode, source: "global" as const })),
 		]
 
@@ -428,10 +671,10 @@ export class CustomModesManager {
 				}
 
 				const workspaceRoot = getWorkspacePath()
-				targetPath = path.join(workspaceRoot, ROOMODES_FILENAME)
+				targetPath = path.join(workspaceRoot, ROO_FILENAME)
 				const exists = await fileExistsAtPath(targetPath)
 
-				logger.info(`${exists ? "Updating" : "Creating"} project mode in ${ROOMODES_FILENAME}`, {
+				logger.info(`${exists ? "Updating" : "Creating"} project mode in ${ROO_FILENAME}`, {
 					slug,
 					workspace: workspaceRoot,
 				})
@@ -495,11 +738,11 @@ export class CustomModesManager {
 
 	private async refreshMergedState(): Promise<void> {
 		const settingsPath = await this.getCustomModesFilePath()
-		const roomodesPath = await this.getWorkspaceRoomodes()
+		const rooPath = await this.getWorkspaceRoomodes()
 
 		const settingsModes = await this.loadModesFromFile(settingsPath)
-		const roomodesModes = roomodesPath ? await this.loadModesFromFile(roomodesPath) : []
-		const mergedModes = await this.mergeCustomModes(roomodesModes, settingsModes)
+		const rooModes = rooPath ? await this.loadModesFromFile(rooPath) : []
+		const mergedModes = await this.mergeCustomModes(rooModes, settingsModes)
 
 		await this.context.globalState.update("customModes", mergedModes)
 
@@ -511,13 +754,13 @@ export class CustomModesManager {
 	public async deleteCustomMode(slug: string, fromMarketplace = false): Promise<void> {
 		try {
 			const settingsPath = await this.getCustomModesFilePath()
-			const roomodesPath = await this.getWorkspaceRoomodes()
+			const rooPath = await this.getWorkspaceRoomodes()
 
 			const settingsModes = await this.loadModesFromFile(settingsPath)
-			const roomodesModes = roomodesPath ? await this.loadModesFromFile(roomodesPath) : []
+			const rooModes = rooPath ? await this.loadModesFromFile(rooPath) : []
 
 			// Find the mode in either file
-			const projectMode = roomodesModes.find((m) => m.slug === slug)
+			const projectMode = rooModes.find((m) => m.slug === slug)
 			const globalMode = settingsModes.find((m) => m.slug === slug)
 
 			if (!projectMode && !globalMode) {
@@ -529,8 +772,8 @@ export class CustomModesManager {
 
 			await this.queueWrite(async () => {
 				// Delete from project first if it exists there
-				if (projectMode && roomodesPath) {
-					await this.updateModesInFile(roomodesPath, (modes) => modes.filter((m) => m.slug !== slug))
+				if (projectMode && rooPath) {
+					await this.updateModesInFile(rooPath, (modes) => modes.filter((m) => m.slug !== slug))
 				}
 
 				// Delete from global settings if it exists there
@@ -626,30 +869,30 @@ export class CustomModesManager {
 			const mode = allModes.find((m) => m.slug === slug)
 
 			if (!mode) {
-				// If not in custom modes, check if it's in .rycodeextmodes (project-specific)
+				// If not in custom modes, check if it's in .roo (project-specific)
 				const workspacePath = getWorkspacePath()
 				if (!workspacePath) {
 					return false
 				}
 
-				const roomodesPath = path.join(workspacePath, ROOMODES_FILENAME)
+				const rooPath = path.join(workspacePath, ROO_FILENAME)
 				try {
-					const roomodesExists = await fileExistsAtPath(roomodesPath)
-					if (roomodesExists) {
-						const roomodesContent = await fs.readFile(roomodesPath, "utf-8")
-						const roomodesData = yaml.parse(roomodesContent)
-						const roomodesModes = roomodesData?.customModes || []
+					const rooExists = await fileExistsAtPath(rooPath)
+					if (rooExists) {
+						const rooContent = await fs.readFile(rooPath, "utf-8")
+						const rooData = yaml.parse(rooContent)
+						const rooModes = rooData?.customModes || []
 
-						// Check if this specific mode exists in .rycodeextmodes
-						const modeInRoomodes = roomodesModes.find((m: any) => m.slug === slug)
-						if (!modeInRoomodes) {
+						// Check if this specific mode exists in .roo
+						const modeInRoo = rooModes.find((m: any) => m.slug === slug)
+						if (!modeInRoo) {
 							return false // Mode not found anywhere
 						}
 					} else {
-						return false // No .rycodeextmodes file and not in custom modes
+						return false // No .roo file and not in custom modes
 					}
 				} catch (error) {
-					return false // Cannot read .rycodeextmodes and not in custom modes
+					return false // Cannot read .roo and not in custom modes
 				}
 			}
 
@@ -727,16 +970,16 @@ export class CustomModesManager {
 				// Only check workspace-based modes if workspace is available
 				const workspacePath = getWorkspacePath()
 				if (workspacePath) {
-					const roomodesPath = path.join(workspacePath, ROOMODES_FILENAME)
+					const rooPath = path.join(workspacePath, ROO_FILENAME)
 					try {
-						const roomodesExists = await fileExistsAtPath(roomodesPath)
-						if (roomodesExists) {
-							const roomodesContent = await fs.readFile(roomodesPath, "utf-8")
-							const roomodesData = yaml.parse(roomodesContent)
-							const roomodesModes = roomodesData?.customModes || []
+						const rooExists = await fileExistsAtPath(rooPath)
+						if (rooExists) {
+							const rooContent = await fs.readFile(rooPath, "utf-8")
+							const rooData = yaml.parse(rooContent)
+							const rooModes = rooData?.customModes || []
 
-							// Find the mode in .rycodeextmodes
-							mode = roomodesModes.find((m: any) => m.slug === slug)
+							// Find the mode in .roo
+							mode = rooModes.find((m: any) => m.slug === slug)
 						}
 					} catch (error) {
 						// Continue to check built-in modes
