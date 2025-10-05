@@ -54,7 +54,7 @@ describe("CustomModesManager - Spec-Kit Integration", () => {
 	const mockStoragePath = path.join(path.sep, "mock", "settings")
 	const mockSettingsPath = path.join(mockStoragePath, "settings", GlobalFileNames.customModes)
 	const mockWorkspacePath = path.resolve("/mock/workspace")
-	const mockRoomodes = path.join(mockWorkspacePath, ".roo")
+	const mockModes = path.join(mockWorkspacePath, ".modes")
 	const mockSpecifyConfig = path.join(mockWorkspacePath, ".specify", "config.yml")
 	const mockSpecifyModesDir = path.join(mockWorkspacePath, ".specify", "memory", "specifications", "modes")
 
@@ -272,13 +272,13 @@ When writing tests:
 		})
 	})
 
-	describe("Spec-Kit and .roo coexistence", () => {
-		it("should prioritize .roo over .specify/config.yml for same slug", async () => {
+	describe("Spec-Kit and .modes coexistence", () => {
+		it("should prioritize .modes over .specify/config.yml for same slug", async () => {
 			const rooContent = yaml.stringify({
 				customModes: [
 					{
 						slug: "test",
-						name: "Test from .roo",
+						name: "Test from .modes",
 						roleDefinition: "Rycodeextmodes version",
 						groups: ["read"],
 					},
@@ -286,13 +286,13 @@ When writing tests:
 			})
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (filePath: string) => {
-				return filePath === mockSettingsPath || filePath === mockRoomodes
+				return filePath === mockSettingsPath || filePath === mockModes
 			})
 			;(fs.readFile as Mock).mockImplementation(async (filePath: string) => {
 				if (filePath === mockSettingsPath) {
 					return yaml.stringify({ customModes: [] })
 				}
-				if (filePath === mockRoomodes) {
+				if (filePath === mockModes) {
 					return rooContent
 				}
 				throw new Error(`File not found: ${filePath}`)
@@ -300,33 +300,33 @@ When writing tests:
 
 			const modes = await manager.getCustomModes()
 
-			// .roo should take precedence
+			// .modes should take precedence
 			const testMode = modes.find((m) => m.slug === "test")
 			expect(testMode).toBeDefined()
-			expect(testMode?.name).toBe("Test from .roo")
+			expect(testMode?.name).toBe("Test from .modes")
 			expect(testMode?.roleDefinition).toBe("Rycodeextmodes version")
 		})
 
-		it("should merge modes from .roo and .specify/config.yml", async () => {
+		it("should merge modes from .modes and .specify/config.yml", async () => {
 			const rooContent = yaml.stringify({
 				customModes: [
 					{
 						slug: "legacy-mode",
 						name: "Legacy Mode",
-						roleDefinition: "From .roo",
+						roleDefinition: "From .modes",
 						groups: ["read"],
 					},
 				],
 			})
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (filePath: string) => {
-				return filePath === mockSettingsPath || filePath === mockRoomodes
+				return filePath === mockSettingsPath || filePath === mockModes
 			})
 			;(fs.readFile as Mock).mockImplementation(async (filePath: string) => {
 				if (filePath === mockSettingsPath) {
 					return yaml.stringify({ customModes: [] })
 				}
-				if (filePath === mockRoomodes) {
+				if (filePath === mockModes) {
 					return rooContent
 				}
 				throw new Error(`File not found: ${filePath}`)
@@ -334,13 +334,13 @@ When writing tests:
 
 			const modes = await manager.getCustomModes()
 
-			// Should have the .roo mode
+			// Should have the .modes mode
 			const legacyMode = modes.find((m) => m.slug === "legacy-mode")
 			expect(legacyMode).toBeDefined()
 			expect(legacyMode?.source).toBe("project")
 		})
 
-		it("should handle .specify/config.yml when .roo doesn't exist", async () => {
+		it("should handle .specify/config.yml when .modes doesn't exist", async () => {
 			// Note: Current implementation doesn't support .specify/config.yml yet
 			// This test documents the expected behavior
 
@@ -350,11 +350,11 @@ When writing tests:
 
 			const modes = await manager.getCustomModes()
 
-			// Should fall back to settings modes when .roo doesn't exist
+			// Should fall back to settings modes when .modes doesn't exist
 			expect(Array.isArray(modes)).toBe(true)
 		})
 
-		it("should handle transition from .roo to .specify structure", async () => {
+		it("should handle transition from .modes to .specify structure", async () => {
 			// Test scenario: Project has both formats during migration
 			const rooContent = yaml.stringify({
 				customModes: [
@@ -368,13 +368,13 @@ When writing tests:
 			})
 
 			;(fileExistsAtPath as Mock).mockImplementation(async (filePath: string) => {
-				return filePath === mockSettingsPath || filePath === mockRoomodes || filePath === mockSpecifyConfig
+				return filePath === mockSettingsPath || filePath === mockModes || filePath === mockSpecifyConfig
 			})
 			;(fs.readFile as Mock).mockImplementation(async (filePath: string) => {
 				if (filePath === mockSettingsPath) {
 					return yaml.stringify({ customModes: [] })
 				}
-				if (filePath === mockRoomodes) {
+				if (filePath === mockModes) {
 					return rooContent
 				}
 				if (filePath === mockSpecifyConfig) {
@@ -390,7 +390,7 @@ modes:
 
 			const modes = await manager.getCustomModes()
 
-			// Should have modes from .roo
+			// Should have modes from .modes
 			const oldMode = modes.find((m) => m.slug === "old-mode")
 			expect(oldMode).toBeDefined()
 

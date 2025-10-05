@@ -19,6 +19,7 @@
 @import "./preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "katex/dist/katex.min.css";
+@import "./matrix-theme.css";
 
 @plugin "tailwindcss-animate";
 
