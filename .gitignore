@@ -49,3 +49,7 @@ logs
 
 # Qdrant
 qdrant_storage/
+
+# Spec-Kit user-generated content
+.specify/memory/plans/
+.specify/memory/tasks/

@@ -17,6 +17,8 @@ import { ensureSettingsDirectoryExists } from "../../utils/globalContext"
 import { t } from "../../i18n"
 
 const ROOMODES_FILENAME = ".rycodeextmodes"
+const SPECIFY_CONFIG_PATH = ".specify/config.yml"
+const SPECIFY_MODES_DIR = ".specify/memory/specifications/modes"
 
 // Type definitions for import/export functionality
 interface RuleFile {

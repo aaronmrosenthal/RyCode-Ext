@@ -1,0 +1,35 @@
+version: '1.0'
+modes:
+  - slug: test
+    name: 🧪 Test
+    source: project
+  - slug: design-engineer
+    name: 🎨 Design Engineer
+    source: project
+  - slug: translate
+    name: 🌐 Translate
+    source: project
+  - slug: issue-fixer
+    name: 🔧 Issue Fixer
+    source: project
+  - slug: integration-tester
+    name: 🧪 Integration Tester
+    source: project
+  - slug: docs-extractor
+    name: 📚 Docs Extractor
+    source: project
+  - slug: pr-fixer
+    name: 🛠️ PR Fixer
+    source: project
+  - slug: issue-investigator
+    name: 🕵️ Issue Investigator
+    source: project
+  - slug: merge-resolver
+    name: 🔀 Merge Resolver
+    source: project
+  - slug: issue-writer
+    name: 📝 Issue Writer
+    source: project
+  - slug: mode-writer
+    name: ✍️ Mode Writer
+    source: project
