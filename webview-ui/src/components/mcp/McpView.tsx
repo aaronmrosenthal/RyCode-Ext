@@ -9,7 +9,7 @@ import {
 	VSCodePanelView,
 } from "@vscode/webview-ui-toolkit/react"
 
-import { McpServer } from "@roo/mcp"
+import { McpServer } from "@rycode-ext/mcp"
 
 import { vscode } from "@src/utils/vscode"
 import { useExtensionState } from "@src/context/ExtensionStateContext"

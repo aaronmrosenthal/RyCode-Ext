@@ -1,4 +1,4 @@
-import type { Command } from "@roo/ExtensionMessage"
+import type { Command } from "@rycode-ext/ExtensionMessage"
 
 import { getContextMenuOptions, ContextMenuOptionType } from "../utils/context-mentions"
 

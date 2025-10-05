@@ -1,6 +1,6 @@
-import type { ProviderSettings, OrganizationAllowList } from "@roo-code/types"
+import type { ProviderSettings, OrganizationAllowList } from "@rycode-ext/types"
 
-import { RouterModels } from "@roo/api"
+import { RouterModels } from "@rycode-ext/api"
 
 import { getModelValidationError, validateApiConfigurationExcludingModelErrors } from "../validate"
 

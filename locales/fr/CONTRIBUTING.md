@@ -11,9 +11,9 @@
 </sub>
 </div>
 
-# Contribuer à Roo Code
+# Contribuer à RyCode-Ext
 
-Roo Code est un projet communautaire, et nous apprécions profondément chaque contribution. Pour simplifier la collaboration, nous fonctionnons sur une base [d'abord l'issue](#approche-issue-first), ce qui signifie que toutes les [Pull Requests (PRs)](#soumettre-une-pull-request) doivent d'abord être liées à une Issue GitHub. Veuillez lire attentivement ce guide.
+RyCode-Ext est un projet communautaire, et nous apprécions profondément chaque contribution. Pour simplifier la collaboration, nous fonctionnons sur une base [d'abord l'issue](#approche-issue-first), ce qui signifie que toutes les [Pull Requests (PRs)](#soumettre-une-pull-request) doivent d'abord être liées à une Issue GitHub. Veuillez lire attentivement ce guide.
 
 ## Table des matières
 
@@ -52,10 +52,10 @@ Notre feuille de route guide la direction du projet. Alignez vos contributions s
 
 Mentionnez l'alignement avec ces domaines dans vos PRs.
 
-### 3. Rejoignez la communauté Roo Code
+### 3. Rejoignez la communauté RyCode-Ext
 
 - **Principal :** Rejoignez notre [Discord](https://discord.gg/roocode) et envoyez un DM à **Hannes Rudolph (`hrudolph`)**.
-- **Alternative :** Les contributeurs expérimentés peuvent s'engager directement via les [Projets GitHub](https://github.com/orgs/RooCodeInc/projects/1).
+- **Alternative :** Les contributeurs expérimentés peuvent s'engager directement via les [Projets GitHub](https://github.com/orgs/RyCodeExtInc/projects/1).
 
 ## Trouver et planifier votre contribution
 
@@ -69,7 +69,7 @@ Mentionnez l'alignement avec ces domaines dans vos PRs.
 
 Toutes les contributions commencent par une Issue GitHub en utilisant nos modèles simples.
 
-- **Vérifiez les issues existantes** : Recherchez dans les [Issues GitHub](https://github.com/RooCodeInc/Roo-Code/issues).
+- **Vérifiez les issues existantes** : Recherchez dans les [Issues GitHub](https://github.com/RyCodeExtInc/RyCode-Ext/issues).
 - **Créez une issue** en utilisant :
     - **Améliorations :** Modèle "Demande d'amélioration" (langage simple axé sur l'avantage pour l'utilisateur).
     - **Bugs :** Modèle "Rapport de bug" (reproduction minimale + attendu vs réel + version).
@@ -78,17 +78,17 @@ Toutes les contributions commencent par une Issue GitHub en utilisant nos modèl
 
 ### Décider sur quoi travailler
 
-- Consultez le [Projet GitHub](https://github.com/orgs/RooCodeInc/projects/1) pour les issues "Issue [Non assignée]".
-- Pour la documentation, visitez [Roo Code Docs](https://github.com/RooCodeInc/Roo-Code-Docs).
+- Consultez le [Projet GitHub](https://github.com/orgs/RyCodeExtInc/projects/1) pour les issues "Issue [Non assignée]".
+- Pour la documentation, visitez [RyCode-Ext Docs](https://github.com/RyCodeExtInc/RyCode-Ext-Docs).
 
 ### Signaler des bugs
 
 - Vérifiez d'abord les rapports existants.
-- Créez un nouveau bug en utilisant le [modèle "Rapport de bug"](https://github.com/RooCodeInc/Roo-Code/issues/new/choose) avec :
+- Créez un nouveau bug en utilisant le [modèle "Rapport de bug"](https://github.com/RyCodeExtInc/RyCode-Ext/issues/new/choose) avec :
     - Des étapes de reproduction claires et numérotées
     - Résultat attendu vs réel
-    - Version de Roo Code (requise) ; fournisseur/modèle d'API si pertinent
-- **Problèmes de sécurité** : Signalez-les en privé via les [avis de sécurité](https://github.com/RooCodeInc/Roo-Code/security/advisories/new).
+    - Version de RyCode-Ext (requise) ; fournisseur/modèle d'API si pertinent
+- **Problèmes de sécurité** : Signalez-les en privé via les [avis de sécurité](https://github.com/RyCodeExtInc/RyCode-Ext/security/advisories/new).
 
 ## Processus de développement et de soumission
 
@@ -97,7 +97,7 @@ Toutes les contributions commencent par une Issue GitHub en utilisant nos modèl
 1. **Fork & Cloner :**
 
 ```
-git clone https://github.com/VOTRE_NOM_UTILISATEUR/Roo-Code.git
+git clone https://github.com/VOTRE_NOM_UTILISATEUR/RyCode-Ext.git
 ```
 
 2. **Installer les dépendances :**
@@ -138,4 +138,4 @@ pnpm install
 
 ## Légal
 
-En contribuant, vous acceptez que vos contributions soient sous licence Apache 2.0, conformément à la licence de Roo Code.
+En contribuant, vous acceptez que vos contributions soient sous licence Apache 2.0, conformément à la licence de RyCode-Ext.

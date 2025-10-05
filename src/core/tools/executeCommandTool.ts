@@ -4,8 +4,8 @@ import * as vscode from "vscode"
 
 import delay from "delay"
 
-import { CommandExecutionStatus, DEFAULT_TERMINAL_OUTPUT_CHARACTER_LIMIT } from "@roo-code/types"
-import { TelemetryService } from "@roo-code/telemetry"
+import { CommandExecutionStatus, DEFAULT_TERMINAL_OUTPUT_CHARACTER_LIMIT } from "@rycode-ext/types"
+import { TelemetryService } from "@rycode-ext/telemetry"
 
 import { Task } from "../task/Task"
 
@@ -46,7 +46,7 @@ export async function executeCommandTool(
 			const ignoredFileAttemptedToAccess = task.rooIgnoreController?.validateCommand(command)
 
 			if (ignoredFileAttemptedToAccess) {
-				await task.say("rooignore_error", ignoredFileAttemptedToAccess)
+				await task.say("rycodeextignore_error", ignoredFileAttemptedToAccess)
 				pushToolResult(formatResponse.toolError(formatResponse.rooIgnoreError(ignoredFileAttemptedToAccess)))
 				return
 			}

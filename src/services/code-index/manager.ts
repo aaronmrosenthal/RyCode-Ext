@@ -8,13 +8,13 @@ import { CodeIndexServiceFactory } from "./service-factory"
 import { CodeIndexSearchService } from "./search-service"
 import { CodeIndexOrchestrator } from "./orchestrator"
 import { CacheManager } from "./cache-manager"
-import { RooIgnoreController } from "../../core/ignore/RooIgnoreController"
+import { RyCodeExtIgnoreController } from "../../core/ignore/RyCodeExtIgnoreController"
 import fs from "fs/promises"
 import ignore from "ignore"
 import path from "path"
 import { t } from "../../i18n"
-import { TelemetryService } from "@roo-code/telemetry"
-import { TelemetryEventName } from "@roo-code/types"
+import { TelemetryService } from "@rycode-ext/telemetry"
+import { TelemetryEventName } from "@rycode-ext/types"
 
 export class CodeIndexManager {
 	// --- Singleton Implementation ---
@@ -328,8 +328,8 @@ export class CodeIndexManager {
 			})
 		}
 
-		// Create RooIgnoreController instance
-		const rooIgnoreController = new RooIgnoreController(workspacePath)
+		// Create RyCodeExtIgnoreController instance
+		const rooIgnoreController = new RyCodeExtIgnoreController(workspacePath)
 		await rooIgnoreController.initialize()
 
 		// (Re)Create shared service instances

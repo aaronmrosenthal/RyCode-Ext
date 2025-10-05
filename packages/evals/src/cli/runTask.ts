@@ -9,11 +9,11 @@ import {
 	type TaskEvent,
 	type ClineSay,
 	TaskCommandName,
-	RooCodeEventName,
+	RyCodeExtEventName,
 	IpcMessageType,
 	EVALS_SETTINGS,
-} from "@roo-code/types"
-import { IpcClient } from "@roo-code/ipc"
+} from "@rycode-ext/types"
+import { IpcClient } from "@rycode-ext/ipc"
 
 import {
 	type Run,
@@ -70,7 +70,7 @@ export const processTask = async ({ taskId, logger }: { taskId: number; logger?:
 		await updateTask(task.id, { passed })
 
 		await publish({
-			eventName: passed ? RooCodeEventName.EvalPass : RooCodeEventName.EvalFail,
+			eventName: passed ? RyCodeExtEventName.EvalPass : RyCodeExtEventName.EvalFail,
 			taskId: task.id,
 		})
 	} finally {
@@ -95,7 +95,7 @@ export const processTaskInContainer = async ({
 		"-e HOST_EXECUTION_METHOD=docker",
 	]
 
-	const command = `pnpm --filter @roo-code/evals cli --taskId ${taskId}`
+	const command = `pnpm --filter @rycode-ext/evals cli --taskId ${taskId}`
 	logger.info(command)
 
 	for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -205,15 +205,15 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 	let rooTaskId: string | undefined
 	let isClientDisconnected = false
 
-	const ignoreEvents: Record<"broadcast" | "log", RooCodeEventName[]> = {
-		broadcast: [RooCodeEventName.Message],
-		log: [RooCodeEventName.TaskTokenUsageUpdated, RooCodeEventName.TaskAskResponded],
+	const ignoreEvents: Record<"broadcast" | "log", RyCodeExtEventName[]> = {
+		broadcast: [RyCodeExtEventName.Message],
+		log: [RyCodeExtEventName.TaskTokenUsageUpdated, RyCodeExtEventName.TaskAskResponded],
 	}
 
 	const loggableSays: ClineSay[] = [
 		"error",
 		"command_output",
-		"rooignore_error",
+		"rycodeextignore_error",
 		"diff_error",
 		"condense_context",
 		"condense_context_error",
@@ -231,14 +231,14 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 		// For message events we only log non-partial messages.
 		if (
 			!ignoreEvents.log.includes(eventName) &&
-			(eventName !== RooCodeEventName.Message ||
+			(eventName !== RyCodeExtEventName.Message ||
 				(payload[0].message.say && loggableSays.includes(payload[0].message.say)) ||
 				payload[0].message.partial !== true)
 		) {
 			logger.info(`${eventName} ->`, payload)
 		}
 
-		if (eventName === RooCodeEventName.TaskStarted) {
+		if (eventName === RyCodeExtEventName.TaskStarted) {
 			taskStartedAt = Date.now()
 
 			const taskMetrics = await createTaskMetrics({
@@ -258,13 +258,13 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 			rooTaskId = payload[0]
 		}
 
-		if (eventName === RooCodeEventName.TaskToolFailed) {
+		if (eventName === RyCodeExtEventName.TaskToolFailed) {
 			const [_taskId, toolName, error] = payload
 			await createToolError({ taskId: task.id, toolName, error })
 		}
 
 		if (
-			(eventName === RooCodeEventName.TaskTokenUsageUpdated || eventName === RooCodeEventName.TaskCompleted) &&
+			(eventName === RyCodeExtEventName.TaskTokenUsageUpdated || eventName === RyCodeExtEventName.TaskCompleted) &&
 			taskMetricsId
 		) {
 			const duration = Date.now() - taskStartedAt
@@ -283,16 +283,16 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 			})
 		}
 
-		if (eventName === RooCodeEventName.TaskCompleted && taskMetricsId) {
+		if (eventName === RyCodeExtEventName.TaskCompleted && taskMetricsId) {
 			const toolUsage = payload[2]
 			await updateTaskMetrics(taskMetricsId, { toolUsage })
 		}
 
-		if (eventName === RooCodeEventName.TaskAborted) {
+		if (eventName === RyCodeExtEventName.TaskAborted) {
 			taskAbortedAt = Date.now()
 		}
 
-		if (eventName === RooCodeEventName.TaskCompleted) {
+		if (eventName === RyCodeExtEventName.TaskCompleted) {
 			taskFinishedAt = Date.now()
 		}
 	})

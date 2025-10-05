@@ -1,9 +1,9 @@
 import { Fzf } from "fzf"
 
-import type { ModeConfig } from "@roo-code/types"
-import type { Command } from "@roo/ExtensionMessage"
+import type { ModeConfig } from "@rycode-ext/types"
+import type { Command } from "@rycode-ext/ExtensionMessage"
 
-import { mentionRegex } from "@roo/context-mentions"
+import { mentionRegex } from "@rycode-ext/context-mentions"
 
 import { escapeSpaces } from "./path-mentions"
 

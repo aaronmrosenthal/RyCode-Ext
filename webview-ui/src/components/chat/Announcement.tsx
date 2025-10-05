@@ -2,7 +2,7 @@ import { useState, memo } from "react"
 import { Trans } from "react-i18next"
 import { VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 
-import { Package } from "@roo/package"
+import { Package } from "@rycode-ext/package"
 import { useAppTranslation } from "@src/i18n/TranslationContext"
 import { useExtensionState } from "@src/context/ExtensionStateContext"
 import { vscode } from "@src/utils/vscode"
@@ -133,12 +133,12 @@ const DiscordLink = () => (
 
 const RedditLink = () => (
 	<VSCodeLink
-		href="https://www.reddit.com/r/RooCode/"
+		href="https://www.reddit.com/r/RyCodeExt/"
 		onClick={(e) => {
 			e.preventDefault()
-			vscode.postMessage({ type: "openExternal", url: "https://www.reddit.com/r/RooCode/" })
+			vscode.postMessage({ type: "openExternal", url: "https://www.reddit.com/r/RyCodeExt/" })
 		}}>
-		r/RooCode
+		r/RyCodeExt
 	</VSCodeLink>
 )
 

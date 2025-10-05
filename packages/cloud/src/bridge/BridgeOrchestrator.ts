@@ -12,7 +12,7 @@ import {
 	ConnectionState,
 	ExtensionSocketEvents,
 	TaskSocketEvents,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import { SocketTransport } from "./SocketTransport.js"
 import { ExtensionChannel } from "./ExtensionChannel.js"

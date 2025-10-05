@@ -1,4 +1,4 @@
-import { ProviderSettings } from "@roo-code/types"
+import { ProviderSettings } from "@rycode-ext/types"
 
 import { Task } from "../Task"
 import { ClineProvider } from "../../webview/ClineProvider"
@@ -10,8 +10,8 @@ vi.mock("../../../integrations/terminal/TerminalRegistry", () => ({
 		releaseTerminalsForTask: vi.fn(),
 	},
 }))
-vi.mock("../../ignore/RooIgnoreController")
-vi.mock("../../protect/RooProtectedController")
+vi.mock("../../ignore/RyCodeExtIgnoreController")
+vi.mock("../../protect/RyCodeExtProtectedController")
 vi.mock("../../context-tracking/FileContextTracker")
 vi.mock("../../../services/browser/UrlContentFetcher")
 vi.mock("../../../services/browser/BrowserSession")
@@ -25,7 +25,7 @@ vi.mock("../../../api", () => ({
 vi.mock("./AutoApprovalHandler")
 
 // Mock TelemetryService
-vi.mock("@roo-code/telemetry", () => ({
+vi.mock("@rycode-ext/telemetry", () => ({
 	TelemetryService: {
 		instance: {
 			captureTaskCreated: vi.fn(),

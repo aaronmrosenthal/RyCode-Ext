@@ -57,9 +57,9 @@ import {
 	vercelAiGatewayDefaultModelId,
 	BEDROCK_1M_CONTEXT_MODEL_IDS,
 	deepInfraDefaultModelId,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
-import type { ModelRecord, RouterModels } from "@roo/api"
+import type { ModelRecord, RouterModels } from "@rycode-ext/api"
 
 import { useRouterModels } from "./useRouterModels"
 import { useOpenRouterModelProviders } from "./useOpenRouterModelProviders"

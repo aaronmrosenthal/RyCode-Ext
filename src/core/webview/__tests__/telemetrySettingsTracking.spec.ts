@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
-import { TelemetryService } from "@roo-code/telemetry"
-import { TelemetryEventName, type TelemetrySetting } from "@roo-code/types"
+import { TelemetryService } from "@rycode-ext/telemetry"
+import { TelemetryEventName, type TelemetrySetting } from "@rycode-ext/types"
 
 describe("Telemetry Settings Tracking", () => {
 	let mockTelemetryService: {

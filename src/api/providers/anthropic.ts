@@ -8,7 +8,7 @@ import {
 	anthropicDefaultModelId,
 	anthropicModels,
 	ANTHROPIC_DEFAULT_MAX_TOKENS,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import type { ApiHandlerOptions } from "../../shared/api"
 

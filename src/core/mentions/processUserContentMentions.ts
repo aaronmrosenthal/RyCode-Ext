@@ -12,7 +12,7 @@ export async function processUserContentMentions({
 	urlContentFetcher,
 	fileContextTracker,
 	rooIgnoreController,
-	showRooIgnoredFiles = false,
+	showRyCodeExtIgnoredFiles = false,
 	includeDiagnosticMessages = true,
 	maxDiagnosticMessages = 50,
 	maxReadFileLine,
@@ -22,7 +22,7 @@ export async function processUserContentMentions({
 	urlContentFetcher: UrlContentFetcher
 	fileContextTracker: FileContextTracker
 	rooIgnoreController?: any
-	showRooIgnoredFiles?: boolean
+	showRyCodeExtIgnoredFiles?: boolean
 	includeDiagnosticMessages?: boolean
 	maxDiagnosticMessages?: number
 	maxReadFileLine?: number
@@ -55,7 +55,7 @@ export async function processUserContentMentions({
 							urlContentFetcher,
 							fileContextTracker,
 							rooIgnoreController,
-							showRooIgnoredFiles,
+							showRyCodeExtIgnoredFiles,
 							includeDiagnosticMessages,
 							maxDiagnosticMessages,
 							maxReadFileLine,
@@ -75,7 +75,7 @@ export async function processUserContentMentions({
 								urlContentFetcher,
 								fileContextTracker,
 								rooIgnoreController,
-								showRooIgnoredFiles,
+								showRyCodeExtIgnoredFiles,
 								includeDiagnosticMessages,
 								maxDiagnosticMessages,
 								maxReadFileLine,
@@ -96,7 +96,7 @@ export async function processUserContentMentions({
 										urlContentFetcher,
 										fileContextTracker,
 										rooIgnoreController,
-										showRooIgnoredFiles,
+										showRyCodeExtIgnoredFiles,
 										includeDiagnosticMessages,
 										maxDiagnosticMessages,
 										maxReadFileLine,

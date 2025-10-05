@@ -245,11 +245,11 @@ export async function readFileTool(
 				if (hasRangeError) continue
 			}
 
-			// Then check RooIgnore validation
+			// Then check RyCodeExtIgnore validation
 			if (fileResult.status === "pending") {
 				const accessAllowed = cline.rooIgnoreController?.validateAccess(relPath)
 				if (!accessAllowed) {
-					await cline.say("rooignore_error", relPath)
+					await cline.say("rycodeextignore_error", relPath)
 					const errorMsg = formatResponse.rooIgnoreError(relPath)
 					updateFileResult(relPath, {
 						status: "blocked",

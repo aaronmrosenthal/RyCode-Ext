@@ -3,13 +3,13 @@
   <a href="https://x.com/roo_code"><img src="https://img.shields.io/badge/roo_code-000000?style=flat&logo=x&logoColor=white" alt="X"></a>
   <a href="https://youtube.com/@roocodeyt?feature=shared"><img src="https://img.shields.io/badge/YouTube-FF0000?style=flat&logo=youtube&logoColor=white" alt="YouTube"></a>
   <a href="https://discord.gg/roocode"><img src="https://img.shields.io/badge/Join%20Discord-5865F2?style=flat&logo=discord&logoColor=white" alt="Join Discord"></a>
-  <a href="https://www.reddit.com/r/RooCode/"><img src="https://img.shields.io/badge/Join%20r%2FRooCode-FF4500?style=flat&logo=reddit&logoColor=white" alt="Join r/RooCode"></a>
+  <a href="https://www.reddit.com/r/RyCodeExt/"><img src="https://img.shields.io/badge/Join%20r%2FRyCodeExt-FF4500?style=flat&logo=reddit&logoColor=white" alt="Join r/RyCodeExt"></a>
 </p>
 <p align="center">
-  <em>Hızlı yardım alın → <a href="https://discord.gg/roocode">Discord'a Katılın</a> • Asenkron mu tercih edersiniz? → <a href="https://www.reddit.com/r/RooCode/">r/RooCode'a Katılın</a></em>
+  <em>Hızlı yardım alın → <a href="https://discord.gg/roocode">Discord'a Katılın</a> • Asenkron mu tercih edersiniz? → <a href="https://www.reddit.com/r/RyCodeExt/">r/RyCodeExt'a Katılın</a></em>
 </p>
 
-# Roo Code
+# RyCode-Ext
 
 > AI destekli dev ekibin, doğrudan editörünün içinde
 
@@ -39,7 +39,7 @@
 
 ---
 
-## Roo Code SİZİN İçin Ne Yapabilir?
+## RyCode-Ext SİZİN İçin Ne Yapabilir?
 
 - Doğal dil açıklamalarından kod üretin
 - Modlarla Uyum Sağlayın: Kod, Mimar, Sor, Hata Ayıkla ve Özel Modlar
@@ -51,7 +51,7 @@
 
 ## Modlar
 
-Roo Code, sizin çalışma şeklinize uyum sağlar, tam tersi değil:
+RyCode-Ext, sizin çalışma şeklinize uyum sağlar, tam tersi değil:
 
 - Kod Modu: günlük kodlama, düzenlemeler ve dosya işlemleri
 - Mimar Modu: sistemleri, özellikleri ve geçişleri planlayın
@@ -60,7 +60,7 @@ Roo Code, sizin çalışma şeklinize uyum sağlar, tam tersi değil:
 - Özel Modlar: ekibiniz veya iş akışınız için özel modlar oluşturun
 - Roomote Control: Roomote Control, yerel VS Code örneğinde çalışan işleri uzaktan kontrol etmeni sağlar.
 
-Daha fazla: [Modları kullanma](https://docs.roocode.com/basic-usage/using-modes) • [Özel modlar](https://docs.roocode.com/advanced-usage/custom-modes) • [Roomote Control](https://docs.roocode.com/roo-code-cloud/roomote-control)
+Daha fazla: [Modları kullanma](https://docs.roocode.com/basic-usage/using-modes) • [Özel modlar](https://docs.roocode.com/advanced-usage/custom-modes) • [Roomote Control](https://docs.roocode.com/rycode-ext-cloud/roomote-control)
 
 ## Eğitim ve Özellik Videoları
 
@@ -68,7 +68,7 @@ Daha fazla: [Modları kullanma](https://docs.roocode.com/basic-usage/using-modes
 
 |                                                                                                                                                                         |                                                                                                                                                                               |                                                                                                                                                                              |
 | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <a href="https://www.youtube.com/watch?v=Mcq3r1EPZ-4"><img src="https://img.youtube.com/vi/Mcq3r1EPZ-4/maxresdefault.jpg" width="100%"></a><br><b>Roo Code Kurulumu</b> | <a href="https://www.youtube.com/watch?v=eEJErgZBqLE"><img src="https://img.youtube.com/vi/eEJErgZBqLE/maxresdefault.jpg" width="100%"></a><br><b>Profilleri Yapılandırma</b> | <a href="https://www.youtube.com/watch?v=r1bpod1VWhg"><img src="https://img.youtube.com/vi/r1bpod1VWhg/maxresdefault.jpg" width="100%"></a><br><b>Kod Tabanı İndeksleme</b>  |
+| <a href="https://www.youtube.com/watch?v=Mcq3r1EPZ-4"><img src="https://img.youtube.com/vi/Mcq3r1EPZ-4/maxresdefault.jpg" width="100%"></a><br><b>RyCode-Ext Kurulumu</b> | <a href="https://www.youtube.com/watch?v=eEJErgZBqLE"><img src="https://img.youtube.com/vi/eEJErgZBqLE/maxresdefault.jpg" width="100%"></a><br><b>Profilleri Yapılandırma</b> | <a href="https://www.youtube.com/watch?v=r1bpod1VWhg"><img src="https://img.youtube.com/vi/r1bpod1VWhg/maxresdefault.jpg" width="100%"></a><br><b>Kod Tabanı İndeksleme</b>  |
 |    <a href="https://www.youtube.com/watch?v=qgqceCuhlRA"><img src="https://img.youtube.com/vi/qgqceCuhlRA/maxresdefault.jpg" width="100%"></a><br><b>Özel Modlar</b>    |    <a href="https://www.youtube.com/watch?v=Ho30nyY332E"><img src="https://img.youtube.com/vi/Ho30nyY332E/maxresdefault.jpg" width="100%"></a><br><b>Kontrol Noktaları</b>    | <a href="https://www.youtube.com/watch?v=6h5vB9PpoPk"><img src="https://img.youtube.com/vi/6h5vB9PpoPk/maxresdefault.jpg" width="100%"></a><br><b>Yapılacaklar Listeleri</b> |
 
 </div>
@@ -78,12 +78,12 @@ Daha fazla: [Modları kullanma](https://docs.roocode.com/basic-usage/using-modes
 
 ## Kaynaklar
 
-- **[Dokümantasyon](https://docs.roocode.com):** Roo Code'u yükleme, yapılandırma ve ustalaşma konusundaki resmi kılavuz.
+- **[Dokümantasyon](https://docs.roocode.com):** RyCode-Ext'u yükleme, yapılandırma ve ustalaşma konusundaki resmi kılavuz.
 - **[YouTube Kanalı](https://youtube.com/@roocodeyt?feature=shared):** Eğitimleri izleyin ve özellikleri çalışırken görün.
 - **[Discord Sunucusu](https://discord.gg/roocode):** Gerçek zamanlı yardım ve tartışma için topluluğa katılın.
-- **[Reddit Topluluğu](https://www.reddit.com/r/RooCode):** Deneyimlerinizi paylaşın ve başkalarının ne inşa ettiğini görün.
-- **[GitHub Sorunları](https://github.com/RooCodeInc/Roo-Code/issues):** Hataları bildirin ve gelişimi takip edin.
-- **[Özellik İstekleri](https://github.com/RooCodeInc/Roo-Code/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop):** Bir fikriniz mi var? Geliştiricilerle paylaşın.
+- **[Reddit Topluluğu](https://www.reddit.com/r/RyCodeExt):** Deneyimlerinizi paylaşın ve başkalarının ne inşa ettiğini görün.
+- **[GitHub Sorunları](https://github.com/RyCodeExtInc/RyCode-Ext/issues):** Hataları bildirin ve gelişimi takip edin.
+- **[Özellik İstekleri](https://github.com/RyCodeExtInc/RyCode-Ext/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop):** Bir fikriniz mi var? Geliştiricilerle paylaşın.
 
 ---
 
@@ -92,7 +92,7 @@ Daha fazla: [Modları kullanma](https://docs.roocode.com/basic-usage/using-modes
 1. **Depoyu klonlayın**:
 
 ```sh
-git clone https://github.com/RooCodeInc/Roo-Code.git
+git clone https://github.com/RyCodeExtInc/RyCode-Ext.git
 ```
 
 2. **Bağımlılıkları yükleyin**:
@@ -103,13 +103,13 @@ pnpm install
 
 3. **Uzantıyı çalıştırın**:
 
-Roo Code uzantısını çalıştırmanın birkaç yolu vardır:
+RyCode-Ext uzantısını çalıştırmanın birkaç yolu vardır:
 
 ### Geliştirme Modu (F5)
 
 Aktif geliştirme için VSCode'un yerleşik hata ayıklama özelliğini kullanın:
 
-VSCode'da `F5` tuşuna basın (veya **Çalıştır** → **Hata Ayıklamayı Başlat**'a gidin). Bu, Roo Code uzantısının çalıştığı yeni bir VSCode penceresi açacaktır.
+VSCode'da `F5` tuşuna basın (veya **Çalıştır** → **Hata Ayıklamayı Başlat**'a gidin). Bu, RyCode-Ext uzantısının çalıştığı yeni bir VSCode penceresi açacaktır.
 
 - Web görünümündeki değişiklikler anında görünecektir.
 - Çekirdek uzantıdaki değişiklikler de otomatik olarak sıcak yeniden yüklenecektir.
@@ -157,7 +157,7 @@ Sürüm oluşturma ve yayınlama için [changesets](https://github.com/changeset
 
 ## Sorumluluk Reddi Beyanı
 
-**Lütfen dikkat** Roo Code, Inc., Roo Code ile bağlantılı olarak sağlanan veya kullanıma sunulan herhangi bir kod, model veya diğer araçlar, ilgili üçüncü taraf araçları veya ortaya çıkan çıktılarla ilgili olarak **hiçbir** beyanda bulunmaz veya garanti vermez. Bu tür araçların veya çıktıların kullanımıyla ilişkili **tüm riskleri** üstlenirsiniz; bu tür araçlar **"OLDUĞU GİBİ"** ve **"MEVCUT OLDUĞU GİBİ"** esasına göre sağlanır. Bu tür riskler, fikri mülkiyet ihlali, siber güvenlik açıkları veya saldırıları, önyargı, yanlışlıklar, hatalar, kusurlar, virüsler, kesintiler, mal kaybı veya hasarı ve/veya kişisel yaralanmaları içerebilir, ancak bunlarla sınırlı değildir. Bu tür araçların veya çıktıların kullanımından (yasallığı, uygunluğu ve sonuçları dahil ancak bunlarla sınırlı olmamak üzere) yalnızca siz sorumlusunuz.
+**Lütfen dikkat** RyCode-Ext, Inc., RyCode-Ext ile bağlantılı olarak sağlanan veya kullanıma sunulan herhangi bir kod, model veya diğer araçlar, ilgili üçüncü taraf araçları veya ortaya çıkan çıktılarla ilgili olarak **hiçbir** beyanda bulunmaz veya garanti vermez. Bu tür araçların veya çıktıların kullanımıyla ilişkili **tüm riskleri** üstlenirsiniz; bu tür araçlar **"OLDUĞU GİBİ"** ve **"MEVCUT OLDUĞU GİBİ"** esasına göre sağlanır. Bu tür riskler, fikri mülkiyet ihlali, siber güvenlik açıkları veya saldırıları, önyargı, yanlışlıklar, hatalar, kusurlar, virüsler, kesintiler, mal kaybı veya hasarı ve/veya kişisel yaralanmaları içerebilir, ancak bunlarla sınırlı değildir. Bu tür araçların veya çıktıların kullanımından (yasallığı, uygunluğu ve sonuçları dahil ancak bunlarla sınırlı olmamak üzere) yalnızca siz sorumlusunuz.
 
 ---
 
@@ -169,18 +169,18 @@ Topluluk katkılarını çok seviyoruz! [CONTRIBUTING.md](CONTRIBUTING.md) dosya
 
 ## Katkıda Bulunanlar
 
-Roo Code'u daha iyi hale getirmemize yardımcı olan tüm katkıda bulunanlarımıza teşekkür ederiz!
+RyCode-Ext'u daha iyi hale getirmemize yardımcı olan tüm katkıda bulunanlarımıza teşekkür ederiz!
 
 <!-- START CONTRIBUTORS SECTION - AUTO-GENERATED, DO NOT EDIT MANUALLY -->
 
-[![Contributors](https://contrib.rocks/image?repo=RooCodeInc/roo-code&max=120&columns=12&cacheBust=0000000000)](https://github.com/RooCodeInc/roo-code/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=RyCodeExtInc/rycode-ext&max=120&columns=12&cacheBust=0000000000)](https://github.com/RyCodeExtInc/rycode-ext/graphs/contributors)
 
 <!-- END CONTRIBUTORS SECTION -->
 
 ## Lisans
 
-[Apache 2.0 © 2025 Roo Code, Inc.](../../LICENSE)
+[Apache 2.0 © 2025 RyCode-Ext, Inc.](../../LICENSE)
 
 ---
 
-**Roo Code'un keyfini çıkar!** Onu kısa tasmalı tut ya da otonom dolaşsın; ne inşa edeceğini görmek için sabırsızlanıyoruz. Soruların veya özellik fikirlerin varsa [Reddit topluluğumuza](https://www.reddit.com/r/RooCode/) ya da [Discord](https://discord.gg/roocode)'a uğra. İyi kodlamalar!
+**RyCode-Ext'un keyfini çıkar!** Onu kısa tasmalı tut ya da otonom dolaşsın; ne inşa edeceğini görmek için sabırsızlanıyoruz. Soruların veya özellik fikirlerin varsa [Reddit topluluğumuza](https://www.reddit.com/r/RyCodeExt/) ya da [Discord](https://discord.gg/roocode)'a uğra. İyi kodlamalar!

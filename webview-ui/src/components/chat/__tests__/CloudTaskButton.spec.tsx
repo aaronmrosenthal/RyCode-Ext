@@ -20,8 +20,8 @@ vi.mock("qrcode", () => ({
 vi.mock("react-i18next")
 
 // Mock the cloud config
-vi.mock("@roo-code/cloud/src/config", () => ({
-	getRooCodeApiUrl: vi.fn(() => "https://app.roocode.com"),
+vi.mock("@rycode-ext/cloud/src/config", () => ({
+	getRyCodeExtApiUrl: vi.fn(() => "https://app.roocode.com"),
 }))
 
 // Mock the extension state context
@@ -218,17 +218,17 @@ describe("CloudTaskButton", () => {
 		})
 	})
 
-	test("uses correct URL from getRooCodeApiUrl", async () => {
-		// Mock getRooCodeApiUrl to return a custom URL
-		vi.doMock("@roo-code/cloud/src/config", () => ({
-			getRooCodeApiUrl: vi.fn(() => "https://custom.roocode.com"),
+	test("uses correct URL from getRyCodeExtApiUrl", async () => {
+		// Mock getRyCodeExtApiUrl to return a custom URL
+		vi.doMock("@rycode-ext/cloud/src/config", () => ({
+			getRyCodeExtApiUrl: vi.fn(() => "https://custom.roocode.com"),
 		}))
 
 		// Clear module cache and re-import to get the mocked version
 		vi.resetModules()
 
 		// Since we can't easily test the dynamic import, let's skip this specific test
-		// The functionality is already covered by the main component using getRooCodeApiUrl
+		// The functionality is already covered by the main component using getRyCodeExtApiUrl
 		expect(true).toBe(true)
 	})
 })

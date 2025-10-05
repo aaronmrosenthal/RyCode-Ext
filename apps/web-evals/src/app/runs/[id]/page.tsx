@@ -1,4 +1,4 @@
-import { findRun } from "@roo-code/evals"
+import { findRun } from "@rycode-ext/evals"
 
 import { Run } from "./run"
 

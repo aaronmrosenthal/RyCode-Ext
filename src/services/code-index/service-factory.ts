@@ -11,11 +11,11 @@ import { codeParser, DirectoryScanner, FileWatcher } from "./processors"
 import { ICodeParser, IEmbedder, IFileWatcher, IVectorStore } from "./interfaces"
 import { CodeIndexConfigManager } from "./config-manager"
 import { CacheManager } from "./cache-manager"
-import { RooIgnoreController } from "../../core/ignore/RooIgnoreController"
+import { RyCodeExtIgnoreController } from "../../core/ignore/RyCodeExtIgnoreController"
 import { Ignore } from "ignore"
 import { t } from "../../i18n"
-import { TelemetryService } from "@roo-code/telemetry"
-import { TelemetryEventName } from "@roo-code/types"
+import { TelemetryService } from "@rycode-ext/telemetry"
+import { TelemetryEventName } from "@rycode-ext/types"
 import { Package } from "../../shared/package"
 import { BATCH_SEGMENT_THRESHOLD } from "./constants"
 
@@ -180,7 +180,7 @@ export class CodeIndexServiceFactory {
 		vectorStore: IVectorStore,
 		cacheManager: CacheManager,
 		ignoreInstance: Ignore,
-		rooIgnoreController?: RooIgnoreController,
+		rooIgnoreController?: RyCodeExtIgnoreController,
 	): IFileWatcher {
 		// Get the configurable batch size from VSCode settings
 		let batchSize: number
@@ -212,7 +212,7 @@ export class CodeIndexServiceFactory {
 		context: vscode.ExtensionContext,
 		cacheManager: CacheManager,
 		ignoreInstance: Ignore,
-		rooIgnoreController?: RooIgnoreController,
+		rooIgnoreController?: RyCodeExtIgnoreController,
 	): {
 		embedder: IEmbedder
 		vectorStore: IVectorStore

@@ -11,7 +11,7 @@ import { ClineSayTool } from "../../shared/ExtensionMessage"
 import { getReadablePath } from "../../utils/path"
 import { fileExistsAtPath } from "../../utils/fs"
 import { RecordSource } from "../context-tracking/FileContextTrackerTypes"
-import { DEFAULT_WRITE_DELAY_MS } from "@roo-code/types"
+import { DEFAULT_WRITE_DELAY_MS } from "@rycode-ext/types"
 import { EXPERIMENT_IDS, experiments } from "../../shared/experiments"
 
 /**
@@ -120,7 +120,7 @@ export async function searchAndReplaceTool(
 		const accessAllowed = cline.rooIgnoreController?.validateAccess(validRelPath)
 
 		if (!accessAllowed) {
-			await cline.say("rooignore_error", validRelPath)
+			await cline.say("rycodeextignore_error", validRelPath)
 			pushToolResult(formatResponse.toolError(formatResponse.rooIgnoreError(validRelPath)))
 			return
 		}

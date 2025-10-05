@@ -11,19 +11,19 @@ import { Trans, useTranslation } from "react-i18next"
 import { useDebounceEffect } from "@src/utils/useDebounceEffect"
 import { appendImages } from "@src/utils/imageUtils"
 
-import type { ClineAsk, ClineMessage, McpServerUse } from "@roo-code/types"
+import type { ClineAsk, ClineMessage, McpServerUse } from "@rycode-ext/types"
 
-import { ClineSayBrowserAction, ClineSayTool, ExtensionMessage } from "@roo/ExtensionMessage"
-import { McpServer, McpTool } from "@roo/mcp"
-import { findLast } from "@roo/array"
-import { FollowUpData, SuggestionItem } from "@roo-code/types"
-import { combineApiRequests } from "@roo/combineApiRequests"
-import { combineCommandSequences } from "@roo/combineCommandSequences"
-import { getApiMetrics } from "@roo/getApiMetrics"
-import { AudioType } from "@roo/WebviewMessage"
-import { getAllModes } from "@roo/modes"
-import { ProfileValidator } from "@roo/ProfileValidator"
-import { getLatestTodo } from "@roo/todo"
+import { ClineSayBrowserAction, ClineSayTool, ExtensionMessage } from "@rycode-ext/ExtensionMessage"
+import { McpServer, McpTool } from "@rycode-ext/mcp"
+import { findLast } from "@rycode-ext/array"
+import { FollowUpData, SuggestionItem } from "@rycode-ext/types"
+import { combineApiRequests } from "@rycode-ext/combineApiRequests"
+import { combineCommandSequences } from "@rycode-ext/combineCommandSequences"
+import { getApiMetrics } from "@rycode-ext/getApiMetrics"
+import { AudioType } from "@rycode-ext/WebviewMessage"
+import { getAllModes } from "@rycode-ext/modes"
+import { ProfileValidator } from "@rycode-ext/ProfileValidator"
+import { getLatestTodo } from "@rycode-ext/todo"
 
 import { vscode } from "@src/utils/vscode"
 import {
@@ -35,8 +35,8 @@ import {
 import { useAppTranslation } from "@src/i18n/TranslationContext"
 import { useExtensionState } from "@src/context/ExtensionStateContext"
 import { useSelectedModel } from "@src/components/ui/hooks/useSelectedModel"
-import RooHero from "@src/components/welcome/RooHero"
-import RooTips from "@src/components/welcome/RooTips"
+import RyCodeExtHero from "@src/components/welcome/RyCodeExtHero"
+import RyCodeExtTips from "@src/components/welcome/RyCodeExtTips"
 import { StandardTooltip } from "@src/components/ui"
 import { useAutoApprovalState } from "@src/hooks/useAutoApprovalState"
 import { useAutoApprovalToggles } from "@src/hooks/useAutoApprovalToggles"
@@ -1839,11 +1839,11 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 							className="absolute top-2 right-3 z-10"
 						/>
 
-						<RooHero />
+						<RyCodeExtHero />
 
 						<div className="mb-2.5">
 							{cloudIsAuthenticated || taskHistory.length < 4 ? (
-								<RooTips />
+								<RyCodeExtTips />
 							) : (
 								<>
 									<DismissibleUpsell

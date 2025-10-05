@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { VSCodeTextArea, VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 
-import { supportPrompt, SupportPromptType } from "@roo/support-prompt"
+import { supportPrompt, SupportPromptType } from "@rycode-ext/support-prompt"
 
 import { vscode } from "@src/utils/vscode"
 import { useAppTranslation } from "@src/i18n/TranslationContext"

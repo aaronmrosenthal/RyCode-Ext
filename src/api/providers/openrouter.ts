@@ -7,7 +7,7 @@ import {
 	OPENROUTER_DEFAULT_PROVIDER_NAME,
 	OPEN_ROUTER_PROMPT_CACHING_MODELS,
 	DEEP_SEEK_DEFAULT_TEMPERATURE,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import type { ApiHandlerOptions, ModelRecord } from "../../shared/api"
 
@@ -309,8 +309,8 @@ export class OpenRouterHandler extends BaseProvider implements SingleCompletionH
 				headers: {
 					Authorization: `Bearer ${apiKey}`,
 					"Content-Type": "application/json",
-					"HTTP-Referer": "https://github.com/RooVetGit/Roo-Code",
-					"X-Title": "Roo Code",
+					"HTTP-Referer": "https://github.com/RooVetGit/RyCode-Ext",
+					"X-Title": "RyCode-Ext",
 				},
 				body: JSON.stringify({
 					model,

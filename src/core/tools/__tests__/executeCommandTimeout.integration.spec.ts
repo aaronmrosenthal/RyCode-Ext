@@ -20,7 +20,7 @@ vitest.mock("../../task/Task")
 vitest.mock("../../prompts/responses", () => ({
 	formatResponse: {
 		toolError: vitest.fn((msg) => `Tool Error: ${msg}`),
-		rooIgnoreError: vitest.fn((msg) => `RooIgnore Error: ${msg}`),
+		rooIgnoreError: vitest.fn((msg) => `RyCodeExtIgnore Error: ${msg}`),
 	},
 }))
 vitest.mock("../../../utils/text-normalization", () => ({

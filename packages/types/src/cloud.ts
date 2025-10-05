@@ -2,7 +2,7 @@ import EventEmitter from "events"
 
 import { z } from "zod"
 
-import { RooCodeEventName } from "./events.js"
+import { RyCodeExtEventName } from "./events.js"
 import { TaskStatus, taskMetadataSchema } from "./task.js"
 import { globalSettingsSchema } from "./global-settings.js"
 import { providerSettingsWithIdSchema } from "./provider-settings.js"
@@ -98,7 +98,7 @@ export const organizationDefaultSettingsSchema = globalSettingsSchema
 		maxOpenTabsContext: true,
 		maxReadFileLine: true,
 		maxWorkspaceFiles: true,
-		showRooIgnoredFiles: true,
+		showRyCodeExtIgnoredFiles: true,
 		terminalCommandDelay: true,
 		terminalCompressProgressBar: true,
 		terminalOutputLineLimit: true,
@@ -420,27 +420,27 @@ export type ExtensionInstance = z.infer<typeof extensionInstanceSchema>
  */
 
 export enum ExtensionBridgeEventName {
-	TaskCreated = RooCodeEventName.TaskCreated,
-	TaskStarted = RooCodeEventName.TaskStarted,
-	TaskCompleted = RooCodeEventName.TaskCompleted,
-	TaskAborted = RooCodeEventName.TaskAborted,
-	TaskFocused = RooCodeEventName.TaskFocused,
-	TaskUnfocused = RooCodeEventName.TaskUnfocused,
-	TaskActive = RooCodeEventName.TaskActive,
-	TaskInteractive = RooCodeEventName.TaskInteractive,
-	TaskResumable = RooCodeEventName.TaskResumable,
-	TaskIdle = RooCodeEventName.TaskIdle,
+	TaskCreated = RyCodeExtEventName.TaskCreated,
+	TaskStarted = RyCodeExtEventName.TaskStarted,
+	TaskCompleted = RyCodeExtEventName.TaskCompleted,
+	TaskAborted = RyCodeExtEventName.TaskAborted,
+	TaskFocused = RyCodeExtEventName.TaskFocused,
+	TaskUnfocused = RyCodeExtEventName.TaskUnfocused,
+	TaskActive = RyCodeExtEventName.TaskActive,
+	TaskInteractive = RyCodeExtEventName.TaskInteractive,
+	TaskResumable = RyCodeExtEventName.TaskResumable,
+	TaskIdle = RyCodeExtEventName.TaskIdle,
 
-	TaskPaused = RooCodeEventName.TaskPaused,
-	TaskUnpaused = RooCodeEventName.TaskUnpaused,
-	TaskSpawned = RooCodeEventName.TaskSpawned,
+	TaskPaused = RyCodeExtEventName.TaskPaused,
+	TaskUnpaused = RyCodeExtEventName.TaskUnpaused,
+	TaskSpawned = RyCodeExtEventName.TaskSpawned,
 
-	TaskUserMessage = RooCodeEventName.TaskUserMessage,
+	TaskUserMessage = RyCodeExtEventName.TaskUserMessage,
 
-	TaskTokenUsageUpdated = RooCodeEventName.TaskTokenUsageUpdated,
+	TaskTokenUsageUpdated = RyCodeExtEventName.TaskTokenUsageUpdated,
 
-	ModeChanged = RooCodeEventName.ModeChanged,
-	ProviderProfileChanged = RooCodeEventName.ProviderProfileChanged,
+	ModeChanged = RyCodeExtEventName.ModeChanged,
+	ProviderProfileChanged = RyCodeExtEventName.ProviderProfileChanged,
 
 	InstanceRegistered = "instance_registered",
 	InstanceUnregistered = "instance_unregistered",
@@ -602,9 +602,9 @@ export type ExtensionBridgeCommand = z.infer<typeof extensionBridgeCommandSchema
  */
 
 export enum TaskBridgeEventName {
-	Message = RooCodeEventName.Message,
-	TaskModeSwitched = RooCodeEventName.TaskModeSwitched,
-	TaskInteractive = RooCodeEventName.TaskInteractive,
+	Message = RyCodeExtEventName.Message,
+	TaskModeSwitched = RyCodeExtEventName.TaskModeSwitched,
+	TaskInteractive = RyCodeExtEventName.TaskInteractive,
 }
 
 export const taskBridgeEventSchema = z.discriminatedUnion("type", [

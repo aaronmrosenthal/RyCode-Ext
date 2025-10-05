@@ -3,9 +3,9 @@ import { Trans } from "react-i18next"
 import { Checkbox } from "vscrui"
 import { VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 
-import { type ProviderSettings, type OrganizationAllowList, openRouterDefaultModelId } from "@roo-code/types"
+import { type ProviderSettings, type OrganizationAllowList, openRouterDefaultModelId } from "@rycode-ext/types"
 
-import type { RouterModels } from "@roo/api"
+import type { RouterModels } from "@rycode-ext/api"
 
 import { useAppTranslation } from "@src/i18n/TranslationContext"
 import { getOpenRouterAuthUrl } from "@src/oauth/urls"

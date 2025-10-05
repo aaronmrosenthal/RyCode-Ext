@@ -12,8 +12,8 @@ import {
 	getModelId,
 	type ProviderName,
 	type RooModelId,
-} from "@roo-code/types"
-import { TelemetryService } from "@roo-code/telemetry"
+} from "@rycode-ext/types"
+import { TelemetryService } from "@rycode-ext/telemetry"
 
 import { Mode, modes } from "../../shared/modes"
 

@@ -3,13 +3,13 @@
   <a href="https://x.com/roo_code"><img src="https://img.shields.io/badge/roo_code-000000?style=flat&logo=x&logoColor=white" alt="X"></a>
   <a href="https://youtube.com/@roocodeyt?feature=shared"><img src="https://img.shields.io/badge/YouTube-FF0000?style=flat&logo=youtube&logoColor=white" alt="YouTube"></a>
   <a href="https://discord.gg/roocode"><img src="https://img.shields.io/badge/Join%20Discord-5865F2?style=flat&logo=discord&logoColor=white" alt="Join Discord"></a>
-  <a href="https://www.reddit.com/r/RooCode/"><img src="https://img.shields.io/badge/Join%20r%2FRooCode-FF4500?style=flat&logo=reddit&logoColor=white" alt="Join r/RooCode"></a>
+  <a href="https://www.reddit.com/r/RyCodeExt/"><img src="https://img.shields.io/badge/Join%20r%2FRyCodeExt-FF4500?style=flat&logo=reddit&logoColor=white" alt="Join r/RyCodeExt"></a>
 </p>
 <p align="center">
-  <em>जल्दी मदद पाएं → <a href="https://discord.gg/roocode">डिस्कॉर्ड से जुड़ें</a> • एसिंक पसंद है? → <a href="https://www.reddit.com/r/RooCode/">r/RooCode से जुड़ें</a></em>
+  <em>जल्दी मदद पाएं → <a href="https://discord.gg/roocode">डिस्कॉर्ड से जुड़ें</a> • एसिंक पसंद है? → <a href="https://www.reddit.com/r/RyCodeExt/">r/RyCodeExt से जुड़ें</a></em>
 </p>
 
-# Roo Code
+# RyCode-Ext
 
 > तुम्हारी AI-संचालित डेवलपमेंट टीम, सीधे तुम्हारे एडिटर में
 
@@ -39,7 +39,7 @@
 
 ---
 
-## Roo Code आपके लिए क्या कर सकता है?
+## RyCode-Ext आपके लिए क्या कर सकता है?
 
 - प्राकृतिक भाषा विवरण से कोड उत्पन्न करें
 - मोड के साथ अनुकूलन: कोड, आर्किटेक्ट, पूछें, डीबग और कस्टम मोड
@@ -60,7 +60,7 @@
 - कस्टम मोड: अपनी टीम या वर्कफ़्लो के लिए विशेष मोड बनाएं
 - Roomote Control: Roomote Control से तुम अपनी लोकल VS Code इंस्टेंस में चल रही टास्क को रिमोट से कंट्रोल कर सकते हो।
 
-और जानो: [मोड्स का इस्तेमाल](https://docs.roocode.com/basic-usage/using-modes) • [कस्टम मोड्स](https://docs.roocode.com/advanced-usage/custom-modes) • [Roomote Control](https://docs.roocode.com/roo-code-cloud/roomote-control)
+और जानो: [मोड्स का इस्तेमाल](https://docs.roocode.com/basic-usage/using-modes) • [कस्टम मोड्स](https://docs.roocode.com/advanced-usage/custom-modes) • [Roomote Control](https://docs.roocode.com/rycode-ext-cloud/roomote-control)
 
 ## ट्यूटोरियल और फ़ीचर वीडियो
 
@@ -78,12 +78,12 @@
 
 ## संसाधन
 
-- **[दस्तावेज़ीकरण](https://docs.roocode.com):** Roo Code को स्थापित करने, कॉन्फ़िगर करने और उसमें महारत हासिल करने के लिए आधिकारिक गाइड।
+- **[दस्तावेज़ीकरण](https://docs.roocode.com):** RyCode-Ext को स्थापित करने, कॉन्फ़िगर करने और उसमें महारत हासिल करने के लिए आधिकारिक गाइड।
 - **[यूट्यूब चैनल](https://youtube.com/@roocodeyt?feature=shared):** ट्यूटोरियल देखें और सुविधाओं को एक्शन में देखें।
 - **[डिस्कॉर्ड सर्वर](https://discord.gg/roocode):** रीयल-टाइम सहायता और चर्चा के लिए समुदाय में शामिल हों।
-- **[रेडिट समुदाय](https://www.reddit.com/r/RooCode):** अपने अनुभव साझा करें और देखें कि दूसरे क्या बना रहे हैं।
-- **[गिटहब मुद्दे](https://github.com/RooCodeInc/Roo-Code/issues):** बग की रिपोर्ट करें और विकास को ट्रैक करें।
-- **[सुविधा अनुरोध](https://github.com/RooCodeInc/Roo-Code/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop):** क्या आपके पास कोई विचार है? इसे डेवलपर्स के साथ साझा करें।
+- **[रेडिट समुदाय](https://www.reddit.com/r/RyCodeExt):** अपने अनुभव साझा करें और देखें कि दूसरे क्या बना रहे हैं।
+- **[गिटहब मुद्दे](https://github.com/RyCodeExtInc/RyCode-Ext/issues):** बग की रिपोर्ट करें और विकास को ट्रैक करें।
+- **[सुविधा अनुरोध](https://github.com/RyCodeExtInc/RyCode-Ext/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop):** क्या आपके पास कोई विचार है? इसे डेवलपर्स के साथ साझा करें।
 
 ---
 
@@ -92,7 +92,7 @@
 1. **क्लोन** करें रेपो:
 
 ```sh
-git clone https://github.com/RooCodeInc/Roo-Code.git
+git clone https://github.com/RyCodeExtInc/RyCode-Ext.git
 ```
 
 2. **निर्भरताएँ स्थापित करें**:
@@ -109,7 +109,7 @@ pnpm install
 
 सक्रिय विकास के लिए, वीएसकोड के अंतर्निहित डिबगिंग का उपयोग करें:
 
-वीएसकोड में `F5` दबाएं (या **रन** → **डीबगिंग प्रारंभ करें** पर जाएं)। यह Roo Code एक्सटेंशन के साथ एक नई वीएसकोड विंडो खोलेगा।
+वीएसकोड में `F5` दबाएं (या **रन** → **डीबगिंग प्रारंभ करें** पर जाएं)। यह RyCode-Ext एक्सटेंशन के साथ एक नई वीएसकोड विंडो खोलेगा।
 
 - वेबव्यू में किए गए परिवर्तन तुरंत दिखाई देंगे।
 - कोर एक्सटेंशन में किए गए परिवर्तन भी स्वचालित रूप से हॉट रीलोड हो जाएंगे।
@@ -169,18 +169,18 @@ pnpm install:vsix [-y] [--editor=<command>]
 
 ## योगदानकर्ता
 
-हमारे सभी योगदानकर्ताओं को धन्यवाद जिन्होंने Roo Code को बेहतर बनाने में मदद की है!
+हमारे सभी योगदानकर्ताओं को धन्यवाद जिन्होंने RyCode-Ext को बेहतर बनाने में मदद की है!
 
 <!-- START CONTRIBUTORS SECTION - AUTO-GENERATED, DO NOT EDIT MANUALLY -->
 
-[![Contributors](https://contrib.rocks/image?repo=RooCodeInc/roo-code&max=120&columns=12&cacheBust=0000000000)](https://github.com/RooCodeInc/roo-code/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=RyCodeExtInc/rycode-ext&max=120&columns=12&cacheBust=0000000000)](https://github.com/RyCodeExtInc/rycode-ext/graphs/contributors)
 
 <!-- END CONTRIBUTORS SECTION -->
 
 ## लाइसेंस
 
-[Apache 2.0 © 2025 Roo Code, Inc.](../../LICENSE)
+[Apache 2.0 © 2025 RyCode-Ext, Inc.](../../LICENSE)
 
 ---
 
-**Roo Code का आनंद लें!** चाहे आप इसे छोटी लगाम में रखें या इसे स्वायत्त रूप से घूमने दें, हम यह देखने के लिए इंतजार नहीं कर सकते कि आप क्या बनाते हैं। यदि आपके कोई प्रश्न या सुविधा के विचार हैं, तो हमारी [रेडिट समुदाय](https://www.reddit.com/r/RooCode/) या [डिस्कॉर्ड](https://discord.gg/roocode) पर आएं। हैप्पी कोडिंग!
+**RyCode-Ext का आनंद लें!** चाहे आप इसे छोटी लगाम में रखें या इसे स्वायत्त रूप से घूमने दें, हम यह देखने के लिए इंतजार नहीं कर सकते कि आप क्या बनाते हैं। यदि आपके कोई प्रश्न या सुविधा के विचार हैं, तो हमारी [रेडिट समुदाय](https://www.reddit.com/r/RyCodeExt/) या [डिस्कॉर्ड](https://discord.gg/roocode) पर आएं। हैप्पी कोडिंग!

@@ -1,5 +1,5 @@
 import OpenAI from "openai"
-import { moonshotModels, moonshotDefaultModelId, type ModelInfo } from "@roo-code/types"
+import { moonshotModels, moonshotDefaultModelId, type ModelInfo } from "@rycode-ext/types"
 
 import type { ApiHandlerOptions } from "../../shared/api"
 

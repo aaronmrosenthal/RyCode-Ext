@@ -8,7 +8,7 @@ import * as fs from "fs/promises"
 import * as yaml from "yaml"
 import * as vscode from "vscode"
 
-import type { ModeConfig } from "@roo-code/types"
+import type { ModeConfig } from "@rycode-ext/types"
 
 import { fileExistsAtPath } from "../../../utils/fs"
 import { getWorkspacePath } from "../../../utils/path"
@@ -49,7 +49,7 @@ describe("CustomModesManager - Export/Import with Slug Changes", () => {
 	const mockStoragePath = `${path.sep}mock${path.sep}settings`
 	const mockSettingsPath = path.join(mockStoragePath, "settings", GlobalFileNames.customModes)
 	const mockWorkspacePath = path.resolve("/mock/workspace")
-	const mockRoomodes = path.join(mockWorkspacePath, ".roomodes")
+	const mockRoomodes = path.join(mockWorkspacePath, ".rycodeextmodes")
 
 	beforeEach(() => {
 		mockOnUpdate = vi.fn()
@@ -249,8 +249,8 @@ describe("CustomModesManager - Export/Import with Slug Changes", () => {
 			expect(result.success).toBe(true)
 
 			// Verify files were written to the correct new slug folder
-			const rule1Path = Object.keys(writtenFiles).find((p) => p.includes("rule1.md") && !p.includes(".roomodes"))
-			const rule2Path = Object.keys(writtenFiles).find((p) => p.includes("rule2.md") && !p.includes(".roomodes"))
+			const rule1Path = Object.keys(writtenFiles).find((p) => p.includes("rule1.md") && !p.includes(".rycodeextmodes"))
+			const rule2Path = Object.keys(writtenFiles).find((p) => p.includes("rule2.md") && !p.includes(".rycodeextmodes"))
 
 			expect(rule1Path).toBeDefined()
 			expect(rule2Path).toBeDefined()
@@ -304,8 +304,8 @@ describe("CustomModesManager - Export/Import with Slug Changes", () => {
 			expect(result.success).toBe(true)
 
 			// Verify files were written to the NEW slug folder, not the old one
-			const rule1Path = Object.keys(writtenFiles).find((p) => p.includes("rule1.md") && !p.includes(".roomodes"))
-			const rule2Path = Object.keys(writtenFiles).find((p) => p.includes("rule2.md") && !p.includes(".roomodes"))
+			const rule1Path = Object.keys(writtenFiles).find((p) => p.includes("rule1.md") && !p.includes(".rycodeextmodes"))
+			const rule2Path = Object.keys(writtenFiles).find((p) => p.includes("rule2.md") && !p.includes(".rycodeextmodes"))
 
 			expect(rule1Path).toBeDefined()
 			expect(rule2Path).toBeDefined()
@@ -424,7 +424,7 @@ describe("CustomModesManager - Export/Import with Slug Changes", () => {
 
 			// Step 5: Verify the rule file was placed in the new slug folder
 			const ruleFilePath = Object.keys(writtenFiles).find(
-				(p) => p.includes("rule.md") && !p.includes(".roomodes"),
+				(p) => p.includes("rule.md") && !p.includes(".rycodeextmodes"),
 			)
 			expect(ruleFilePath).toBeDefined()
 			expect(ruleFilePath).toContain(path.join(".roo", "rules-renamed-mode", "rule.md"))

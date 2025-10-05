@@ -4,12 +4,12 @@ import { useTranslation, Trans } from "react-i18next"
 import deepEqual from "fast-deep-equal"
 import { VSCodeBadge } from "@vscode/webview-ui-toolkit/react"
 
-import type { ClineMessage, FollowUpData, SuggestionItem } from "@roo-code/types"
-import { Mode } from "@roo/modes"
+import type { ClineMessage, FollowUpData, SuggestionItem } from "@rycode-ext/types"
+import { Mode } from "@rycode-ext/modes"
 
-import { ClineApiReqInfo, ClineAskUseMcpServer, ClineSayTool } from "@roo/ExtensionMessage"
-import { COMMAND_OUTPUT_STRING } from "@roo/combineCommandSequences"
-import { safeJsonParse } from "@roo/safeJsonParse"
+import { ClineApiReqInfo, ClineAskUseMcpServer, ClineSayTool } from "@rycode-ext/ExtensionMessage"
+import { COMMAND_OUTPUT_STRING } from "@rycode-ext/combineCommandSequences"
+import { safeJsonParse } from "@rycode-ext/safeJsonParse"
 
 import { useExtensionState } from "@src/context/ExtensionStateContext"
 import { findMatchingResourceOrTemplate } from "@src/utils/mcp"

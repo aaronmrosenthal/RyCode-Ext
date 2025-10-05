@@ -29,7 +29,7 @@ vi.mock("fs/promises", () => ({
 }))
 
 // Mock the roo-config service
-vi.mock("../../../../services/roo-config", () => ({
+vi.mock("../../../../services/rycode-ext-config", () => ({
 	getRooDirectoriesForCwd: mockGetRooDirectoriesForCwd,
 	getGlobalRooDirectory: mockGetGlobalRooDirectory,
 }))

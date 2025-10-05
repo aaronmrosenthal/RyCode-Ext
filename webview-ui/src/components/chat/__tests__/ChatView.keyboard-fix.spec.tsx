@@ -48,11 +48,11 @@ vi.mock("@src/components/welcome/RooCloudCTA", () => ({
 	default: () => null,
 }))
 
-vi.mock("@src/components/welcome/RooTips", () => ({
+vi.mock("@src/components/welcome/RyCodeExtTips", () => ({
 	default: () => null,
 }))
 
-vi.mock("@src/components/welcome/RooHero", () => ({
+vi.mock("@src/components/welcome/RyCodeExtHero", () => ({
 	default: () => null,
 }))
 

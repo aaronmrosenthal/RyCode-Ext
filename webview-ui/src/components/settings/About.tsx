@@ -4,9 +4,9 @@ import { Trans } from "react-i18next"
 import { Info, Download, Upload, TriangleAlert } from "lucide-react"
 import { VSCodeCheckbox, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 
-import type { TelemetrySetting } from "@roo-code/types"
+import type { TelemetrySetting } from "@rycode-ext/types"
 
-import { Package } from "@roo/package"
+import { Package } from "@rycode-ext/package"
 
 import { vscode } from "@/utils/vscode"
 import { cn } from "@/lib/utils"
@@ -61,8 +61,8 @@ export const About = ({ telemetrySetting, setTelemetrySetting, className, ...pro
 					<Trans
 						i18nKey="settings:footer.feedback"
 						components={{
-							githubLink: <VSCodeLink href="https://github.com/RooCodeInc/Roo-Code" />,
-							redditLink: <VSCodeLink href="https://reddit.com/r/RooCode" />,
+							githubLink: <VSCodeLink href="https://github.com/RyCodeExtInc/RyCode-Ext" />,
+							redditLink: <VSCodeLink href="https://reddit.com/r/RyCodeExt" />,
 							discordLink: <VSCodeLink href="https://discord.gg/roocode" />,
 						}}
 					/>

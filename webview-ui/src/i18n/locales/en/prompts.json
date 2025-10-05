@@ -7,7 +7,7 @@
 		"importMode": "Import Mode",
 		"editModesConfig": "Edit modes configuration",
 		"editGlobalModes": "Edit Global Modes",
-		"editProjectModes": "Edit Project Modes (.roomodes)",
+		"editProjectModes": "Edit Project Modes (.rycodeextmodes)",
 		"createModeHelpText": "Modes are specialized personas that tailor Roo's behavior. <0>Learn about Using Modes</0> or <1>Customizing Modes.</1>",
 		"selectMode": "Search modes",
 		"noMatchFound": "No modes found"
@@ -168,7 +168,7 @@
 				"description": "Available in all workspaces"
 			},
 			"project": {
-				"label": "Project-specific (.roomodes)",
+				"label": "Project-specific (.rycodeextmodes)",
 				"description": "Only available in this workspace, takes precedence over global"
 			}
 		},

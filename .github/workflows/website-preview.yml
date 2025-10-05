@@ -5,10 +5,10 @@ on:
         branches-ignore:
             - main
         paths:
-            - "apps/web-roo-code/**"
+            - "apps/web-rycode-ext/**"
     pull_request:
         paths:
-            - "apps/web-roo-code/**"
+            - "apps/web-rycode-ext/**"
     workflow_dispatch:
 
 env:

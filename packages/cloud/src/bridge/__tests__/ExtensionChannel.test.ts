@@ -6,10 +6,10 @@ import {
 	type TaskProviderLike,
 	type TaskProviderEvents,
 	type StaticAppProperties,
-	RooCodeEventName,
+	RyCodeExtEventName,
 	ExtensionBridgeEventName,
 	ExtensionSocketEvents,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import { ExtensionChannel } from "../ExtensionChannel.js"
 
@@ -21,11 +21,11 @@ describe("ExtensionChannel", () => {
 	const userId = "test-user-456"
 
 	const appProperties: StaticAppProperties = {
-		appName: "roo-code",
+		appName: "rycode-ext",
 		appVersion: "1.0.0",
 		vscodeVersion: "1.0.0",
 		platform: "darwin",
-		editorName: "Roo Code",
+		editorName: "RyCode-Ext",
 		hostname: "test-host",
 	}
 
@@ -105,22 +105,22 @@ describe("ExtensionChannel", () => {
 	describe("Event Listener Management", () => {
 		it("should register event listeners on initialization", () => {
 			// Verify that listeners were registered for all expected events
-			const expectedEvents: RooCodeEventName[] = [
-				RooCodeEventName.TaskCreated,
-				RooCodeEventName.TaskStarted,
-				RooCodeEventName.TaskCompleted,
-				RooCodeEventName.TaskAborted,
-				RooCodeEventName.TaskFocused,
-				RooCodeEventName.TaskUnfocused,
-				RooCodeEventName.TaskActive,
-				RooCodeEventName.TaskInteractive,
-				RooCodeEventName.TaskResumable,
-				RooCodeEventName.TaskIdle,
-				RooCodeEventName.TaskPaused,
-				RooCodeEventName.TaskUnpaused,
-				RooCodeEventName.TaskSpawned,
-				RooCodeEventName.TaskUserMessage,
-				RooCodeEventName.TaskTokenUsageUpdated,
+			const expectedEvents: RyCodeExtEventName[] = [
+				RyCodeExtEventName.TaskCreated,
+				RyCodeExtEventName.TaskStarted,
+				RyCodeExtEventName.TaskCompleted,
+				RyCodeExtEventName.TaskAborted,
+				RyCodeExtEventName.TaskFocused,
+				RyCodeExtEventName.TaskUnfocused,
+				RyCodeExtEventName.TaskActive,
+				RyCodeExtEventName.TaskInteractive,
+				RyCodeExtEventName.TaskResumable,
+				RyCodeExtEventName.TaskIdle,
+				RyCodeExtEventName.TaskPaused,
+				RyCodeExtEventName.TaskUnpaused,
+				RyCodeExtEventName.TaskSpawned,
+				RyCodeExtEventName.TaskUserMessage,
+				RyCodeExtEventName.TaskTokenUsageUpdated,
 			]
 
 			// Check that on() was called for each event
@@ -220,7 +220,7 @@ describe("ExtensionChannel", () => {
 			;(mockSocket.emit as any).mockClear()
 
 			// Get a listener that was registered for TaskStarted
-			const taskStartedListeners = eventListeners.get(RooCodeEventName.TaskStarted)
+			const taskStartedListeners = eventListeners.get(RyCodeExtEventName.TaskStarted)
 			expect(taskStartedListeners).toBeDefined()
 			expect(taskStartedListeners!.size).toBe(1)
 

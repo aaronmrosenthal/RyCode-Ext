@@ -3,13 +3,13 @@
   <a href="https://x.com/roo_code"><img src="https://img.shields.io/badge/roo_code-000000?style=flat&logo=x&logoColor=white" alt="X"></a>
   <a href="https://youtube.com/@roocodeyt?feature=shared"><img src="https://img.shields.io/badge/YouTube-FF0000?style=flat&logo=youtube&logoColor=white" alt="YouTube"></a>
   <a href="https://discord.gg/roocode"><img src="https://img.shields.io/badge/Join%20Discord-5865F2?style=flat&logo=discord&logoColor=white" alt="Join Discord"></a>
-  <a href="https://www.reddit.com/r/RooCode/"><img src="https://img.shields.io/badge/Join%20r%2FRooCode-FF4500?style=flat&logo=reddit&logoColor=white" alt="Join r/RooCode"></a>
+  <a href="https://www.reddit.com/r/RyCodeExt/"><img src="https://img.shields.io/badge/Join%20r%2FRyCodeExt-FF4500?style=flat&logo=reddit&logoColor=white" alt="Join r/RyCodeExt"></a>
 </p>
 <p align="center">
-  <em>Obtén ayuda rápido → <a href="https://discord.gg/roocode">Únete a Discord</a> • ¿Prefieres asíncrono? → <a href="https://www.reddit.com/r/RooCode/">Únete a r/RooCode</a></em>
+  <em>Obtén ayuda rápido → <a href="https://discord.gg/roocode">Únete a Discord</a> • ¿Prefieres asíncrono? → <a href="https://www.reddit.com/r/RyCodeExt/">Únete a r/RyCodeExt</a></em>
 </p>
 
-# Roo Code
+# RyCode-Ext
 
 > Tu equipo de desarrollo con IA, directamente en tu editor
 
@@ -39,7 +39,7 @@
 
 ---
 
-## ¿Qué puede hacer Roo Code por TI?
+## ¿Qué puede hacer RyCode-Ext por TI?
 
 - Generar código a partir de descripciones en lenguaje natural
 - Adaptarse con Modos: Código, Arquitecto, Pregunta, Depuración y Modos Personalizados
@@ -51,7 +51,7 @@
 
 ## Modos
 
-Roo Code se adapta a tu forma de trabajar, no al revés:
+RyCode-Ext se adapta a tu forma de trabajar, no al revés:
 
 - Modo Código: codificación diaria, ediciones y operaciones de archivos
 - Modo Arquitecto: planificar sistemas, especificaciones y migraciones
@@ -60,7 +60,7 @@ Roo Code se adapta a tu forma de trabajar, no al revés:
 - Modos Personalizados: crea modos especializados para tu equipo o flujo de trabajo
 - Roomote Control: Roomote Control te permite controlar de forma remota tareas que se ejecutan en tu instancia local de VS Code.
 
-Más info: [Usar Modos](https://docs.roocode.com/basic-usage/using-modes) • [Modos Personalizados](https://docs.roocode.com/advanced-usage/custom-modes) • [Roomote Control](https://docs.roocode.com/roo-code-cloud/roomote-control)
+Más info: [Usar Modos](https://docs.roocode.com/basic-usage/using-modes) • [Modos Personalizados](https://docs.roocode.com/advanced-usage/custom-modes) • [Roomote Control](https://docs.roocode.com/rycode-ext-cloud/roomote-control)
 
 ## Tutoriales y vídeos de funcionalidades
 
@@ -68,7 +68,7 @@ Más info: [Usar Modos](https://docs.roocode.com/basic-usage/using-modes) • [M
 
 |                                                                                                                                                                            |                                                                                                                                                                             |                                                                                                                                                                                       |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <a href="https://www.youtube.com/watch?v=Mcq3r1EPZ-4"><img src="https://img.youtube.com/vi/Mcq3r1EPZ-4/maxresdefault.jpg" width="100%"></a><br><b>Instalando Roo Code</b>  | <a href="https://www.youtube.com/watch?v=eEJErgZBqLE"><img src="https://img.youtube.com/vi/eEJErgZBqLE/maxresdefault.jpg" width="100%"></a><br><b>Configurando perfiles</b> | <a href="https://www.youtube.com/watch?v=r1bpod1VWhg"><img src="https://img.youtube.com/vi/r1bpod1VWhg/maxresdefault.jpg" width="100%"></a><br><b>Indexación de la base de código</b> |
+| <a href="https://www.youtube.com/watch?v=Mcq3r1EPZ-4"><img src="https://img.youtube.com/vi/Mcq3r1EPZ-4/maxresdefault.jpg" width="100%"></a><br><b>Instalando RyCode-Ext</b>  | <a href="https://www.youtube.com/watch?v=eEJErgZBqLE"><img src="https://img.youtube.com/vi/eEJErgZBqLE/maxresdefault.jpg" width="100%"></a><br><b>Configurando perfiles</b> | <a href="https://www.youtube.com/watch?v=r1bpod1VWhg"><img src="https://img.youtube.com/vi/r1bpod1VWhg/maxresdefault.jpg" width="100%"></a><br><b>Indexación de la base de código</b> |
 | <a href="https://www.youtube.com/watch?v=qgqceCuhlRA"><img src="https://img.youtube.com/vi/qgqceCuhlRA/maxresdefault.jpg" width="100%"></a><br><b>Modos personalizados</b> |      <a href="https://www.youtube.com/watch?v=Ho30nyY332E"><img src="https://img.youtube.com/vi/Ho30nyY332E/maxresdefault.jpg" width="100%"></a><br><b>Checkpoints</b>      |        <a href="https://www.youtube.com/watch?v=6h5vB9PpoPk"><img src="https://img.youtube.com/vi/6h5vB9PpoPk/maxresdefault.jpg" width="100%"></a><br><b>Listas de Tareas</b>         |
 
 </div>
@@ -78,12 +78,12 @@ Más info: [Usar Modos](https://docs.roocode.com/basic-usage/using-modes) • [M
 
 ## Recursos
 
-- **[Documentación](https://docs.roocode.com):** La guía oficial para instalar, configurar y dominar Roo Code.
+- **[Documentación](https://docs.roocode.com):** La guía oficial para instalar, configurar y dominar RyCode-Ext.
 - **[Canal de YouTube](https://youtube.com/@roocodeyt?feature=shared):** Mira tutoriales y ve las funcionalidades en acción.
 - **[Servidor de Discord](https://discord.gg/roocode):** Únete a la comunidad para obtener ayuda y discutir en tiempo real.
-- **[Comunidad de Reddit](https://www.reddit.com/r/RooCode):** Comparte tus experiencias y ve lo que otros están construyendo.
-- **[Incidencias de GitHub](https://github.com/RooCodeInc/Roo-Code/issues):** Reporta errores y sigue el desarrollo.
-- **[Solicitudes de funcionalidades](https://github.com/RooCodeInc/Roo-Code/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop):** ¿Tienes una idea? Compártela con los desarrolladores.
+- **[Comunidad de Reddit](https://www.reddit.com/r/RyCodeExt):** Comparte tus experiencias y ve lo que otros están construyendo.
+- **[Incidencias de GitHub](https://github.com/RyCodeExtInc/RyCode-Ext/issues):** Reporta errores y sigue el desarrollo.
+- **[Solicitudes de funcionalidades](https://github.com/RyCodeExtInc/RyCode-Ext/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop):** ¿Tienes una idea? Compártela con los desarrolladores.
 
 ---
 
@@ -92,7 +92,7 @@ Más info: [Usar Modos](https://docs.roocode.com/basic-usage/using-modes) • [M
 1. **Clona** el repositorio:
 
 ```sh
-git clone https://github.com/RooCodeInc/Roo-Code.git
+git clone https://github.com/RyCodeExtInc/RyCode-Ext.git
 ```
 
 2. **Instala las dependencias**:
@@ -103,13 +103,13 @@ pnpm install
 
 3. **Ejecuta la extensión**:
 
-Hay varias formas de ejecutar la extensión Roo Code:
+Hay varias formas de ejecutar la extensión RyCode-Ext:
 
 ### Modo de desarrollo (F5)
 
 Para el desarrollo activo, utiliza la depuración integrada de VSCode:
 
-Presiona `F5` (o ve a **Ejecutar** → **Iniciar depuración**) en VSCode. Esto abrirá una nueva ventana de VSCode con la extensión Roo Code en ejecución.
+Presiona `F5` (o ve a **Ejecutar** → **Iniciar depuración**) en VSCode. Esto abrirá una nueva ventana de VSCode con la extensión RyCode-Ext en ejecución.
 
 - Los cambios en la vista web aparecerán inmediatamente.
 - Los cambios en la extensión principal también se recargarán automáticamente.
@@ -157,7 +157,7 @@ Usamos [changesets](https://github.com/changesets/changesets) para el versionado
 
 ## Aviso legal
 
-**Ten en cuenta** que Roo Code, Inc **no** hace ninguna representación o garantía con respecto a cualquier código, modelo u otras herramientas proporcionadas o puestas a disposición en relación con Roo Code, cualquier herramienta de terceros asociada, o cualquier resultado. Asumes **todos los riesgos** asociados con el uso de dichas herramientas o resultados; tales herramientas se proporcionan "**TAL CUAL**" y "**SEGÚN DISPONIBILIDAD**". Dichos riesgos pueden incluir, sin limitación, infracciones de propiedad intelectual, vulnerabilidades o ataques cibernéticos, sesgo, imprecisiones, errores, defectos, virus, tiempo de inactividad, pérdida o daño de propiedad y/o lesiones personales. Eres el único responsable de tu uso de dichas herramientas o resultados (incluidas, entre otras, la legalidad, idoneidad y resultados de los mismos).
+**Ten en cuenta** que RyCode-Ext, Inc **no** hace ninguna representación o garantía con respecto a cualquier código, modelo u otras herramientas proporcionadas o puestas a disposición en relación con RyCode-Ext, cualquier herramienta de terceros asociada, o cualquier resultado. Asumes **todos los riesgos** asociados con el uso de dichas herramientas o resultados; tales herramientas se proporcionan "**TAL CUAL**" y "**SEGÚN DISPONIBILIDAD**". Dichos riesgos pueden incluir, sin limitación, infracciones de propiedad intelectual, vulnerabilidades o ataques cibernéticos, sesgo, imprecisiones, errores, defectos, virus, tiempo de inactividad, pérdida o daño de propiedad y/o lesiones personales. Eres el único responsable de tu uso de dichas herramientas o resultados (incluidas, entre otras, la legalidad, idoneidad y resultados de los mismos).
 
 ---
 
@@ -169,18 +169,18 @@ Usamos [changesets](https://github.com/changesets/changesets) para el versionado
 
 ## Colaboradores
 
-¡Gracias a todos nuestros colaboradores que han ayudado a mejorar Roo Code!
+¡Gracias a todos nuestros colaboradores que han ayudado a mejorar RyCode-Ext!
 
 <!-- START CONTRIBUTORS SECTION - AUTO-GENERATED, DO NOT EDIT MANUALLY -->
 
-[![Contributors](https://contrib.rocks/image?repo=RooCodeInc/roo-code&max=120&columns=12&cacheBust=0000000000)](https://github.com/RooCodeInc/roo-code/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=RyCodeExtInc/rycode-ext&max=120&columns=12&cacheBust=0000000000)](https://github.com/RyCodeExtInc/rycode-ext/graphs/contributors)
 
 <!-- END CONTRIBUTORS SECTION -->
 
 ## Licencia
 
-[Apache 2.0 © 2025 Roo Code, Inc.](../../LICENSE)
+[Apache 2.0 © 2025 RyCode-Ext, Inc.](../../LICENSE)
 
 ---
 
-**¡Disfruta de Roo Code!** Ya sea que lo mantengas con una correa corta o lo dejes deambular de forma autónoma, no podemos esperar a ver qué construyes. Si tienes preguntas o ideas sobre funcionalidades, pásate por nuestra [comunidad de Reddit](https://www.reddit.com/r/RooCode/) o [Discord](https://discord.gg/roocode). ¡Feliz codificación!
+**¡Disfruta de RyCode-Ext!** Ya sea que lo mantengas con una correa corta o lo dejes deambular de forma autónoma, no podemos esperar a ver qué construyes. Si tienes preguntas o ideas sobre funcionalidades, pásate por nuestra [comunidad de Reddit](https://www.reddit.com/r/RyCodeExt/) o [Discord](https://discord.gg/roocode). ¡Feliz codificación!

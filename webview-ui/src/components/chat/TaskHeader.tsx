@@ -6,10 +6,10 @@ import DismissibleUpsell from "@src/components/common/DismissibleUpsell"
 import { FoldVertical, ChevronUp, ChevronDown } from "lucide-react"
 import prettyBytes from "pretty-bytes"
 
-import type { ClineMessage } from "@roo-code/types"
+import type { ClineMessage } from "@rycode-ext/types"
 
-import { getModelMaxOutputTokens } from "@roo/api"
-import { findLastIndex } from "@roo/array"
+import { getModelMaxOutputTokens } from "@rycode-ext/api"
+import { findLastIndex } from "@rycode-ext/array"
 
 import { formatLargeNumber } from "@src/utils/format"
 import { cn } from "@src/lib/utils"

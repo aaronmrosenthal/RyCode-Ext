@@ -1,4 +1,4 @@
-import { McpResource, McpResourceTemplate } from "@roo/mcp"
+import { McpResource, McpResourceTemplate } from "@rycode-ext/mcp"
 
 type McpResourceRowProps = {
 	item: McpResource | McpResourceTemplate

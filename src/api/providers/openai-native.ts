@@ -12,7 +12,7 @@ import {
 	type VerbosityLevel,
 	type ReasoningEffortWithMinimal,
 	type ServiceTier,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import type { ApiHandlerOptions } from "../../shared/api"
 

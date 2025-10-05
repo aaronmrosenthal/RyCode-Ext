@@ -3,12 +3,12 @@ import * as fs from "fs/promises"
 import * as path from "path"
 import * as vscode from "vscode"
 
-import { RooCodeEventName, type ClineMessage } from "@roo-code/types"
+import { RyCodeExtEventName, type ClineMessage } from "@rycode-ext/types"
 
 import { waitFor, sleep } from "../utils"
 import { setDefaultSuiteTimeout } from "../test-utils"
 
-suite("Roo Code search_and_replace Tool", function () {
+suite("RyCode-Ext search_and_replace Tool", function () {
 	setDefaultSuiteTimeout(this)
 
 	let workspaceDir: string
@@ -175,7 +175,7 @@ Final content`,
 				}
 			}
 		}
-		api.on(RooCodeEventName.Message, messageHandler)
+		api.on(RyCodeExtEventName.Message, messageHandler)
 
 		// Listen for task events
 		const taskStartedHandler = (id: string) => {
@@ -184,7 +184,7 @@ Final content`,
 				console.log("Task started:", id)
 			}
 		}
-		api.on(RooCodeEventName.TaskStarted, taskStartedHandler)
+		api.on(RyCodeExtEventName.TaskStarted, taskStartedHandler)
 
 		const taskCompletedHandler = (id: string) => {
 			if (id === taskId) {
@@ -192,7 +192,7 @@ Final content`,
 				console.log("Task completed:", id)
 			}
 		}
-		api.on(RooCodeEventName.TaskCompleted, taskCompletedHandler)
+		api.on(RyCodeExtEventName.TaskCompleted, taskCompletedHandler)
 
 		let taskId: string
 		try {
@@ -249,9 +249,9 @@ Assume the file exists and you can modify it directly.`,
 			console.log("Test passed! search_and_replace tool executed and file modified successfully")
 		} finally {
 			// Clean up
-			api.off(RooCodeEventName.Message, messageHandler)
-			api.off(RooCodeEventName.TaskStarted, taskStartedHandler)
-			api.off(RooCodeEventName.TaskCompleted, taskCompletedHandler)
+			api.off(RyCodeExtEventName.Message, messageHandler)
+			api.off(RyCodeExtEventName.TaskStarted, taskStartedHandler)
+			api.off(RyCodeExtEventName.TaskCompleted, taskCompletedHandler)
 		}
 	})
 
@@ -303,7 +303,7 @@ function anotherNewFunction() {
 				}
 			}
 		}
-		api.on(RooCodeEventName.Message, messageHandler)
+		api.on(RyCodeExtEventName.Message, messageHandler)
 
 		// Listen for task events
 		const taskStartedHandler = (id: string) => {
@@ -312,7 +312,7 @@ function anotherNewFunction() {
 				console.log("Task started:", id)
 			}
 		}
-		api.on(RooCodeEventName.TaskStarted, taskStartedHandler)
+		api.on(RyCodeExtEventName.TaskStarted, taskStartedHandler)
 
 		const taskCompletedHandler = (id: string) => {
 			if (id === taskId) {
@@ -320,7 +320,7 @@ function anotherNewFunction() {
 				console.log("Task completed:", id)
 			}
 		}
-		api.on(RooCodeEventName.TaskCompleted, taskCompletedHandler)
+		api.on(RyCodeExtEventName.TaskCompleted, taskCompletedHandler)
 
 		let taskId: string
 		try {
@@ -378,9 +378,9 @@ Use the search_and_replace tool twice - once for each replacement.`,
 			console.log("Test passed! search_and_replace tool executed with regex successfully")
 		} finally {
 			// Clean up
-			api.off(RooCodeEventName.Message, messageHandler)
-			api.off(RooCodeEventName.TaskStarted, taskStartedHandler)
-			api.off(RooCodeEventName.TaskCompleted, taskCompletedHandler)
+			api.off(RyCodeExtEventName.Message, messageHandler)
+			api.off(RyCodeExtEventName.TaskStarted, taskStartedHandler)
+			api.off(RyCodeExtEventName.TaskCompleted, taskCompletedHandler)
 		}
 	})
 
@@ -429,7 +429,7 @@ Final content`
 				}
 			}
 		}
-		api.on(RooCodeEventName.Message, messageHandler)
+		api.on(RyCodeExtEventName.Message, messageHandler)
 
 		// Listen for task events
 		const taskStartedHandler = (id: string) => {
@@ -438,7 +438,7 @@ Final content`
 				console.log("Task started:", id)
 			}
 		}
-		api.on(RooCodeEventName.TaskStarted, taskStartedHandler)
+		api.on(RyCodeExtEventName.TaskStarted, taskStartedHandler)
 
 		const taskCompletedHandler = (id: string) => {
 			if (id === taskId) {
@@ -446,7 +446,7 @@ Final content`
 				console.log("Task completed:", id)
 			}
 		}
-		api.on(RooCodeEventName.TaskCompleted, taskCompletedHandler)
+		api.on(RyCodeExtEventName.TaskCompleted, taskCompletedHandler)
 
 		let taskId: string
 		try {
@@ -503,9 +503,9 @@ Assume the file exists and you can modify it directly.`,
 			console.log("Test passed! search_and_replace tool executed and replaced multiple matches successfully")
 		} finally {
 			// Clean up
-			api.off(RooCodeEventName.Message, messageHandler)
-			api.off(RooCodeEventName.TaskStarted, taskStartedHandler)
-			api.off(RooCodeEventName.TaskCompleted, taskCompletedHandler)
+			api.off(RyCodeExtEventName.Message, messageHandler)
+			api.off(RyCodeExtEventName.TaskStarted, taskStartedHandler)
+			api.off(RyCodeExtEventName.TaskCompleted, taskCompletedHandler)
 		}
 	})
 
@@ -549,7 +549,7 @@ Assume the file exists and you can modify it directly.`,
 				}
 			}
 		}
-		api.on(RooCodeEventName.Message, messageHandler)
+		api.on(RyCodeExtEventName.Message, messageHandler)
 
 		// Listen for task events
 		const taskStartedHandler = (id: string) => {
@@ -558,7 +558,7 @@ Assume the file exists and you can modify it directly.`,
 				console.log("Task started:", id)
 			}
 		}
-		api.on(RooCodeEventName.TaskStarted, taskStartedHandler)
+		api.on(RyCodeExtEventName.TaskStarted, taskStartedHandler)
 
 		const taskCompletedHandler = (id: string) => {
 			if (id === taskId) {
@@ -566,7 +566,7 @@ Assume the file exists and you can modify it directly.`,
 				console.log("Task completed:", id)
 			}
 		}
-		api.on(RooCodeEventName.TaskCompleted, taskCompletedHandler)
+		api.on(RyCodeExtEventName.TaskCompleted, taskCompletedHandler)
 
 		let taskId: string
 		try {
@@ -623,9 +623,9 @@ Assume the file exists and you can modify it directly.`,
 			console.log("Test passed! search_and_replace tool executed and handled no matches correctly")
 		} finally {
 			// Clean up
-			api.off(RooCodeEventName.Message, messageHandler)
-			api.off(RooCodeEventName.TaskStarted, taskStartedHandler)
-			api.off(RooCodeEventName.TaskCompleted, taskCompletedHandler)
+			api.off(RyCodeExtEventName.Message, messageHandler)
+			api.off(RyCodeExtEventName.TaskStarted, taskStartedHandler)
+			api.off(RyCodeExtEventName.TaskCompleted, taskCompletedHandler)
 		}
 	})
 })

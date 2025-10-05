@@ -1,5 +1,5 @@
 {
-	"greeting": "Добро пожаловать в Roo Code",
+	"greeting": "Добро пожаловать в RyCode-Ext",
 	"task": {
 		"title": "Задача",
 		"expand": "Развернуть задачу",
@@ -21,11 +21,11 @@
 		"sharePublicly": "Поделиться публично",
 		"sharePubliclyDescription": "Любой, у кого есть ссылка, может получить доступ",
 		"connectToCloud": "Подключиться к облаку",
-		"connectToCloudDescription": "Войди в Roo Code Cloud, чтобы делиться задачами",
+		"connectToCloudDescription": "Войди в RyCode-Ext Cloud, чтобы делиться задачами",
 		"sharingDisabledByOrganization": "Обмен отключен организацией",
 		"shareSuccessOrganization": "Ссылка организации скопирована в буфер обмена",
 		"shareSuccessPublic": "Публичная ссылка скопирована в буфер обмена",
-		"openInCloud": "Открыть задачу в Roo Code Cloud",
+		"openInCloud": "Открыть задачу в RyCode-Ext Cloud",
 		"openInCloudIntro": "Продолжай отслеживать или взаимодействовать с Roo откуда угодно. Отсканируй, нажми или скопируй для открытия."
 	},
 	"unpin": "Открепить",
@@ -271,15 +271,15 @@
 		"triggerLabelAll": "YOLO"
 	},
 	"announcement": {
-		"title": "🎉 Выпущен Roo Code {{version}}",
+		"title": "🎉 Выпущен RyCode-Ext {{version}}",
 		"stealthModel": {
-			"feature": "<bold>Бесплатная скрытая модель на ограниченное время</bold> - Code Supernova: Теперь обновлена до <bold>контекстного окна 1M токенов</bold>! Универсальная модель агентного программирования, поддерживающая ввод изображений, доступная через Roo Code Cloud.",
+			"feature": "<bold>Бесплатная скрытая модель на ограниченное время</bold> - Code Supernova: Теперь обновлена до <bold>контекстного окна 1M токенов</bold>! Универсальная модель агентного программирования, поддерживающая ввод изображений, доступная через RyCode-Ext Cloud.",
 			"note": "(Примечание: промпты и дополнения записываются создателем модели и используются для её улучшения)",
-			"connectButton": "Подключиться к Roo Code Cloud",
-			"selectModel": "Выберите <code>roo/code-supernova</code> от провайдера Roo Code Cloud в Настройках для начала работы.",
+			"connectButton": "Подключиться к RyCode-Ext Cloud",
+			"selectModel": "Выберите <code>roo/code-supernova</code> от провайдера RyCode-Ext Cloud в Настройках для начала работы.",
 			"goToSettingsButton": "Перейти к Настройкам"
 		},
-		"socialLinks": "Присоединяйтесь к нам в <xLink>X</xLink>, <discordLink>Discord</discordLink>, или <redditLink>r/RooCode</redditLink> 🚀"
+		"socialLinks": "Присоединяйтесь к нам в <xLink>X</xLink>, <discordLink>Discord</discordLink>, или <redditLink>r/RyCodeExt</redditLink> 🚀"
 	},
 	"reasoning": {
 		"thinking": "Обдумывание",
@@ -329,7 +329,7 @@
 	"profileViolationWarning": "Текущий профиль несовместим с настройками вашей организации",
 	"shellIntegration": {
 		"title": "Предупреждение о выполнении команды",
-		"description": "Ваша команда выполняется без интеграции оболочки терминала VSCode. Чтобы скрыть это предупреждение, вы можете отключить интеграцию оболочки в разделе <strong>Terminal</strong> в <settingsLink>настройках Roo Code</settingsLink> или устранить проблемы с интеграцией терминала VSCode, используя ссылку ниже.",
+		"description": "Ваша команда выполняется без интеграции оболочки терминала VSCode. Чтобы скрыть это предупреждение, вы можете отключить интеграцию оболочки в разделе <strong>Terminal</strong> в <settingsLink>настройках RyCode-Ext</settingsLink> или устранить проблемы с интеграцией терминала VSCode, используя ссылку ниже.",
 		"troubleshooting": "Нажмите здесь для просмотра документации по интеграции оболочки."
 	},
 	"ask": {
@@ -370,7 +370,7 @@
 		"ariaLabel": "Версия {{version}} - Нажмите, чтобы просмотреть примечания к выпуску"
 	},
 	"rooCloudCTA": {
-		"title": "Roo Code Cloud развивается!",
+		"title": "RyCode-Ext Cloud развивается!",
 		"description": "Запускайте удаленные агенты в облаке, получайте доступ к своим задачам из любого места, сотрудничайте с другими и многое другое.",
 		"joinWaitlist": "Зарегистрируйтесь, чтобы получать последние обновления."
 	},

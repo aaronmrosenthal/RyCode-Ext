@@ -4,8 +4,8 @@ import { Trans } from "react-i18next"
 import { VSCodeButton, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import posthog from "posthog-js"
 
-import type { ProviderSettings } from "@roo-code/types"
-import { TelemetryEventName } from "@roo-code/types"
+import type { ProviderSettings } from "@rycode-ext/types"
+import { TelemetryEventName } from "@rycode-ext/types"
 
 import { useExtensionState } from "@src/context/ExtensionStateContext"
 import { validateApiConfiguration } from "@src/utils/validate"
@@ -17,7 +17,7 @@ import { telemetryClient } from "@src/utils/TelemetryClient"
 import ApiOptions from "../settings/ApiOptions"
 import { Tab, TabContent } from "../common/Tab"
 
-import RooHero from "./RooHero"
+import RyCodeExtHero from "./RyCodeExtHero"
 
 const WelcomeView = () => {
 	const { apiConfiguration, currentApiConfigName, setApiConfiguration, uriScheme, machineId } = useExtensionState()
@@ -61,7 +61,7 @@ const WelcomeView = () => {
 	return (
 		<Tab>
 			<TabContent className="flex flex-col gap-4 p-6">
-				<RooHero />
+				<RyCodeExtHero />
 				<h2 className="mt-0 mb-4 text-xl text-center">{t("welcome:greeting")}</h2>
 
 				<div className="text-base text-vscode-foreground py-2 px-2 mb-4">
@@ -102,7 +102,7 @@ const WelcomeView = () => {
 										...baseProviders,
 										{
 											slug: "roo",
-											name: "Roo Code Cloud",
+											name: "RyCode-Ext Cloud",
 											description: t("welcome:routers.roo.description"),
 											incentive: t("welcome:routers.roo.incentive"),
 											authUrl: "#", // Placeholder since onClick handler will prevent default

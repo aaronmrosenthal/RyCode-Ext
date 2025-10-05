@@ -6,14 +6,14 @@ import ipc from "node-ipc"
 
 import {
 	type IpcServerEvents,
-	type RooCodeIpcServer,
+	type RyCodeExtIpcServer,
 	IpcOrigin,
 	IpcMessageType,
 	type IpcMessage,
 	ipcMessageSchema,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
-export class IpcServer extends EventEmitter<IpcServerEvents> implements RooCodeIpcServer {
+export class IpcServer extends EventEmitter<IpcServerEvents> implements RyCodeExtIpcServer {
 	private readonly _socketPath: string
 	private readonly _log: (...args: unknown[]) => void
 	private readonly _clients: Map<string, Socket>

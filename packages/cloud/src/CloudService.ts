@@ -15,7 +15,7 @@ import type {
 	UserSettingsConfig,
 	UserSettingsData,
 	UserFeatures,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import { TaskNotFoundError } from "./errors.js"
 import { WebAuthService } from "./WebAuthService.js"
@@ -111,7 +111,7 @@ export class CloudService extends EventEmitter<CloudServiceEvents> implements Di
 
 		try {
 			// For testing you can create a token with:
-			// `pnpm --filter @roo-code-cloud/roomote-cli development auth job-token --job-id 1 --user-id user_2xmBhejNeDTwanM8CgIOnMgVxzC --org-id org_2wbhchVXZMQl8OS1yt0mrDazCpW`
+			// `pnpm --filter @rycode-ext-cloud/roomote-cli development auth job-token --job-id 1 --user-id user_2xmBhejNeDTwanM8CgIOnMgVxzC --org-id org_2wbhchVXZMQl8OS1yt0mrDazCpW`
 			// The token will last for 1 hour.
 			const cloudToken = process.env.ROO_CODE_CLOUD_TOKEN
 

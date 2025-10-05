@@ -15,7 +15,7 @@ import {
 	type GlobalState,
 	type ProviderName,
 	type ProviderSettings,
-	type RooCodeSettings,
+	type RyCodeExtSettings,
 	type ProviderSettingsEntry,
 	type StaticAppProperties,
 	type DynamicAppProperties,
@@ -33,7 +33,7 @@ import {
 	type CloudOrganizationMembership,
 	type CreateTaskOptions,
 	type TokenUsage,
-	RooCodeEventName,
+	RyCodeExtEventName,
 	requestyDefaultModelId,
 	openRouterDefaultModelId,
 	glamaDefaultModelId,
@@ -41,9 +41,9 @@ import {
 	DEFAULT_WRITE_DELAY_MS,
 	ORGANIZATION_ALLOW_ALL,
 	DEFAULT_MODES,
-} from "@roo-code/types"
-import { TelemetryService } from "@roo-code/telemetry"
-import { CloudService, BridgeOrchestrator, getRooCodeApiUrl } from "@roo-code/cloud"
+} from "@rycode-ext/types"
+import { TelemetryService } from "@rycode-ext/telemetry"
+import { CloudService, BridgeOrchestrator, getRyCodeExtApiUrl } from "@rycode-ext/cloud"
 
 import { Package } from "../../shared/package"
 import { findLast } from "../../shared/array"
@@ -90,7 +90,7 @@ import { Task } from "../task/Task"
 import { getSystemPromptFilePath } from "../prompts/sections/custom-system-prompt"
 
 import { webviewMessageHandler } from "./webviewMessageHandler"
-import type { ClineMessage } from "@roo-code/types"
+import type { ClineMessage } from "@rycode-ext/types"
 import { readApiMessages, saveApiMessages, saveTaskMessages } from "../task-persistence"
 import { getNonce } from "./getNonce"
 import { getUri } from "./getUri"
@@ -193,14 +193,14 @@ export class ClineProvider
 		// Forward <most> task events to the provider.
 		// We do something fairly similar for the IPC-based API.
 		this.taskCreationCallback = (instance: Task) => {
-			this.emit(RooCodeEventName.TaskCreated, instance)
+			this.emit(RyCodeExtEventName.TaskCreated, instance)
 
 			// Create named listener functions so we can remove them later.
-			const onTaskStarted = () => this.emit(RooCodeEventName.TaskStarted, instance.taskId)
+			const onTaskStarted = () => this.emit(RyCodeExtEventName.TaskStarted, instance.taskId)
 			const onTaskCompleted = (taskId: string, tokenUsage: any, toolUsage: any) =>
-				this.emit(RooCodeEventName.TaskCompleted, taskId, tokenUsage, toolUsage)
+				this.emit(RyCodeExtEventName.TaskCompleted, taskId, tokenUsage, toolUsage)
 			const onTaskAborted = async () => {
-				this.emit(RooCodeEventName.TaskAborted, instance.taskId)
+				this.emit(RyCodeExtEventName.TaskAborted, instance.taskId)
 
 				try {
 					// Only rehydrate on genuine streaming failures.
@@ -228,55 +228,55 @@ export class ClineProvider
 					)
 				}
 			}
-			const onTaskFocused = () => this.emit(RooCodeEventName.TaskFocused, instance.taskId)
-			const onTaskUnfocused = () => this.emit(RooCodeEventName.TaskUnfocused, instance.taskId)
-			const onTaskActive = (taskId: string) => this.emit(RooCodeEventName.TaskActive, taskId)
-			const onTaskInteractive = (taskId: string) => this.emit(RooCodeEventName.TaskInteractive, taskId)
-			const onTaskResumable = (taskId: string) => this.emit(RooCodeEventName.TaskResumable, taskId)
-			const onTaskIdle = (taskId: string) => this.emit(RooCodeEventName.TaskIdle, taskId)
-			const onTaskPaused = (taskId: string) => this.emit(RooCodeEventName.TaskPaused, taskId)
-			const onTaskUnpaused = (taskId: string) => this.emit(RooCodeEventName.TaskUnpaused, taskId)
-			const onTaskSpawned = (taskId: string) => this.emit(RooCodeEventName.TaskSpawned, taskId)
-			const onTaskUserMessage = (taskId: string) => this.emit(RooCodeEventName.TaskUserMessage, taskId)
+			const onTaskFocused = () => this.emit(RyCodeExtEventName.TaskFocused, instance.taskId)
+			const onTaskUnfocused = () => this.emit(RyCodeExtEventName.TaskUnfocused, instance.taskId)
+			const onTaskActive = (taskId: string) => this.emit(RyCodeExtEventName.TaskActive, taskId)
+			const onTaskInteractive = (taskId: string) => this.emit(RyCodeExtEventName.TaskInteractive, taskId)
+			const onTaskResumable = (taskId: string) => this.emit(RyCodeExtEventName.TaskResumable, taskId)
+			const onTaskIdle = (taskId: string) => this.emit(RyCodeExtEventName.TaskIdle, taskId)
+			const onTaskPaused = (taskId: string) => this.emit(RyCodeExtEventName.TaskPaused, taskId)
+			const onTaskUnpaused = (taskId: string) => this.emit(RyCodeExtEventName.TaskUnpaused, taskId)
+			const onTaskSpawned = (taskId: string) => this.emit(RyCodeExtEventName.TaskSpawned, taskId)
+			const onTaskUserMessage = (taskId: string) => this.emit(RyCodeExtEventName.TaskUserMessage, taskId)
 			const onTaskTokenUsageUpdated = (taskId: string, tokenUsage: TokenUsage) =>
-				this.emit(RooCodeEventName.TaskTokenUsageUpdated, taskId, tokenUsage)
+				this.emit(RyCodeExtEventName.TaskTokenUsageUpdated, taskId, tokenUsage)
 
 			// Attach the listeners.
-			instance.on(RooCodeEventName.TaskStarted, onTaskStarted)
-			instance.on(RooCodeEventName.TaskCompleted, onTaskCompleted)
-			instance.on(RooCodeEventName.TaskAborted, onTaskAborted)
-			instance.on(RooCodeEventName.TaskFocused, onTaskFocused)
-			instance.on(RooCodeEventName.TaskUnfocused, onTaskUnfocused)
-			instance.on(RooCodeEventName.TaskActive, onTaskActive)
-			instance.on(RooCodeEventName.TaskInteractive, onTaskInteractive)
-			instance.on(RooCodeEventName.TaskResumable, onTaskResumable)
-			instance.on(RooCodeEventName.TaskIdle, onTaskIdle)
-			instance.on(RooCodeEventName.TaskPaused, onTaskPaused)
-			instance.on(RooCodeEventName.TaskUnpaused, onTaskUnpaused)
-			instance.on(RooCodeEventName.TaskSpawned, onTaskSpawned)
-			instance.on(RooCodeEventName.TaskUserMessage, onTaskUserMessage)
-			instance.on(RooCodeEventName.TaskTokenUsageUpdated, onTaskTokenUsageUpdated)
+			instance.on(RyCodeExtEventName.TaskStarted, onTaskStarted)
+			instance.on(RyCodeExtEventName.TaskCompleted, onTaskCompleted)
+			instance.on(RyCodeExtEventName.TaskAborted, onTaskAborted)
+			instance.on(RyCodeExtEventName.TaskFocused, onTaskFocused)
+			instance.on(RyCodeExtEventName.TaskUnfocused, onTaskUnfocused)
+			instance.on(RyCodeExtEventName.TaskActive, onTaskActive)
+			instance.on(RyCodeExtEventName.TaskInteractive, onTaskInteractive)
+			instance.on(RyCodeExtEventName.TaskResumable, onTaskResumable)
+			instance.on(RyCodeExtEventName.TaskIdle, onTaskIdle)
+			instance.on(RyCodeExtEventName.TaskPaused, onTaskPaused)
+			instance.on(RyCodeExtEventName.TaskUnpaused, onTaskUnpaused)
+			instance.on(RyCodeExtEventName.TaskSpawned, onTaskSpawned)
+			instance.on(RyCodeExtEventName.TaskUserMessage, onTaskUserMessage)
+			instance.on(RyCodeExtEventName.TaskTokenUsageUpdated, onTaskTokenUsageUpdated)
 
 			// Store the cleanup functions for later removal.
 			this.taskEventListeners.set(instance, [
-				() => instance.off(RooCodeEventName.TaskStarted, onTaskStarted),
-				() => instance.off(RooCodeEventName.TaskCompleted, onTaskCompleted),
-				() => instance.off(RooCodeEventName.TaskAborted, onTaskAborted),
-				() => instance.off(RooCodeEventName.TaskFocused, onTaskFocused),
-				() => instance.off(RooCodeEventName.TaskUnfocused, onTaskUnfocused),
-				() => instance.off(RooCodeEventName.TaskActive, onTaskActive),
-				() => instance.off(RooCodeEventName.TaskInteractive, onTaskInteractive),
-				() => instance.off(RooCodeEventName.TaskResumable, onTaskResumable),
-				() => instance.off(RooCodeEventName.TaskIdle, onTaskIdle),
-				() => instance.off(RooCodeEventName.TaskUserMessage, onTaskUserMessage),
-				() => instance.off(RooCodeEventName.TaskPaused, onTaskPaused),
-				() => instance.off(RooCodeEventName.TaskUnpaused, onTaskUnpaused),
-				() => instance.off(RooCodeEventName.TaskSpawned, onTaskSpawned),
-				() => instance.off(RooCodeEventName.TaskTokenUsageUpdated, onTaskTokenUsageUpdated),
+				() => instance.off(RyCodeExtEventName.TaskStarted, onTaskStarted),
+				() => instance.off(RyCodeExtEventName.TaskCompleted, onTaskCompleted),
+				() => instance.off(RyCodeExtEventName.TaskAborted, onTaskAborted),
+				() => instance.off(RyCodeExtEventName.TaskFocused, onTaskFocused),
+				() => instance.off(RyCodeExtEventName.TaskUnfocused, onTaskUnfocused),
+				() => instance.off(RyCodeExtEventName.TaskActive, onTaskActive),
+				() => instance.off(RyCodeExtEventName.TaskInteractive, onTaskInteractive),
+				() => instance.off(RyCodeExtEventName.TaskResumable, onTaskResumable),
+				() => instance.off(RyCodeExtEventName.TaskIdle, onTaskIdle),
+				() => instance.off(RyCodeExtEventName.TaskUserMessage, onTaskUserMessage),
+				() => instance.off(RyCodeExtEventName.TaskPaused, onTaskPaused),
+				() => instance.off(RyCodeExtEventName.TaskUnpaused, onTaskUnpaused),
+				() => instance.off(RyCodeExtEventName.TaskSpawned, onTaskSpawned),
+				() => instance.off(RyCodeExtEventName.TaskTokenUsageUpdated, onTaskTokenUsageUpdated),
 			])
 		}
 
-		// Initialize Roo Code Cloud profile sync.
+		// Initialize RyCode-Ext Cloud profile sync.
 		if (CloudService.hasInstance()) {
 			this.initializeCloudProfileSync().catch((error) => {
 				this.log(`Failed to initialize cloud profile sync: ${error}`)
@@ -400,7 +400,7 @@ export class ClineProvider
 		// Add this cline instance into the stack that represents the order of
 		// all the called tasks.
 		this.clineStack.push(task)
-		task.emit(RooCodeEventName.TaskFocused)
+		task.emit(RyCodeExtEventName.TaskFocused)
 
 		// Perform special setup provider specific tasks.
 		await this.performPreparationTasks(task)
@@ -442,7 +442,7 @@ export class ClineProvider
 		let task = this.clineStack.pop()
 
 		if (task) {
-			task.emit(RooCodeEventName.TaskUnfocused)
+			task.emit(RyCodeExtEventName.TaskUnfocused)
 
 			try {
 				// Abort the running task and set isAbandoned to true so
@@ -1059,7 +1059,7 @@ export class ClineProvider
 						window.AUDIO_BASE_URI = "${audioUri}"
 						window.MATERIAL_ICONS_BASE_URI = "${materialIconsUri}"
 					</script>
-					<title>Roo Code</title>
+					<title>RyCode-Ext</title>
 				</head>
 				<body>
 					<div id="root"></div>
@@ -1132,7 +1132,7 @@ export class ClineProvider
 				window.AUDIO_BASE_URI = "${audioUri}"
 				window.MATERIAL_ICONS_BASE_URI = "${materialIconsUri}"
 			</script>
-            <title>Roo Code</title>
+            <title>RyCode-Ext</title>
           </head>
           <body>
             <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -1166,7 +1166,7 @@ export class ClineProvider
 
 		if (task) {
 			TelemetryService.instance.captureModeSwitch(task.taskId, newMode)
-			task.emit(RooCodeEventName.TaskModeSwitched, task.taskId, newMode)
+			task.emit(RyCodeExtEventName.TaskModeSwitched, task.taskId, newMode)
 
 			try {
 				// Update the task history with the new mode first.
@@ -1194,7 +1194,7 @@ export class ClineProvider
 
 		await this.updateGlobalState("mode", newMode)
 
-		this.emit(RooCodeEventName.ModeChanged, newMode)
+		this.emit(RyCodeExtEventName.ModeChanged, newMode)
 
 		// Load the saved API config for the new mode if it exists.
 		const savedConfigId = await this.providerSettingsManager.getModeConfigId(newMode)
@@ -1345,7 +1345,7 @@ export class ClineProvider
 		await this.postStateToWebview()
 
 		if (providerSettings.apiProvider) {
-			this.emit(RooCodeEventName.ProviderProfileChanged, { name, provider: providerSettings.apiProvider })
+			this.emit(RyCodeExtEventName.ProviderProfileChanged, { name, provider: providerSettings.apiProvider })
 		}
 	}
 
@@ -1361,21 +1361,21 @@ export class ClineProvider
 		// Get platform-specific application data directory
 		let mcpServersDir: string
 		if (process.platform === "win32") {
-			// Windows: %APPDATA%\Roo-Code\MCP
-			mcpServersDir = path.join(os.homedir(), "AppData", "Roaming", "Roo-Code", "MCP")
+			// Windows: %APPDATA%\RyCode-Ext\MCP
+			mcpServersDir = path.join(os.homedir(), "AppData", "Roaming", "RyCode-Ext", "MCP")
 		} else if (process.platform === "darwin") {
 			// macOS: ~/Documents/Cline/MCP
 			mcpServersDir = path.join(os.homedir(), "Documents", "Cline", "MCP")
 		} else {
 			// Linux: ~/.local/share/Cline/MCP
-			mcpServersDir = path.join(os.homedir(), ".local", "share", "Roo-Code", "MCP")
+			mcpServersDir = path.join(os.homedir(), ".local", "share", "RyCode-Ext", "MCP")
 		}
 
 		try {
 			await fs.mkdir(mcpServersDir, { recursive: true })
 		} catch (error) {
 			// Fallback to a relative path if directory creation fails
-			return path.join(os.homedir(), ".roo-code", "mcp")
+			return path.join(os.homedir(), ".rycode-ext", "mcp")
 		}
 		return mcpServersDir
 	}
@@ -1785,7 +1785,7 @@ export class ClineProvider
 			maxWorkspaceFiles,
 			browserToolEnabled,
 			telemetrySetting,
-			showRooIgnoredFiles,
+			showRyCodeExtIgnoredFiles,
 			language,
 			maxReadFileLine,
 			maxImageFileSize,
@@ -1915,7 +1915,7 @@ export class ClineProvider
 			telemetrySetting,
 			telemetryKey,
 			machineId,
-			showRooIgnoredFiles: showRooIgnoredFiles ?? false,
+			showRyCodeExtIgnoredFiles: showRyCodeExtIgnoredFiles ?? false,
 			language: language ?? formatLanguage(vscode.env.language),
 			renderContext: this.renderContext,
 			maxReadFileLine: maxReadFileLine ?? -1,
@@ -1951,7 +1951,7 @@ export class ClineProvider
 			// undefined means no MDM policy, true means compliant, false means non-compliant
 			mdmCompliant: this.mdmService?.requiresCloudAuth() ? this.checkMdmCompliance() : undefined,
 			profileThresholds: profileThresholds ?? {},
-			cloudApiUrl: getRooCodeApiUrl(),
+			cloudApiUrl: getRyCodeExtApiUrl(),
 			hasOpenedModeSelector: this.getGlobalState("hasOpenedModeSelector") ?? false,
 			alwaysAllowFollowupQuestions: alwaysAllowFollowupQuestions ?? false,
 			followupAutoApproveTimeoutMs: followupAutoApproveTimeoutMs ?? 60000,
@@ -2135,7 +2135,7 @@ export class ClineProvider
 			openRouterUseMiddleOutTransform: stateValues.openRouterUseMiddleOutTransform,
 			browserToolEnabled: stateValues.browserToolEnabled ?? true,
 			telemetrySetting: stateValues.telemetrySetting || "unset",
-			showRooIgnoredFiles: stateValues.showRooIgnoredFiles ?? false,
+			showRyCodeExtIgnoredFiles: stateValues.showRyCodeExtIgnoredFiles ?? false,
 			maxReadFileLine: stateValues.maxReadFileLine ?? -1,
 			maxImageFileSize: stateValues.maxImageFileSize ?? 5,
 			maxTotalImageSize: stateValues.maxTotalImageSize ?? 20,
@@ -2226,11 +2226,11 @@ export class ClineProvider
 		return this.contextProxy.getValue(key)
 	}
 
-	public async setValue<K extends keyof RooCodeSettings>(key: K, value: RooCodeSettings[K]) {
+	public async setValue<K extends keyof RyCodeExtSettings>(key: K, value: RyCodeExtSettings[K]) {
 		await this.contextProxy.setValue(key, value)
 	}
 
-	public getValue<K extends keyof RooCodeSettings>(key: K) {
+	public getValue<K extends keyof RyCodeExtSettings>(key: K) {
 		return this.contextProxy.getValue(key)
 	}
 
@@ -2238,7 +2238,7 @@ export class ClineProvider
 		return this.contextProxy.getValues()
 	}
 
-	public async setValues(values: RooCodeSettings) {
+	public async setValues(values: RyCodeExtSettings) {
 		await this.contextProxy.setValues(values)
 	}
 
@@ -2498,7 +2498,7 @@ export class ClineProvider
 		images?: string[],
 		parentTask?: Task,
 		options: CreateTaskOptions = {},
-		configuration: RooCodeSettings = {},
+		configuration: RyCodeExtSettings = {},
 	): Promise<Task> {
 		if (configuration) {
 			await this.setValues(configuration)

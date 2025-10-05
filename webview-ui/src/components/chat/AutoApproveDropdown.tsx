@@ -5,7 +5,7 @@ import { vscode } from "@/utils/vscode"
 import { cn } from "@/lib/utils"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { useAppTranslation } from "@/i18n/TranslationContext"
-import { useRooPortal } from "@/components/ui/hooks/useRooPortal"
+import { useRyCodeExtPortal } from "@/components/ui/hooks/useRyCodeExtPortal"
 import { Popover, PopoverContent, PopoverTrigger, StandardTooltip, ToggleSwitch } from "@/components/ui"
 import { AutoApproveSetting, autoApproveSettingsConfig } from "../settings/AutoApproveToggle"
 import { useAutoApprovalToggles } from "@/hooks/useAutoApprovalToggles"
@@ -18,7 +18,7 @@ interface AutoApproveDropdownProps {
 
 export const AutoApproveDropdown = ({ disabled = false, triggerClassName = "" }: AutoApproveDropdownProps) => {
 	const [open, setOpen] = React.useState(false)
-	const portalContainer = useRooPortal("roo-portal")
+	const portalContainer = useRyCodeExtPortal("roo-portal")
 	const { t } = useAppTranslation()
 
 	const {

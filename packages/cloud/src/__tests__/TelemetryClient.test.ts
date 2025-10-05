@@ -2,7 +2,7 @@
 
 // npx vitest run src/__tests__/TelemetryClient.test.ts
 
-import { type TelemetryPropertiesProvider, TelemetryEventName } from "@roo-code/types"
+import { type TelemetryPropertiesProvider, TelemetryEventName } from "@rycode-ext/types"
 
 import { CloudTelemetryClient as TelemetryClient } from "../TelemetryClient.js"
 
@@ -272,7 +272,7 @@ describe("TelemetryClient", () => {
 			const client = new TelemetryClient(mockAuthService, mockSettingsService)
 
 			const providerProperties = {
-				appName: "roo-code",
+				appName: "rycode-ext",
 				appVersion: "1.0.0",
 				vscodeVersion: "1.60.0",
 				platform: "darwin",
@@ -317,7 +317,7 @@ describe("TelemetryClient", () => {
 			mockSettingsService.isTaskSyncEnabled.mockReturnValue(true)
 
 			const eventProperties = {
-				appName: "roo-code",
+				appName: "rycode-ext",
 				appVersion: "1.0.0",
 				vscodeVersion: "1.60.0",
 				platform: "darwin",
@@ -426,7 +426,7 @@ describe("TelemetryClient", () => {
 			const client = new TelemetryClient(mockAuthService, mockSettingsService)
 
 			const providerProperties = {
-				appName: "roo-code",
+				appName: "rycode-ext",
 				appVersion: "1.0.0",
 				vscodeVersion: "1.60.0",
 				platform: "darwin",

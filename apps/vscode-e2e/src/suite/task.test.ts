@@ -1,11 +1,11 @@
 import * as assert from "assert"
 
-import { RooCodeEventName, type ClineMessage } from "@roo-code/types"
+import { RyCodeExtEventName, type ClineMessage } from "@rycode-ext/types"
 
 import { waitUntilCompleted } from "./utils"
 import { setDefaultSuiteTimeout } from "./test-utils"
 
-suite("Roo Code Task", function () {
+suite("RyCode-Ext Task", function () {
 	setDefaultSuiteTimeout(this)
 
 	test("Should handle prompt and response correctly", async () => {
@@ -13,7 +13,7 @@ suite("Roo Code Task", function () {
 
 		const messages: ClineMessage[] = []
 
-		api.on(RooCodeEventName.Message, ({ message }) => {
+		api.on(RyCodeExtEventName.Message, ({ message }) => {
 			if (message.type === "say" && message.partial === false) {
 				messages.push(message)
 			}

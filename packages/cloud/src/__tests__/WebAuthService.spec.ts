@@ -7,7 +7,7 @@ import type { ExtensionContext } from "vscode"
 
 import { WebAuthService } from "../WebAuthService.js"
 import { RefreshTimer } from "../RefreshTimer.js"
-import { getClerkBaseUrl, getRooCodeApiUrl } from "../config.js"
+import { getClerkBaseUrl, getRyCodeExtApiUrl } from "../config.js"
 import { getUserAgent } from "../utils.js"
 
 vi.mock("crypto")
@@ -101,10 +101,10 @@ describe("WebAuthService", () => {
 
 		// Setup config mocks - use production URL by default to maintain existing test behavior
 		vi.mocked(getClerkBaseUrl).mockReturnValue("https://clerk.roocode.com")
-		vi.mocked(getRooCodeApiUrl).mockReturnValue("https://api.test.com")
+		vi.mocked(getRyCodeExtApiUrl).mockReturnValue("https://api.test.com")
 
 		// Setup utils mock
-		vi.mocked(getUserAgent).mockReturnValue("Roo-Code 1.0.0")
+		vi.mocked(getUserAgent).mockReturnValue("RyCode-Ext 1.0.0")
 
 		// Setup crypto mock
 		vi.mocked(crypto.randomBytes).mockReturnValue(Buffer.from("test-random-bytes") as never)
@@ -286,8 +286,8 @@ describe("WebAuthService", () => {
 				throw new Error("Crypto error")
 			})
 
-			await expect(authService.login()).rejects.toThrow("Failed to initiate Roo Code Cloud authentication")
-			expect(mockLog).toHaveBeenCalledWith("[auth] Error initiating Roo Code Cloud auth: Error: Crypto error")
+			await expect(authService.login()).rejects.toThrow("Failed to initiate RyCode-Ext Cloud authentication")
+			expect(mockLog).toHaveBeenCalledWith("[auth] Error initiating RyCode-Ext Cloud auth: Error: Crypto error")
 		})
 	})
 
@@ -302,17 +302,17 @@ describe("WebAuthService", () => {
 			vi.mocked(vscode.window.showInformationMessage).mockImplementation(mockShowInfo)
 
 			await authService.handleCallback(null, "state")
-			expect(mockShowInfo).toHaveBeenCalledWith("Invalid Roo Code Cloud sign in url")
+			expect(mockShowInfo).toHaveBeenCalledWith("Invalid RyCode-Ext Cloud sign in url")
 
 			await authService.handleCallback("code", null)
-			expect(mockShowInfo).toHaveBeenCalledWith("Invalid Roo Code Cloud sign in url")
+			expect(mockShowInfo).toHaveBeenCalledWith("Invalid RyCode-Ext Cloud sign in url")
 		})
 
 		it("should validate state parameter", async () => {
 			mockContext.globalState.get.mockReturnValue("stored-state")
 
 			await expect(authService.handleCallback("code", "different-state")).rejects.toThrow(
-				"Failed to handle Roo Code Cloud callback",
+				"Failed to handle RyCode-Ext Cloud callback",
 			)
 			expect(mockLog).toHaveBeenCalledWith("[auth] State mismatch in callback")
 		})
@@ -348,7 +348,7 @@ describe("WebAuthService", () => {
 					organizationId: null,
 				}),
 			)
-			expect(mockShowInfo).toHaveBeenCalledWith("Successfully authenticated with Roo Code Cloud")
+			expect(mockShowInfo).toHaveBeenCalledWith("Successfully authenticated with RyCode-Ext Cloud")
 		})
 
 		it("should handle Clerk API errors", async () => {
@@ -365,7 +365,7 @@ describe("WebAuthService", () => {
 			authService.on("auth-state-changed", authStateChangedSpy)
 
 			await expect(authService.handleCallback("auth-code", storedState)).rejects.toThrow(
-				"Failed to handle Roo Code Cloud callback",
+				"Failed to handle RyCode-Ext Cloud callback",
 			)
 			expect(authStateChangedSpy).toHaveBeenCalled()
 		})
@@ -406,7 +406,7 @@ describe("WebAuthService", () => {
 					}),
 				}),
 			)
-			expect(mockShowInfo).toHaveBeenCalledWith("Logged out from Roo Code Cloud")
+			expect(mockShowInfo).toHaveBeenCalledWith("Logged out from RyCode-Ext Cloud")
 		})
 
 		it("should handle logout without credentials", async () => {
@@ -418,7 +418,7 @@ describe("WebAuthService", () => {
 
 			expect(mockContext.secrets.delete).toHaveBeenCalled()
 			expect(mockFetch).not.toHaveBeenCalled()
-			expect(mockShowInfo).toHaveBeenCalledWith("Logged out from Roo Code Cloud")
+			expect(mockShowInfo).toHaveBeenCalledWith("Logged out from RyCode-Ext Cloud")
 		})
 
 		it("should handle Clerk logout errors gracefully", async () => {
@@ -441,7 +441,7 @@ describe("WebAuthService", () => {
 			await authService.logout()
 
 			expect(mockLog).toHaveBeenCalledWith("[auth] Error calling clerkLogout:", expect.any(Error))
-			expect(mockShowInfo).toHaveBeenCalledWith("Logged out from Roo Code Cloud")
+			expect(mockShowInfo).toHaveBeenCalledWith("Logged out from RyCode-Ext Cloud")
 		})
 	})
 
@@ -1018,7 +1018,7 @@ describe("WebAuthService", () => {
 			})
 
 			await expect(authService.handleCallback("auth-code", storedState)).rejects.toThrow(
-				"Failed to handle Roo Code Cloud callback",
+				"Failed to handle RyCode-Ext Cloud callback",
 			)
 		})
 	})

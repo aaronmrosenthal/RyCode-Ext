@@ -3,12 +3,12 @@ import path from "path"
 import * as os from "os"
 import { Dirent } from "fs"
 
-import { isLanguage } from "@roo-code/types"
+import { isLanguage } from "@rycode-ext/types"
 
 import type { SystemPromptSettings } from "../types"
 
 import { LANGUAGES } from "../../../shared/language"
-import { getRooDirectoriesForCwd, getGlobalRooDirectory } from "../../../services/roo-config"
+import { getRooDirectoriesForCwd, getGlobalRooDirectory } from "../../../services/rycode-ext-config"
 
 /**
  * Safely read a file and return its trimmed content

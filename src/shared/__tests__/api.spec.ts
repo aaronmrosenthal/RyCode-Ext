@@ -3,7 +3,7 @@ import {
 	type ProviderSettings,
 	CLAUDE_CODE_DEFAULT_MAX_OUTPUT_TOKENS,
 	ANTHROPIC_DEFAULT_MAX_TOKENS,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import { getModelMaxOutputTokens, shouldUseReasoningBudget, shouldUseReasoningEffort } from "../api"
 

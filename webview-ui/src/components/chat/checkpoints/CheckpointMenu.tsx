@@ -3,7 +3,7 @@ import { CheckIcon, Cross2Icon } from "@radix-ui/react-icons"
 import { useTranslation } from "react-i18next"
 
 import { Button, Popover, PopoverContent, PopoverTrigger, StandardTooltip } from "@/components/ui"
-import { useRooPortal } from "@/components/ui/hooks"
+import { useRyCodeExtPortal } from "@/components/ui/hooks"
 
 import { vscode } from "@src/utils/vscode"
 import { Checkpoint } from "./schema"
@@ -35,7 +35,7 @@ export const CheckpointMenu = ({
 	const { t } = useTranslation()
 	const [internalOpen, setInternalOpen] = useState(false)
 	const [isConfirming, setIsConfirming] = useState(false)
-	const portalContainer = useRooPortal("roo-portal")
+	const portalContainer = useRyCodeExtPortal("roo-portal")
 
 	const isCurrent = currentHash === commitHash
 

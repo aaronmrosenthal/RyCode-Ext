@@ -9,7 +9,7 @@ import {
 	type ShareVisibility,
 	type QueuedMessage,
 	marketplaceItemSchema,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import { Mode } from "./modes"
 
@@ -164,7 +164,7 @@ export interface WebviewMessage {
 		| "browserToolEnabled"
 		| "codebaseIndexEnabled"
 		| "telemetrySetting"
-		| "showRooIgnoredFiles"
+		| "showRyCodeExtIgnoredFiles"
 		| "testBrowserConnection"
 		| "browserConnectionResult"
 		| "remoteBrowserEnabled"

@@ -11,9 +11,9 @@
 </sub>
 </div>
 
-# Bijdragen aan Roo Code
+# Bijdragen aan RyCode-Ext
 
-Roo Code is een door de gemeenschap gedreven project en we waarderen elke bijdrage ten zeerste. Om de samenwerking te stroomlijnen, werken we op basis van een [Issue-First-aanpak](#issue-first-aanpak), wat betekent dat alle [Pull Requests (PR's)](#een-pull-request-indienen) eerst gekoppeld moeten zijn aan een GitHub Issue. Lees deze handleiding zorgvuldig door.
+RyCode-Ext is een door de gemeenschap gedreven project en we waarderen elke bijdrage ten zeerste. Om de samenwerking te stroomlijnen, werken we op basis van een [Issue-First-aanpak](#issue-first-aanpak), wat betekent dat alle [Pull Requests (PR's)](#een-pull-request-indienen) eerst gekoppeld moeten zijn aan een GitHub Issue. Lees deze handleiding zorgvuldig door.
 
 ## Inhoudsopgave
 
@@ -52,10 +52,10 @@ Onze roadmap stuurt de richting van het project. Lijn je bijdragen uit met deze 
 
 Vermeld de afstemming met deze gebieden in je PR's.
 
-### 3. Word lid van de Roo Code-community
+### 3. Word lid van de RyCode-Ext-community
 
 - **Primair:** Word lid van onze [Discord](https://discord.gg/roocode) en stuur een DM naar **Hannes Rudolph (`hrudolph`)**.
-- **Alternatief:** Ervaren bijdragers kunnen rechtstreeks deelnemen via [GitHub Projects](https://github.com/orgs/RooCodeInc/projects/1).
+- **Alternatief:** Ervaren bijdragers kunnen rechtstreeks deelnemen via [GitHub Projects](https://github.com/orgs/RyCodeExtInc/projects/1).
 
 ## Je bijdrage vinden en plannen
 
@@ -69,7 +69,7 @@ Vermeld de afstemming met deze gebieden in je PR's.
 
 Alle bijdragen beginnen met een GitHub Issue met behulp van onze slanke sjablonen.
 
-- **Controleer bestaande issues**: Zoek in [GitHub Issues](https://github.com/RooCodeInc/Roo-Code/issues).
+- **Controleer bestaande issues**: Zoek in [GitHub Issues](https://github.com/RyCodeExtInc/RyCode-Ext/issues).
 - **Maak een issue** aan met:
     - **Verbeteringen:** sjabloon "Verbeteringsverzoek" (eenvoudige taal gericht op gebruikersvoordeel).
     - **Bugs:** sjabloon "Bugrapport" (minimale repro + verwacht vs. feitelijk + versie).
@@ -78,17 +78,17 @@ Alle bijdragen beginnen met een GitHub Issue met behulp van onze slanke sjablone
 
 ### Beslissen waaraan je wilt werken
 
-- Controleer het [GitHub Project](https://github.com/orgs/RooCodeInc/projects/1) voor "Issue [Niet-toegewezen]" issues.
-- Ga voor documentatie naar [Roo Code Docs](https://github.com/RooCodeInc/Roo-Code-Docs).
+- Controleer het [GitHub Project](https://github.com/orgs/RyCodeExtInc/projects/1) voor "Issue [Niet-toegewezen]" issues.
+- Ga voor documentatie naar [RyCode-Ext Docs](https://github.com/RyCodeExtInc/RyCode-Ext-Docs).
 
 ### Bugs rapporteren
 
 - Controleer eerst bestaande rapporten.
-- Maak een nieuwe bug aan met het ["Bugrapport"-sjabloon](https://github.com/RooCodeInc/Roo-Code/issues/new/choose) met:
+- Maak een nieuwe bug aan met het ["Bugrapport"-sjabloon](https://github.com/RyCodeExtInc/RyCode-Ext/issues/new/choose) met:
     - Duidelijke, genummerde reproductiestappen
     - Verwacht vs. feitelijk resultaat
-    - Roo Code-versie (vereist); API-provider/model indien relevant
-- **Beveiligingsproblemen**: Rapporteer privé via [beveiligingsadviezen](https://github.com/RooCodeInc/Roo-Code/security/advisories/new).
+    - RyCode-Ext-versie (vereist); API-provider/model indien relevant
+- **Beveiligingsproblemen**: Rapporteer privé via [beveiligingsadviezen](https://github.com/RyCodeExtInc/RyCode-Ext/security/advisories/new).
 
 ## Ontwikkelings- en indieningsproces
 
@@ -97,7 +97,7 @@ Alle bijdragen beginnen met een GitHub Issue met behulp van onze slanke sjablone
 1. **Fork & Klonen:**
 
 ```
-git clone https://github.com/JOUW_GEBRUIKERSNAAM/Roo-Code.git
+git clone https://github.com/JOUW_GEBRUIKERSNAAM/RyCode-Ext.git
 ```
 
 2. **Afhankelijkheden installeren:**
@@ -138,4 +138,4 @@ pnpm install
 
 ## Juridisch
 
-Door bij te dragen, ga je ermee akkoord dat je bijdragen onder de Apache 2.0-licentie worden gelicentieerd, in overeenstemming met de licentieverlening van Roo Code.
+Door bij te dragen, ga je ermee akkoord dat je bijdragen onder de Apache 2.0-licentie worden gelicentieerd, in overeenstemming met de licentieverlening van RyCode-Ext.

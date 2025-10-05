@@ -1,10 +1,10 @@
 import { useCallback, useState, useEffect, useRef } from "react"
 import { VSCodeTextField, VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 
-import { type ProviderSettings, type OrganizationAllowList, litellmDefaultModelId } from "@roo-code/types"
+import { type ProviderSettings, type OrganizationAllowList, litellmDefaultModelId } from "@rycode-ext/types"
 
-import { RouterName } from "@roo/api"
-import { ExtensionMessage } from "@roo/ExtensionMessage"
+import { RouterName } from "@rycode-ext/api"
+import { ExtensionMessage } from "@rycode-ext/ExtensionMessage"
 
 import { vscode } from "@src/utils/vscode"
 import { useExtensionState } from "@src/context/ExtensionStateContext"

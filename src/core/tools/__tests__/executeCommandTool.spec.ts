@@ -1,6 +1,6 @@
 // npx vitest run src/core/tools/__tests__/executeCommandTool.spec.ts
 
-import type { ToolUsage } from "@roo-code/types"
+import type { ToolUsage } from "@rycode-ext/types"
 import * as vscode from "vscode"
 
 import { Task } from "../../task/Task"
@@ -48,13 +48,13 @@ beforeEach(() => {
 
 		const ignoredFileAttemptedToAccess = cline.rooIgnoreController?.validateCommand(block.params.command)
 		if (ignoredFileAttemptedToAccess) {
-			await cline.say("rooignore_error", ignoredFileAttemptedToAccess)
+			await cline.say("rycodeextignore_error", ignoredFileAttemptedToAccess)
 			// Call the mocked formatResponse functions with the correct arguments
-			const mockRooIgnoreError = "RooIgnore error"
-			;(formatResponse.rooIgnoreError as any).mockReturnValue(mockRooIgnoreError)
+			const mockRyCodeExtIgnoreError = "RyCodeExtIgnore error"
+			;(formatResponse.rooIgnoreError as any).mockReturnValue(mockRyCodeExtIgnoreError)
 			;(formatResponse.toolError as any).mockReturnValue("Tool error")
 			formatResponse.rooIgnoreError(ignoredFileAttemptedToAccess)
-			formatResponse.toolError(mockRooIgnoreError)
+			formatResponse.toolError(mockRyCodeExtIgnoreError)
 			pushToolResult("Tool error")
 			return
 		}
@@ -240,7 +240,7 @@ describe("executeCommandTool", () => {
 			expect(mockPushToolResult).not.toHaveBeenCalled()
 		})
 
-		it("should handle rooignore validation failures", async () => {
+		it("should handle rycodeextignore validation failures", async () => {
 			// Setup
 			mockToolUse.params.command = "cat .env"
 			// Override the validateCommand mock to return a filename
@@ -249,8 +249,8 @@ describe("executeCommandTool", () => {
 				validateCommand: validateCommandMock,
 			}
 
-			const mockRooIgnoreError = "RooIgnore error"
-			;(formatResponse.rooIgnoreError as any).mockReturnValue(mockRooIgnoreError)
+			const mockRyCodeExtIgnoreError = "RyCodeExtIgnore error"
+			;(formatResponse.rooIgnoreError as any).mockReturnValue(mockRyCodeExtIgnoreError)
 			;(formatResponse.toolError as any).mockReturnValue("Tool error")
 
 			// Execute
@@ -265,9 +265,9 @@ describe("executeCommandTool", () => {
 
 			// Verify
 			expect(validateCommandMock).toHaveBeenCalledWith("cat .env")
-			expect(mockCline.say).toHaveBeenCalledWith("rooignore_error", ".env")
+			expect(mockCline.say).toHaveBeenCalledWith("rycodeextignore_error", ".env")
 			expect(formatResponse.rooIgnoreError).toHaveBeenCalledWith(".env")
-			expect(formatResponse.toolError).toHaveBeenCalledWith(mockRooIgnoreError)
+			expect(formatResponse.toolError).toHaveBeenCalledWith(mockRyCodeExtIgnoreError)
 			expect(mockPushToolResult).toHaveBeenCalled()
 			expect(mockAskApproval).not.toHaveBeenCalled()
 			expect(mockExecuteCommand).not.toHaveBeenCalled()

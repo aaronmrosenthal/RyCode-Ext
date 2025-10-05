@@ -12,10 +12,10 @@ import {
 import * as ProgressPrimitive from "@radix-ui/react-progress"
 import { AlertTriangle } from "lucide-react"
 
-import { CODEBASE_INDEX_DEFAULTS } from "@roo-code/types"
+import { CODEBASE_INDEX_DEFAULTS } from "@rycode-ext/types"
 
-import type { EmbedderProvider } from "@roo/embeddingModels"
-import type { IndexingStatus } from "@roo/ExtensionMessage"
+import type { EmbedderProvider } from "@rycode-ext/embeddingModels"
+import type { IndexingStatus } from "@rycode-ext/ExtensionMessage"
 
 import { vscode } from "@src/utils/vscode"
 import { useExtensionState } from "@src/context/ExtensionStateContext"
@@ -42,7 +42,7 @@ import {
 	Slider,
 	StandardTooltip,
 } from "@src/components/ui"
-import { useRooPortal } from "@src/components/ui/hooks/useRooPortal"
+import { useRyCodeExtPortal } from "@src/components/ui/hooks/useRyCodeExtPortal"
 import { useEscapeKey } from "@src/hooks/useEscapeKey"
 
 // Default URLs for providers
@@ -535,7 +535,7 @@ export const CodeIndexPopover: React.FC<CodeIndexPopoverProps> = ({
 		return models ? Object.keys(models) : []
 	}
 
-	const portalContainer = useRooPortal("roo-portal")
+	const portalContainer = useRyCodeExtPortal("roo-portal")
 
 	return (
 		<>

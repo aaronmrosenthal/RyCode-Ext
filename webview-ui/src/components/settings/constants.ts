@@ -21,7 +21,7 @@ import {
 	fireworksModels,
 	rooModels,
 	featherlessModels,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 export const MODELS_BY_PROVIDER: Partial<Record<ProviderName, Record<string, ModelInfo>>> = {
 	anthropic: anthropicModels,
@@ -79,6 +79,6 @@ export const PROVIDERS = [
 	{ value: "fireworks", label: "Fireworks AI" },
 	{ value: "featherless", label: "Featherless AI" },
 	{ value: "io-intelligence", label: "IO Intelligence" },
-	{ value: "roo", label: "Roo Code Cloud" },
+	{ value: "roo", label: "RyCode-Ext Cloud" },
 	{ value: "vercel-ai-gateway", label: "Vercel AI Gateway" },
 ].sort((a, b) => a.label.localeCompare(b.label))

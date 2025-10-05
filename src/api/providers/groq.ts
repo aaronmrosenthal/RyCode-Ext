@@ -1,4 +1,4 @@
-import { type GroqModelId, groqDefaultModelId, groqModels } from "@roo-code/types"
+import { type GroqModelId, groqDefaultModelId, groqModels } from "@rycode-ext/types"
 import { Anthropic } from "@anthropic-ai/sdk"
 import OpenAI from "openai"
 

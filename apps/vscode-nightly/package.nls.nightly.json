@@ -1,7 +1,7 @@
 {
-	"extension.displayName": "Roo Code Nightly",
-	"views.contextMenu.label": "Roo Code Nightly",
-	"views.terminalMenu.label": "Roo Code Nightly",
-	"views.activitybar.title": "Roo Code Nightly",
-	"configuration.title": "Roo Code Nightly"
+	"extension.displayName": "RyCode-Ext Nightly",
+	"views.contextMenu.label": "RyCode-Ext Nightly",
+	"views.terminalMenu.label": "RyCode-Ext Nightly",
+	"views.activitybar.title": "RyCode-Ext Nightly",
+	"configuration.title": "RyCode-Ext Nightly"
 }

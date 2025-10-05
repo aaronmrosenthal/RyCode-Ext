@@ -9,9 +9,9 @@ import {
 	isDynamicProvider,
 	isFauxProvider,
 	isCustomProvider,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
-import type { RouterModels } from "@roo/api"
+import type { RouterModels } from "@rycode-ext/api"
 
 export function validateApiConfiguration(
 	apiConfiguration: ProviderSettings,

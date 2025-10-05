@@ -10,7 +10,7 @@ import { ClineSayTool } from "../../shared/ExtensionMessage"
 import { RecordSource } from "../context-tracking/FileContextTrackerTypes"
 import { fileExistsAtPath } from "../../utils/fs"
 import { insertGroups } from "../diff/insert-groups"
-import { DEFAULT_WRITE_DELAY_MS } from "@roo-code/types"
+import { DEFAULT_WRITE_DELAY_MS } from "@rycode-ext/types"
 import { EXPERIMENT_IDS, experiments } from "../../shared/experiments"
 
 export async function insertContentTool(
@@ -63,7 +63,7 @@ export async function insertContentTool(
 		const accessAllowed = cline.rooIgnoreController?.validateAccess(relPath)
 
 		if (!accessAllowed) {
-			await cline.say("rooignore_error", relPath)
+			await cline.say("rycodeextignore_error", relPath)
 			pushToolResult(formatResponse.toolError(formatResponse.rooIgnoreError(relPath)))
 			return
 		}

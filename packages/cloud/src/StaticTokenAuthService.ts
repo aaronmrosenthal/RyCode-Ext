@@ -3,7 +3,7 @@ import EventEmitter from "events"
 import { jwtDecode } from "jwt-decode"
 import type { ExtensionContext } from "vscode"
 
-import type { JWTPayload, CloudUserInfo, AuthService, AuthServiceEvents, AuthState } from "@roo-code/types"
+import type { JWTPayload, CloudUserInfo, AuthService, AuthServiceEvents, AuthState } from "@rycode-ext/types"
 
 export class StaticTokenAuthService extends EventEmitter<AuthServiceEvents> implements AuthService {
 	private state: AuthState = "active-session"
@@ -67,7 +67,7 @@ export class StaticTokenAuthService extends EventEmitter<AuthServiceEvents> impl
 		throw new Error("Authentication methods are disabled in StaticTokenAuthService")
 	}
 
-	public async getOrganizationMemberships(): Promise<import("@roo-code/types").CloudOrganizationMembership[]> {
+	public async getOrganizationMemberships(): Promise<import("@rycode-ext/types").CloudOrganizationMembership[]> {
 		throw new Error("Authentication methods are disabled in StaticTokenAuthService")
 	}
 

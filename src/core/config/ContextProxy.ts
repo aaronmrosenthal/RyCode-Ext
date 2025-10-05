@@ -11,18 +11,18 @@ import {
 	type GlobalSettings,
 	type SecretState,
 	type GlobalState,
-	type RooCodeSettings,
+	type RyCodeExtSettings,
 	providerSettingsSchema,
 	globalSettingsSchema,
 	isSecretStateKey,
-} from "@roo-code/types"
-import { TelemetryService } from "@roo-code/telemetry"
+} from "@rycode-ext/types"
+import { TelemetryService } from "@rycode-ext/telemetry"
 
 import { logger } from "../../utils/logging"
 
 type GlobalStateKey = keyof GlobalState
 type SecretStateKey = keyof SecretState
-type RooCodeSettingsKey = keyof RooCodeSettings
+type RyCodeExtSettingsKey = keyof RyCodeExtSettings
 
 const PASS_THROUGH_STATE_KEYS = ["taskHistory"]
 
@@ -302,22 +302,22 @@ export class ContextProxy {
 	}
 
 	/**
-	 * RooCodeSettings
+	 * RyCodeExtSettings
 	 */
 
-	public async setValue<K extends RooCodeSettingsKey>(key: K, value: RooCodeSettings[K]) {
+	public async setValue<K extends RyCodeExtSettingsKey>(key: K, value: RyCodeExtSettings[K]) {
 		return isSecretStateKey(key)
 			? this.storeSecret(key as SecretStateKey, value as string)
 			: this.updateGlobalState(key as GlobalStateKey, value)
 	}
 
-	public getValue<K extends RooCodeSettingsKey>(key: K): RooCodeSettings[K] {
+	public getValue<K extends RyCodeExtSettingsKey>(key: K): RyCodeExtSettings[K] {
 		return isSecretStateKey(key)
-			? (this.getSecret(key as SecretStateKey) as RooCodeSettings[K])
-			: (this.getGlobalState(key as GlobalStateKey) as RooCodeSettings[K])
+			? (this.getSecret(key as SecretStateKey) as RyCodeExtSettings[K])
+			: (this.getGlobalState(key as GlobalStateKey) as RyCodeExtSettings[K])
 	}
 
-	public getValues(): RooCodeSettings {
+	public getValues(): RyCodeExtSettings {
 		const globalState = this.getAllGlobalState()
 		const secretState = this.getAllSecretState()
 
@@ -325,8 +325,8 @@ export class ContextProxy {
 		return { ...globalState, ...secretState }
 	}
 
-	public async setValues(values: RooCodeSettings) {
-		const entries = Object.entries(values) as [RooCodeSettingsKey, unknown][]
+	public async setValues(values: RyCodeExtSettings) {
+		const entries = Object.entries(values) as [RyCodeExtSettingsKey, unknown][]
 		await Promise.all(entries.map(([key, value]) => this.setValue(key, value)))
 	}
 

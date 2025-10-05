@@ -6,13 +6,13 @@ import {
 	type ExtensionInstance,
 	type ExtensionBridgeCommand,
 	type ExtensionBridgeEvent,
-	RooCodeEventName,
+	RyCodeExtEventName,
 	TaskStatus,
 	ExtensionBridgeCommandName,
 	ExtensionBridgeEventName,
 	ExtensionSocketEvents,
 	HEARTBEAT_INTERVAL_MS,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import { type BaseChannelOptions, BaseChannel } from "./BaseChannel.js"
 
@@ -34,7 +34,7 @@ export class ExtensionChannel extends BaseChannel<
 	private provider: TaskProviderLike
 	private extensionInstance: ExtensionInstance
 	private heartbeatInterval: NodeJS.Timeout | null = null
-	private eventListeners: Map<RooCodeEventName, (...args: unknown[]) => void> = new Map()
+	private eventListeners: Map<RyCodeExtEventName, (...args: unknown[]) => void> = new Map()
 
 	constructor(options: ExtensionChannelOptions) {
 		super({
@@ -173,21 +173,21 @@ export class ExtensionChannel extends BaseChannel<
 
 	private setupListeners(): void {
 		const eventMapping = [
-			{ from: RooCodeEventName.TaskCreated, to: ExtensionBridgeEventName.TaskCreated },
-			{ from: RooCodeEventName.TaskStarted, to: ExtensionBridgeEventName.TaskStarted },
-			{ from: RooCodeEventName.TaskCompleted, to: ExtensionBridgeEventName.TaskCompleted },
-			{ from: RooCodeEventName.TaskAborted, to: ExtensionBridgeEventName.TaskAborted },
-			{ from: RooCodeEventName.TaskFocused, to: ExtensionBridgeEventName.TaskFocused },
-			{ from: RooCodeEventName.TaskUnfocused, to: ExtensionBridgeEventName.TaskUnfocused },
-			{ from: RooCodeEventName.TaskActive, to: ExtensionBridgeEventName.TaskActive },
-			{ from: RooCodeEventName.TaskInteractive, to: ExtensionBridgeEventName.TaskInteractive },
-			{ from: RooCodeEventName.TaskResumable, to: ExtensionBridgeEventName.TaskResumable },
-			{ from: RooCodeEventName.TaskIdle, to: ExtensionBridgeEventName.TaskIdle },
-			{ from: RooCodeEventName.TaskPaused, to: ExtensionBridgeEventName.TaskPaused },
-			{ from: RooCodeEventName.TaskUnpaused, to: ExtensionBridgeEventName.TaskUnpaused },
-			{ from: RooCodeEventName.TaskSpawned, to: ExtensionBridgeEventName.TaskSpawned },
-			{ from: RooCodeEventName.TaskUserMessage, to: ExtensionBridgeEventName.TaskUserMessage },
-			{ from: RooCodeEventName.TaskTokenUsageUpdated, to: ExtensionBridgeEventName.TaskTokenUsageUpdated },
+			{ from: RyCodeExtEventName.TaskCreated, to: ExtensionBridgeEventName.TaskCreated },
+			{ from: RyCodeExtEventName.TaskStarted, to: ExtensionBridgeEventName.TaskStarted },
+			{ from: RyCodeExtEventName.TaskCompleted, to: ExtensionBridgeEventName.TaskCompleted },
+			{ from: RyCodeExtEventName.TaskAborted, to: ExtensionBridgeEventName.TaskAborted },
+			{ from: RyCodeExtEventName.TaskFocused, to: ExtensionBridgeEventName.TaskFocused },
+			{ from: RyCodeExtEventName.TaskUnfocused, to: ExtensionBridgeEventName.TaskUnfocused },
+			{ from: RyCodeExtEventName.TaskActive, to: ExtensionBridgeEventName.TaskActive },
+			{ from: RyCodeExtEventName.TaskInteractive, to: ExtensionBridgeEventName.TaskInteractive },
+			{ from: RyCodeExtEventName.TaskResumable, to: ExtensionBridgeEventName.TaskResumable },
+			{ from: RyCodeExtEventName.TaskIdle, to: ExtensionBridgeEventName.TaskIdle },
+			{ from: RyCodeExtEventName.TaskPaused, to: ExtensionBridgeEventName.TaskPaused },
+			{ from: RyCodeExtEventName.TaskUnpaused, to: ExtensionBridgeEventName.TaskUnpaused },
+			{ from: RyCodeExtEventName.TaskSpawned, to: ExtensionBridgeEventName.TaskSpawned },
+			{ from: RyCodeExtEventName.TaskUserMessage, to: ExtensionBridgeEventName.TaskUserMessage },
+			{ from: RyCodeExtEventName.TaskTokenUsageUpdated, to: ExtensionBridgeEventName.TaskTokenUsageUpdated },
 		] as const
 
 		eventMapping.forEach(({ from, to }) => {

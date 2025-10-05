@@ -25,7 +25,7 @@ vi.mock("@aws-sdk/client-bedrock-runtime", () => {
 
 import { AwsBedrockHandler } from "../bedrock"
 import { ConverseStreamCommand, BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime"
-import { BEDROCK_1M_CONTEXT_MODEL_IDS } from "@roo-code/types"
+import { BEDROCK_1M_CONTEXT_MODEL_IDS } from "@rycode-ext/types"
 
 import type { Anthropic } from "@anthropic-ai/sdk"
 

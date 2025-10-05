@@ -1,4 +1,4 @@
-name: Code QA Roo Code
+name: Code QA RyCode-Ext
 
 on:
     workflow_dispatch:

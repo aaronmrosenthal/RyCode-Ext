@@ -81,8 +81,8 @@ vi.mock("vscode", () => ({
 	},
 }))
 
-vi.mock("../../ignore/RooIgnoreController", () => ({
-	RooIgnoreController: class {
+vi.mock("../../ignore/RyCodeExtIgnoreController", () => ({
+	RyCodeExtIgnoreController: class {
 		initialize() {
 			return Promise.resolve()
 		}

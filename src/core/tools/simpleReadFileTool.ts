@@ -74,10 +74,10 @@ export async function simpleReadFileTool(
 	const fullPath = path.resolve(cline.cwd, relPath)
 
 	try {
-		// Check RooIgnore validation
+		// Check RyCodeExtIgnore validation
 		const accessAllowed = cline.rooIgnoreController?.validateAccess(relPath)
 		if (!accessAllowed) {
-			await cline.say("rooignore_error", relPath)
+			await cline.say("rycodeextignore_error", relPath)
 			const errorMsg = formatResponse.rooIgnoreError(relPath)
 			pushToolResult(`<file><path>${relPath}</path><error>${errorMsg}</error></file>`)
 			return

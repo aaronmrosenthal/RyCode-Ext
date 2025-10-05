@@ -11,9 +11,9 @@
 </sub>
 </div>
 
-# Roo Code'a Katkıda Bulunma
+# RyCode-Ext'a Katkıda Bulunma
 
-Roo Code topluluk tarafından yürütülen bir projedir ve her katkıyı derinden takdir ediyoruz. İşbirliğini kolaylaştırmak için [Önce Sorun Yaklaşımı](#önce-sorun-yaklaşımı) temelinde çalışıyoruz, bu da tüm [Çekme İsteklerinin (PR'ler)](#bir-çekme-isteği-gönderme) önce bir GitHub Sorununa bağlanması gerektiği anlamına gelir. Lütfen bu kılavuzu dikkatlice inceleyin.
+RyCode-Ext topluluk tarafından yürütülen bir projedir ve her katkıyı derinden takdir ediyoruz. İşbirliğini kolaylaştırmak için [Önce Sorun Yaklaşımı](#önce-sorun-yaklaşımı) temelinde çalışıyoruz, bu da tüm [Çekme İsteklerinin (PR'ler)](#bir-çekme-isteği-gönderme) önce bir GitHub Sorununa bağlanması gerektiği anlamına gelir. Lütfen bu kılavuzu dikkatlice inceleyin.
 
 ## İçindekiler
 
@@ -52,10 +52,10 @@ Yol haritamız projenin yönünü belirler. Katkılarınızı bu temel hedeflerl
 
 PR'lerinizde bu alanlarla uyumu belirtin.
 
-### 3. Roo Code Topluluğuna Katılın
+### 3. RyCode-Ext Topluluğuna Katılın
 
 - **Birincil:** [Discord](https://discord.gg/roocode) sunucumuza katılın ve **Hannes Rudolph (`hrudolph`)**'a DM gönderin.
-- **Alternatif:** Deneyimli katkıda bulunanlar doğrudan [GitHub Projeleri](https://github.com/orgs/RooCodeInc/projects/1) aracılığıyla etkileşimde bulunabilirler.
+- **Alternatif:** Deneyimli katkıda bulunanlar doğrudan [GitHub Projeleri](https://github.com/orgs/RyCodeExtInc/projects/1) aracılığıyla etkileşimde bulunabilirler.
 
 ## Katkınızı Bulma ve Planlama
 
@@ -69,7 +69,7 @@ PR'lerinizde bu alanlarla uyumu belirtin.
 
 Tüm katkılar, basit şablonlarımızı kullanarak bir GitHub Sorunu ile başlar.
 
-- **Mevcut sorunları kontrol edin**: [GitHub Sorunları](https://github.com/RooCodeInc/Roo-Code/issues)nda arama yapın.
+- **Mevcut sorunları kontrol edin**: [GitHub Sorunları](https://github.com/RyCodeExtInc/RyCode-Ext/issues)nda arama yapın.
 - **Bir sorun oluşturun**:
     - **İyileştirmeler:** "İyileştirme İsteği" şablonu (kullanıcı yararına odaklanan sade bir dil).
     - **Hatalar:** "Hata Raporu" şablonu (minimum yeniden oluşturma + beklenen vs gerçek + sürüm).
@@ -78,17 +78,17 @@ Tüm katkılar, basit şablonlarımızı kullanarak bir GitHub Sorunu ile başla
 
 ### Ne Üzerinde Çalışılacağına Karar Verme
 
-- "Sorun [Atanmamış]" sorunları için [GitHub Projesi](https://github.com/orgs/RooCodeInc/projects/1)'ni kontrol edin.
-- Belgeler için [Roo Code Belgeleri](https://github.com/RooCodeInc/Roo-Code-Docs)ni ziyaret edin.
+- "Sorun [Atanmamış]" sorunları için [GitHub Projesi](https://github.com/orgs/RyCodeExtInc/projects/1)'ni kontrol edin.
+- Belgeler için [RyCode-Ext Belgeleri](https://github.com/RyCodeExtInc/RyCode-Ext-Docs)ni ziyaret edin.
 
 ### Hataları Bildirme
 
 - Önce mevcut raporları kontrol edin.
-- Aşağıdakilerle ["Hata Raporu" şablonunu](https://github.com/RooCodeInc/Roo-Code/issues/new/choose) kullanarak yeni bir hata oluşturun:
+- Aşağıdakilerle ["Hata Raporu" şablonunu](https://github.com/RyCodeExtInc/RyCode-Ext/issues/new/choose) kullanarak yeni bir hata oluşturun:
     - Açık, numaralandırılmış yeniden oluşturma adımları
     - Beklenen vs gerçek sonuç
-    - Roo Code sürümü (gerekli); ilgiliyse API sağlayıcısı/modeli
-- **Güvenlik sorunları**: [Güvenlik tavsiyeleri](https://github.com/RooCodeInc/Roo-Code/security/advisories/new) aracılığıyla özel olarak bildirin.
+    - RyCode-Ext sürümü (gerekli); ilgiliyse API sağlayıcısı/modeli
+- **Güvenlik sorunları**: [Güvenlik tavsiyeleri](https://github.com/RyCodeExtInc/RyCode-Ext/security/advisories/new) aracılığıyla özel olarak bildirin.
 
 ## Geliştirme ve Gönderme Süreci
 
@@ -97,7 +97,7 @@ Tüm katkılar, basit şablonlarımızı kullanarak bir GitHub Sorunu ile başla
 1. **Çatallayın ve Klonlayın:**
 
 ```
-git clone https://github.com/KULLANICI_ADINIZ/Roo-Code.git
+git clone https://github.com/KULLANICI_ADINIZ/RyCode-Ext.git
 ```
 
 2. **Bağımlılıkları Yükleyin:**
@@ -138,4 +138,4 @@ pnpm install
 
 ## Yasal
 
-Katkıda bulunarak, katkılarınızın Roo Code'un lisanslamasıyla tutarlı olan Apache 2.0 Lisansı altında lisanslanacağını kabul etmiş olursunuz.
+Katkıda bulunarak, katkılarınızın RyCode-Ext'un lisanslamasıyla tutarlı olan Apache 2.0 Lisansı altında lisanslanacağını kabul etmiş olursunuz.

@@ -1,4 +1,4 @@
-import { TodoItem } from "@roo-code/types"
+import { TodoItem } from "@rycode-ext/types"
 
 import { AttemptCompletionToolUse } from "../../../shared/tools"
 

@@ -7,12 +7,12 @@ import {
 	type TaskLike,
 	type ClineMessage,
 	type StaticAppProperties,
-	RooCodeEventName,
+	RyCodeExtEventName,
 	TaskBridgeEventName,
 	TaskBridgeCommandName,
 	TaskSocketEvents,
 	TaskStatus,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
 import { TaskChannel } from "../TaskChannel.js"
 
@@ -24,11 +24,11 @@ describe("TaskChannel", () => {
 	const taskId = "test-task-456"
 
 	const appProperties: StaticAppProperties = {
-		appName: "roo-code",
+		appName: "rycode-ext",
 		appVersion: "1.0.0",
 		vscodeVersion: "1.0.0",
 		platform: "darwin",
-		editorName: "Roo Code",
+		editorName: "RyCode-Ext",
 		hostname: "test-host",
 	}
 
@@ -114,13 +114,13 @@ describe("TaskChannel", () => {
 			})
 
 			// Verify specific mappings
-			expect(channel.eventMapping[0].from).toBe(RooCodeEventName.Message)
+			expect(channel.eventMapping[0].from).toBe(RyCodeExtEventName.Message)
 			expect(channel.eventMapping[0].to).toBe(TaskBridgeEventName.Message)
 
-			expect(channel.eventMapping[1].from).toBe(RooCodeEventName.TaskModeSwitched)
+			expect(channel.eventMapping[1].from).toBe(RyCodeExtEventName.TaskModeSwitched)
 			expect(channel.eventMapping[1].to).toBe(TaskBridgeEventName.TaskModeSwitched)
 
-			expect(channel.eventMapping[2].from).toBe(RooCodeEventName.TaskInteractive)
+			expect(channel.eventMapping[2].from).toBe(RyCodeExtEventName.TaskInteractive)
 			expect(channel.eventMapping[2].to).toBe(TaskBridgeEventName.TaskInteractive)
 		})
 
@@ -144,9 +144,9 @@ describe("TaskChannel", () => {
 
 			// Verify listeners were registered for all mapped events
 			const task = mockTask as any
-			expect(task._getListenerCount(RooCodeEventName.Message)).toBe(1)
-			expect(task._getListenerCount(RooCodeEventName.TaskModeSwitched)).toBe(1)
-			expect(task._getListenerCount(RooCodeEventName.TaskInteractive)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.Message)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.TaskModeSwitched)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.TaskInteractive)).toBe(1)
 		})
 
 		it("should correctly transform Message event payloads", async () => {
@@ -177,7 +177,7 @@ describe("TaskChannel", () => {
 				message: { type: "say", text: "Hello" } as ClineMessage,
 			}
 
-			;(mockTask as any)._triggerEvent(RooCodeEventName.Message, messageData)
+			;(mockTask as any)._triggerEvent(RyCodeExtEventName.Message, messageData)
 
 			// Verify the event was published with correct payload
 			expect(publishCalls.length).toBe(1)
@@ -216,7 +216,7 @@ describe("TaskChannel", () => {
 
 			// Trigger TaskModeSwitched event
 			const mode = "architect"
-			;(mockTask as any)._triggerEvent(RooCodeEventName.TaskModeSwitched, mode)
+			;(mockTask as any)._triggerEvent(RyCodeExtEventName.TaskModeSwitched, mode)
 
 			// Verify the event was published with correct payload
 			expect(publishCalls.length).toBe(1)
@@ -251,7 +251,7 @@ describe("TaskChannel", () => {
 			publishCalls = []
 
 			// Trigger TaskInteractive event
-			;(mockTask as any)._triggerEvent(RooCodeEventName.TaskInteractive, taskId)
+			;(mockTask as any)._triggerEvent(RyCodeExtEventName.TaskInteractive, taskId)
 
 			// Verify the event was published with correct payload
 			expect(publishCalls.length).toBe(1)
@@ -284,17 +284,17 @@ describe("TaskChannel", () => {
 
 			// Verify listeners are registered
 			const task = mockTask as any
-			expect(task._getListenerCount(RooCodeEventName.Message)).toBe(1)
-			expect(task._getListenerCount(RooCodeEventName.TaskModeSwitched)).toBe(1)
-			expect(task._getListenerCount(RooCodeEventName.TaskInteractive)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.Message)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.TaskModeSwitched)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.TaskInteractive)).toBe(1)
 
 			// Clean up
 			await taskChannel.cleanup(mockSocket)
 
 			// Verify all listeners were removed
-			expect(task._getListenerCount(RooCodeEventName.Message)).toBe(0)
-			expect(task._getListenerCount(RooCodeEventName.TaskModeSwitched)).toBe(0)
-			expect(task._getListenerCount(RooCodeEventName.TaskInteractive)).toBe(0)
+			expect(task._getListenerCount(RyCodeExtEventName.Message)).toBe(0)
+			expect(task._getListenerCount(RyCodeExtEventName.TaskModeSwitched)).toBe(0)
+			expect(task._getListenerCount(RyCodeExtEventName.TaskInteractive)).toBe(0)
 		})
 
 		it("should handle duplicate listener prevention", async () => {
@@ -317,9 +317,9 @@ describe("TaskChannel", () => {
 
 			// Verify only one set of listeners exists
 			const task = mockTask as any
-			expect(task._getListenerCount(RooCodeEventName.Message)).toBe(1)
-			expect(task._getListenerCount(RooCodeEventName.TaskModeSwitched)).toBe(1)
-			expect(task._getListenerCount(RooCodeEventName.TaskInteractive)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.Message)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.TaskModeSwitched)).toBe(1)
+			expect(task._getListenerCount(RyCodeExtEventName.TaskInteractive)).toBe(1)
 
 			warnSpy.mockRestore()
 		})

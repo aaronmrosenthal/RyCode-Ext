@@ -8,8 +8,8 @@
 		"noMatchFound": "Tidak ada mode yang ditemukan",
 		"editModesConfig": "Edit konfigurasi mode",
 		"editGlobalModes": "Edit Mode Global",
-		"editProjectModes": "Edit Mode Proyek (.roomodes)",
-		"createModeHelpText": "Mode adalah persona khusus yang menyesuaikan perilaku Roo Code. <0>Pelajari tentang Menggunakan Mode</0> atau <1>Menyesuaikan Mode.</1>",
+		"editProjectModes": "Edit Mode Proyek (.rycodeextmodes)",
+		"createModeHelpText": "Mode adalah persona khusus yang menyesuaikan perilaku RyCode-Ext. <0>Pelajari tentang Menggunakan Mode</0> atau <1>Menyesuaikan Mode.</1>",
 		"selectMode": "Cari mode"
 	},
 	"apiConfiguration": {
@@ -169,7 +169,7 @@
 				"description": "Tersedia di semua workspace"
 			},
 			"project": {
-				"label": "Khusus proyek (.roomodes)",
+				"label": "Khusus proyek (.rycodeextmodes)",
 				"description": "Hanya tersedia di workspace ini, lebih diutamakan daripada global"
 			}
 		},

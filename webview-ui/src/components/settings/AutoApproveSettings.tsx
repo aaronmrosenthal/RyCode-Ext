@@ -1,7 +1,7 @@
 import { HTMLAttributes, useState } from "react"
 import { X, CheckCheck } from "lucide-react"
 import { Trans } from "react-i18next"
-import { Package } from "@roo/package"
+import { Package } from "@rycode-ext/package"
 
 import { useAppTranslation } from "@/i18n/TranslationContext"
 import { VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"

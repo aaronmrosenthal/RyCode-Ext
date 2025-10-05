@@ -1,7 +1,7 @@
 import axios from "axios"
 import { z } from "zod"
 
-import { type ModelInfo } from "@roo-code/types"
+import { type ModelInfo } from "@rycode-ext/types"
 
 import { DEFAULT_HEADERS } from "../constants"
 

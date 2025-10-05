@@ -5,7 +5,7 @@ import { cn } from "@src/lib/utils"
 import { vscode } from "@src/utils/vscode"
 import { useAppTranslation } from "@/i18n/TranslationContext"
 
-import type { IndexingStatus, IndexingStatusUpdateMessage } from "@roo/ExtensionMessage"
+import type { IndexingStatus, IndexingStatusUpdateMessage } from "@rycode-ext/ExtensionMessage"
 
 import { useExtensionState } from "@src/context/ExtensionStateContext"
 import { PopoverTrigger, StandardTooltip, Button } from "@src/components/ui"

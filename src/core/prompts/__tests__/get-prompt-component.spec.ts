@@ -1,4 +1,4 @@
-import type { CustomModePrompts } from "@roo-code/types"
+import type { CustomModePrompts } from "@rycode-ext/types"
 
 import { getPromptComponent } from "../system"
 

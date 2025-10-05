@@ -1,16 +1,16 @@
-# Roo Code API
+# RyCode-Ext API
 
-The Roo Code extension exposes an API that can be used by other extensions.
+The RyCode-Ext extension exposes an API that can be used by other extensions.
 To use this API in your extension:
 
-1. Install `@roo-code/types` with npm, pnpm, or yarn.
-2. Import the `RooCodeAPI` type.
+1. Install `@rycode-ext/types` with npm, pnpm, or yarn.
+2. Import the `RyCodeExtAPI` type.
 3. Load the extension API.
 
 ```typescript
-import { RooCodeAPI } from "@roo-code/types"
+import { RyCodeExtAPI } from "@rycode-ext/types"
 
-const extension = vscode.extensions.getExtension<RooCodeAPI>("RooVeterinaryInc.roo-cline")
+const extension = vscode.extensions.getExtension<RyCodeExtAPI>("RooVeterinaryInc.roo-cline")
 
 if (!extension?.isActive) {
 	throw new Error("Extension is not activated")
@@ -23,7 +23,7 @@ if (!api) {
 }
 
 // Start a new task with an initial message.
-await api.startNewTask("Hello, Roo Code API! Let's make a new project...")
+await api.startNewTask("Hello, RyCode-Ext API! Let's make a new project...")
 
 // Start a new task with an initial message and images.
 await api.startNewTask("Use this design language", ["data:image/webp;base64,..."])
@@ -44,4 +44,4 @@ await api.pressSecondaryButton()
 "extensionDependencies": ["RooVeterinaryInc.roo-cline"]
 ```
 
-For detailed information on the available methods and their usage, refer to the `roo-code.d.ts` file.
+For detailed information on the available methods and their usage, refer to the `rycode-ext.d.ts` file.

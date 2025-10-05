@@ -8,9 +8,9 @@ import {
 	rooCodeTelemetryEventSchema,
 	TelemetryPropertiesProvider,
 	TelemetryEventSubscription,
-} from "@roo-code/types"
+} from "@rycode-ext/types"
 
-import { getRooCodeApiUrl } from "./config.js"
+import { getRyCodeExtApiUrl } from "./config.js"
 import type { RetryQueue } from "./retry-queue/index.js"
 
 abstract class BaseTelemetryClient implements TelemetryClient {
@@ -109,7 +109,7 @@ export class CloudTelemetryClient extends BaseTelemetryClient {
 			return
 		}
 
-		const url = `${getRooCodeApiUrl()}/api/${path}`
+		const url = `${getRyCodeExtApiUrl()}/api/${path}`
 		const fetchOptions: RequestInit = {
 			...options,
 			headers: {
@@ -229,7 +229,7 @@ export class CloudTelemetryClient extends BaseTelemetryClient {
 				)
 			}
 
-			const url = `${getRooCodeApiUrl()}/api/events/backfill`
+			const url = `${getRyCodeExtApiUrl()}/api/events/backfill`
 			const fetchOptions: RequestInit = {
 				method: "POST",
 				headers: {

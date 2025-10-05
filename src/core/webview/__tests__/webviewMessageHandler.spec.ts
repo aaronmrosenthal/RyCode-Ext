@@ -90,7 +90,7 @@ import * as path from "path"
 import * as fsUtils from "../../../utils/fs"
 import { getWorkspacePath } from "../../../utils/path"
 import { ensureSettingsDirectoryExists } from "../../../utils/globalContext"
-import type { ModeConfig } from "@roo-code/types"
+import type { ModeConfig } from "@rycode-ext/types"
 
 vi.mock("../../../utils/fs")
 vi.mock("../../../utils/path")

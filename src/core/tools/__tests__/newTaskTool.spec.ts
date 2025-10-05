@@ -17,7 +17,7 @@ vi.mock("../../../shared/package", () => ({
 		name: "roo-cline",
 		publisher: "RooVeterinaryInc",
 		version: "1.0.0",
-		outputChannel: "Roo-Code",
+		outputChannel: "RyCode-Ext",
 	},
 }))
 
@@ -589,7 +589,7 @@ describe("newTaskTool", () => {
 			expect(mockGet).toHaveBeenCalledWith("newTaskRequireTodos", false)
 		})
 
-		it("should use current Package.name value (roo-code-nightly) when accessing VSCode configuration", async () => {
+		it("should use current Package.name value (rycode-ext-nightly) when accessing VSCode configuration", async () => {
 			// Arrange: capture calls to VSCode configuration and ensure we can assert the namespace
 			const mockGet = vi.fn().mockReturnValue(false)
 			const mockGetConfiguration = vi.fn().mockReturnValue({
@@ -599,7 +599,7 @@ describe("newTaskTool", () => {
 
 			// Mutate the mocked Package.name dynamically to simulate a different build variant
 			const pkg = await import("../../../shared/package")
-			;(pkg.Package as any).name = "roo-code-nightly"
+			;(pkg.Package as any).name = "rycode-ext-nightly"
 
 			const block: ToolUse = {
 				type: "tool_use",
@@ -621,7 +621,7 @@ describe("newTaskTool", () => {
 			)
 
 			// Assert: configuration was read using the dynamic nightly namespace
-			expect(mockGetConfiguration).toHaveBeenCalledWith("roo-code-nightly")
+			expect(mockGetConfiguration).toHaveBeenCalledWith("rycode-ext-nightly")
 			expect(mockGet).toHaveBeenCalledWith("newTaskRequireTodos", false)
 		})
 	})

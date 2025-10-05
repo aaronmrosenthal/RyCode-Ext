@@ -60,7 +60,7 @@ export async function generateImageTool(
 	// Validate access permissions
 	const accessAllowed = cline.rooIgnoreController?.validateAccess(relPath)
 	if (!accessAllowed) {
-		await cline.say("rooignore_error", relPath)
+		await cline.say("rycodeextignore_error", relPath)
 		pushToolResult(formatResponse.toolError(formatResponse.rooIgnoreError(relPath)))
 		return
 	}
@@ -83,7 +83,7 @@ export async function generateImageTool(
 		// Validate input image access permissions
 		const inputImageAccessAllowed = cline.rooIgnoreController?.validateAccess(inputImagePath)
 		if (!inputImageAccessAllowed) {
-			await cline.say("rooignore_error", inputImagePath)
+			await cline.say("rycodeextignore_error", inputImagePath)
 			pushToolResult(formatResponse.toolError(formatResponse.rooIgnoreError(inputImagePath)))
 			return
 		}

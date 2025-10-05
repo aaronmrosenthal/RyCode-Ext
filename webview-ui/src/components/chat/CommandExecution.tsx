@@ -2,12 +2,12 @@ import { useCallback, useState, memo, useMemo } from "react"
 import { useEvent } from "react-use"
 import { ChevronDown, OctagonX } from "lucide-react"
 
-import { CommandExecutionStatus, commandExecutionStatusSchema } from "@roo-code/types"
+import { CommandExecutionStatus, commandExecutionStatusSchema } from "@rycode-ext/types"
 
-import { ExtensionMessage } from "@roo/ExtensionMessage"
-import { safeJsonParse } from "@roo/safeJsonParse"
+import { ExtensionMessage } from "@rycode-ext/ExtensionMessage"
+import { safeJsonParse } from "@rycode-ext/safeJsonParse"
 
-import { COMMAND_OUTPUT_STRING } from "@roo/combineCommandSequences"
+import { COMMAND_OUTPUT_STRING } from "@rycode-ext/combineCommandSequences"
 
 import { vscode } from "@src/utils/vscode"
 import { useExtensionState } from "@src/context/ExtensionStateContext"

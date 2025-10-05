@@ -3,7 +3,7 @@ import fs from "fs/promises"
 
 import NodeCache from "node-cache"
 
-import type { ProviderName } from "@roo-code/types"
+import type { ProviderName } from "@rycode-ext/types"
 
 import { safeWriteJson } from "../../../utils/safeWriteJson"
 

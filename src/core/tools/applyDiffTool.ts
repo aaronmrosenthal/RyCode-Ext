@@ -1,8 +1,8 @@
 import path from "path"
 import fs from "fs/promises"
 
-import { TelemetryService } from "@roo-code/telemetry"
-import { DEFAULT_WRITE_DELAY_MS } from "@roo-code/types"
+import { TelemetryService } from "@rycode-ext/telemetry"
+import { DEFAULT_WRITE_DELAY_MS } from "@rycode-ext/types"
 
 import { ClineSayTool } from "../../shared/ExtensionMessage"
 import { getReadablePath } from "../../utils/path"
@@ -71,7 +71,7 @@ export async function applyDiffToolLegacy(
 			const accessAllowed = cline.rooIgnoreController?.validateAccess(relPath)
 
 			if (!accessAllowed) {
-				await cline.say("rooignore_error", relPath)
+				await cline.say("rycodeextignore_error", relPath)
 				pushToolResult(formatResponse.toolError(formatResponse.rooIgnoreError(relPath)))
 				return
 			}

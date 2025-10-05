@@ -10,7 +10,7 @@ import {
 import { Trans } from "react-i18next"
 import { ChevronDown, X, Upload, Download } from "lucide-react"
 
-import { ModeConfig, GroupEntry, PromptComponent, ToolGroup, modeConfigSchema } from "@roo-code/types"
+import { ModeConfig, GroupEntry, PromptComponent, ToolGroup, modeConfigSchema } from "@rycode-ext/types"
 
 import {
 	Mode,
@@ -20,8 +20,8 @@ import {
 	getCustomInstructions,
 	getAllModes,
 	findModeBySlug as findCustomModeBySlug,
-} from "@roo/modes"
-import { TOOL_GROUPS } from "@roo/tools"
+} from "@rycode-ext/modes"
+import { TOOL_GROUPS } from "@rycode-ext/tools"
 
 import { vscode } from "@src/utils/vscode"
 import { buildDocLink } from "@src/utils/docLinks"
@@ -563,7 +563,7 @@ const ModesView = ({ onDone }: ModesViewProps) => {
 												e.preventDefault() // Prevent blur
 												vscode.postMessage({
 													type: "openFile",
-													text: "./.roomodes",
+													text: "./.rycodeextmodes",
 													values: {
 														create: true,
 														content: JSON.stringify({ customModes: [] }, null, 2),

@@ -1,8 +1,8 @@
 import { Anthropic } from "@anthropic-ai/sdk"
 import * as path from "path"
 import * as diff from "diff"
-import { RooIgnoreController, LOCK_TEXT_SYMBOL } from "../ignore/RooIgnoreController"
-import { RooProtectedController } from "../protect/RooProtectedController"
+import { RyCodeExtIgnoreController, LOCK_TEXT_SYMBOL } from "../ignore/RyCodeExtIgnoreController"
+import { RyCodeExtProtectedController } from "../protect/RyCodeExtProtectedController"
 
 export const formatResponse = {
 	toolDenied: () => `The user denied this operation.`,
@@ -16,7 +16,7 @@ export const formatResponse = {
 	toolError: (error?: string) => `The tool execution failed with the following error:\n<error>\n${error}\n</error>`,
 
 	rooIgnoreError: (path: string) =>
-		`Access to ${path} is blocked by the .rooignore file settings. You must try to continue in the task without using this file, or ask the user to update the .rooignore file.`,
+		`Access to ${path} is blocked by the .rycodeextignore file settings. You must try to continue in the task without using this file, or ask the user to update the .rycodeextignore file.`,
 
 	noToolsUsed: () =>
 		`[ERROR] You did not use a tool in your previous response! Please retry with a tool use.
@@ -104,9 +104,9 @@ Otherwise, if you have not completed the task and do not need additional informa
 		absolutePath: string,
 		files: string[],
 		didHitLimit: boolean,
-		rooIgnoreController: RooIgnoreController | undefined,
-		showRooIgnoredFiles: boolean,
-		rooProtectedController?: RooProtectedController,
+		rooIgnoreController: RyCodeExtIgnoreController | undefined,
+		showRyCodeExtIgnoredFiles: boolean,
+		rooProtectedController?: RyCodeExtProtectedController,
 	): string => {
 		const sorted = files
 			.map((file) => {
@@ -149,7 +149,7 @@ Otherwise, if you have not completed the task and do not need additional informa
 
 				if (isIgnored) {
 					// If file is ignored and we're not showing ignored files, skip it
-					if (!showRooIgnoredFiles) {
+					if (!showRyCodeExtIgnoredFiles) {
 						continue
 					}
 					// Otherwise, mark it with a lock symbol

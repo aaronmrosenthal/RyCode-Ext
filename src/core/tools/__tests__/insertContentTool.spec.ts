@@ -35,8 +35,8 @@ vi.mock("../../../utils/path", () => ({
 	getReadablePath: vi.fn().mockReturnValue("test/path.txt"),
 }))
 
-vi.mock("../../ignore/RooIgnoreController", () => ({
-	RooIgnoreController: class {
+vi.mock("../../ignore/RyCodeExtIgnoreController", () => ({
+	RyCodeExtIgnoreController: class {
 		initialize() {
 			return Promise.resolve()
 		}
