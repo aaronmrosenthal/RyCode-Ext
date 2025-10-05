@@ -87,7 +87,7 @@ vitest.mock("../../../i18n", () => ({
 }))
 
 // Import after mocks are set up
-import { RooHandler } from "../roo"
+import { RooHandler } from "../rycode-ext"
 import { CloudService } from "@rycode-ext/cloud"
 
 describe("RooHandler", () => {
