@@ -179,7 +179,7 @@ export class CustomModesManager {
 		const permissionsMatch = content.match(/##\s+Permissions & Tool Access\s*\n\n([\s\S]*?)(?=\n##|$)/i)
 		if (permissionsMatch) {
 			const permissionsText = permissionsMatch[1]
-			const groups: Array<string | [string, { fileRegex: string; description?: string }]> = []
+			const groups: ModeConfig["groups"] = []
 
 			// Parse simple permissions (lines starting with -)
 			const simplePerms = permissionsText.match(/^-\s+(\w+)\s*$/gm)
@@ -187,7 +187,8 @@ export class CustomModesManager {
 				simplePerms.forEach((line) => {
 					const perm = line.replace(/^-\s+/, "").trim()
 					if (perm && !line.includes("[")) {
-						groups.push(perm)
+						// Type is validated by modeConfigSchema.safeParse() later
+						groups.push(perm as ModeConfig["groups"][number])
 					}
 				})
 			}
@@ -198,7 +199,8 @@ export class CustomModesManager {
 			let complexMatch
 			while ((complexMatch = complexPermPattern.exec(permissionsText)) !== null) {
 				const [, , tool, fileRegex, description] = complexMatch
-				groups.push([tool, { fileRegex, description }])
+				// Type is validated by modeConfigSchema.safeParse() later
+				groups.push([tool, { fileRegex, description }] as ModeConfig["groups"][number])
 			}
 
 			if (groups.length > 0) {
@@ -287,7 +289,9 @@ export class CustomModesManager {
 				if (validationResult.success) {
 					modes.push(validationResult.data)
 				} else {
-					logger.warn(`Invalid mode configuration for ${modeEntry.slug}:`, validationResult.error)
+					logger.warn(`Invalid mode configuration for ${modeEntry.slug}:`, {
+						errors: validationResult.error.errors,
+					})
 				}
 			}
 

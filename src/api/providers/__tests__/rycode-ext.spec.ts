@@ -1,4 +1,4 @@
-// npx vitest run api/providers/__tests__/roo.spec.ts
+// npx vitest run api/providers/__tests__/rycode-ext.spec.ts
 
 import { Anthropic } from "@anthropic-ai/sdk"
 import { rooDefaultModelId, rooModels } from "@rycode-ext/types"
