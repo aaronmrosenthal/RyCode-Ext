@@ -88,7 +88,7 @@ const CodeAccordian = ({
 				</ToolUseBlockHeader>
 			)}
 			{(!hasHeader || isExpanded) && (
-				<div className="overflow-x-auto overflow-y-hidden max-w-full">
+				<div className="overflow-x-auto overflow-y-hidden max-w-full matrix-scrollbar">
 					<CodeBlock source={source} language={inferredLanguage} />
 				</div>
 			)}

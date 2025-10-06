@@ -1825,7 +1825,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 					)}
 				</>
 			) : (
-				<div className="flex-1 min-h-0 overflow-y-auto flex flex-col gap-4 relative">
+				<div className="flex-1 min-h-0 overflow-y-auto matrix-scrollbar flex flex-col gap-4 relative">
 					{/* Moved Task Bar Header Here */}
 					{tasks.length !== 0 && (
 						<div className="flex text-vscode-descriptionForeground w-full mx-auto px-5 pt-3">
@@ -1882,7 +1882,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 						<Virtuoso
 							ref={virtuosoRef}
 							key={task.ts}
-							className="scrollable grow overflow-y-scroll mb-1"
+							className="scrollable matrix-scrollbar grow overflow-y-scroll mb-1"
 							increaseViewportBy={{ top: 3_000, bottom: 1000 }}
 							data={groupedMessages}
 							itemContent={itemContent}
