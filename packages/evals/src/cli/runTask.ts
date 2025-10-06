@@ -148,8 +148,39 @@ type RunTaskOptions = {
 	logger: Logger
 }
 
+/**
+ * Validates that language and exercise names are safe (prevents path traversal)
+ */
+const validatePathComponent = (component: string): boolean => {
+	// Only allow alphanumeric, hyphen, underscore
+	return /^[a-zA-Z0-9_-]+$/.test(component)
+}
+
+/**
+ * Safely clean up IPC socket file
+ */
+const cleanupIpcSocket = (socketPath: string, logger: Logger): void => {
+	try {
+		if (fs.existsSync(socketPath)) {
+			fs.unlinkSync(socketPath)
+			logger.info(`Cleaned up IPC socket: ${socketPath}`)
+		}
+	} catch (error) {
+		logger.warn(`Failed to clean up IPC socket ${socketPath}:`, error)
+	}
+}
+
 export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) => {
 	const { language, exercise } = task
+
+	// Validate inputs to prevent path traversal
+	if (!validatePathComponent(language)) {
+		throw new Error(`Invalid language name: ${language}`)
+	}
+	if (!validatePathComponent(exercise)) {
+		throw new Error(`Invalid exercise name: ${exercise}`)
+	}
+
 	const prompt = fs.readFileSync(path.resolve(EVALS_REPO_PATH, `prompts/${language}.md`), "utf-8")
 	const workspacePath = path.resolve(EVALS_REPO_PATH, language, exercise)
 	const ipcSocketPath = path.resolve(os.tmpdir(), `evals-${run.id}-${task.id}.sock`)
@@ -157,6 +188,9 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 	const controller = new AbortController()
 	const cancelSignal = controller.signal
 	const containerized = isDockerContainer()
+
+	// Clean up any existing socket from previous runs
+	cleanupIpcSocket(ipcSocketPath, logger)
 
 	const codeCommand = containerized
 		? `xvfb-run --auto-servernum --server-num=1 code --wait --log trace --disable-workspace-trust --disable-gpu --disable-lcd-text --no-sandbox --user-data-dir /roo/.vscode --password-store="basic" -n ${workspacePath}`
@@ -264,7 +298,8 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 		}
 
 		if (
-			(eventName === RyCodeExtEventName.TaskTokenUsageUpdated || eventName === RyCodeExtEventName.TaskCompleted) &&
+			(eventName === RyCodeExtEventName.TaskTokenUsageUpdated ||
+				eventName === RyCodeExtEventName.TaskCompleted) &&
 			taskMetricsId
 		) {
 			const duration = Date.now() - taskStartedAt
@@ -385,6 +420,9 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 		} else {
 			throw error
 		}
+	} finally {
+		// Always clean up IPC socket, even on error
+		cleanupIpcSocket(ipcSocketPath, logger)
 	}
 
 	logger.close()

@@ -19,16 +19,48 @@ export const isDockerContainer = () => {
 }
 
 export const resetEvalsRepo = async ({ run, cwd }: { run: Run; cwd: string }) => {
-	await execa({ cwd })`git config user.name "RyCode-Ext"`
-	await execa({ cwd })`git config user.email "support@roocode.com"`
-	await execa({ cwd })`git checkout -f`
-	await execa({ cwd })`git clean -fd`
-	await execa({ cwd })`git checkout -b runs/${run.id}-${crypto.randomUUID().slice(0, 8)} main`
+	try {
+		// Verify we're in a git repository
+		await execa({ cwd })`git rev-parse --git-dir`
+
+		// Verify main branch exists
+		const { stdout: branches } = await execa({ cwd })`git branch -a`
+		if (!branches.includes("main") && !branches.includes("remotes/origin/main")) {
+			throw new Error("main branch does not exist")
+		}
+
+		// Set git config (use local scope to avoid global pollution)
+		await execa({ cwd })`git config --local user.name "RyCode-Ext Bot"`
+		await execa({ cwd })`git config --local user.email "evals-bot@roocode.com"`
+
+		// Force checkout to reset any changes
+		await execa({ cwd })`git checkout -f main`
+
+		// Clean untracked files
+		await execa({ cwd })`git clean -fd`
+
+		// Create new branch for this run
+		const branchName = `runs/${run.id}-${crypto.randomUUID().slice(0, 8)}`
+		await execa({ cwd })`git checkout -b ${branchName}`
+	} catch (error) {
+		throw new Error(`Failed to reset evals repo: ${error}`)
+	}
 }
 
 export const commitEvalsRepoChanges = async ({ run, cwd }: { run: Run; cwd: string }) => {
-	await execa({ cwd })`git add .`
-	await execa({ cwd })`git commit -m ${`Run #${run.id}`} --no-verify`
+	try {
+		// Check if there are any changes to commit
+		const { stdout: status } = await execa({ cwd })`git status --porcelain`
+		if (!status.trim()) {
+			console.log("No changes to commit")
+			return
+		}
+
+		await execa({ cwd })`git add .`
+		await execa({ cwd })`git commit -m ${`Run #${run.id}`} --no-verify`
+	} catch (error) {
+		throw new Error(`Failed to commit evals repo changes: ${error}`)
+	}
 }
 
 enum LogLevel {
@@ -48,6 +80,7 @@ export class Logger {
 	private logStream: fs.WriteStream | undefined
 	private logFilePath: string
 	private tag: string
+	private closed: boolean = false
 
 	constructor({ logDir, filename, tag }: LoggerOptions) {
 		this.tag = tag
@@ -60,30 +93,81 @@ export class Logger {
 			fs.mkdirSync(logDir, { recursive: true })
 		} catch (error) {
 			console.error(`Failed to create log directory ${logDir}:`, error)
+			return
 		}
 
 		try {
 			this.logStream = fs.createWriteStream(this.logFilePath, { flags: "a" })
+
+			// Handle stream errors
+			this.logStream.on("error", (error) => {
+				console.error(`Log stream error for ${this.logFilePath}:`, error)
+				this.logStream = undefined
+			})
 		} catch (error) {
 			console.error(`Failed to create log file ${this.logFilePath}:`, error)
 		}
 	}
 
 	private writeToLog(level: LogLevel, message: string, ...args: unknown[]) {
+		if (this.closed) {
+			console.warn(`Attempted to write to closed logger: ${this.tag}`)
+			return
+		}
+
 		try {
 			const timestamp = new Date().toISOString()
 
+			// Sanitize args to prevent sensitive data leakage
+			const sanitizedArgs = args.map((arg) => {
+				if (typeof arg === "object" && arg !== null) {
+					// Deep clone and redact sensitive keys
+					const sanitized = JSON.parse(JSON.stringify(arg))
+					this.redactSensitiveData(sanitized)
+					return sanitized
+				}
+				return arg
+			})
+
 			const logLine = `[${timestamp} | ${level} | ${this.tag}] ${message} ${
-				args.length > 0 ? JSON.stringify(args) : ""
+				sanitizedArgs.length > 0 ? JSON.stringify(sanitizedArgs) : ""
 			}\n`
 
 			console.log(logLine.trim())
 
-			if (this.logStream) {
+			if (this.logStream && !this.logStream.destroyed) {
 				this.logStream.write(logLine)
 			}
 		} catch (error) {
 			console.error(`Failed to write to log file ${this.logFilePath}:`, error)
+		}
+	}
+
+	/**
+	 * Redact sensitive data from log objects
+	 */
+	private redactSensitiveData(obj: unknown): void {
+		const sensitiveKeys = [
+			"apiKey",
+			"api_key",
+			"openRouterApiKey",
+			"password",
+			"token",
+			"secret",
+			"auth",
+			"authorization",
+			"cookie",
+		]
+
+		if (typeof obj === "object" && obj !== null) {
+			for (const key in obj) {
+				const value = (obj as Record<string, unknown>)[key]
+				if (sensitiveKeys.some((sensitive) => key.toLowerCase().includes(sensitive.toLowerCase()))) {
+					;(obj as Record<string, unknown>)[key] = "[REDACTED]"
+				} else if (typeof value === "object" && value !== null) {
+					this.redactSensitiveData(value)
+				}
+			}
 		}
 	}
 
@@ -108,9 +192,20 @@ export class Logger {
 	}
 
 	public close(): void {
-		if (this.logStream) {
-			this.logStream.end()
-			this.logStream = undefined
+		if (this.closed) {
+			return
+		}
+
+		this.closed = true
+
+		if (this.logStream && !this.logStream.destroyed) {
+			try {
+				this.logStream.end()
+			} catch (error) {
+				console.error(`Failed to close log stream for ${this.logFilePath}:`, error)
+			} finally {
+				this.logStream = undefined
+			}
 		}
 	}
 }

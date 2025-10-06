@@ -1,15 +1,65 @@
 import { createClient, type RedisClientType } from "redis"
 
 let redis: RedisClientType | undefined
+let isConnecting = false
 
 export const redisClient = async () => {
 	if (!redis) {
-		redis = createClient({ url: process.env.REDIS_URL || "redis://localhost:6379" })
-		redis.on("error", (error) => console.error("redis error:", error))
-		await redis.connect()
+		// Prevent multiple simultaneous connection attempts
+		while (isConnecting) {
+			await new Promise((resolve) => setTimeout(resolve, 100))
+		}
+
+		if (!redis) {
+			isConnecting = true
+			try {
+				redis = createClient({
+					url: process.env.REDIS_URL || "redis://localhost:6379",
+					socket: {
+						reconnectStrategy: (retries) => {
+							if (retries > 10) {
+								console.error("redis: max reconnection attempts reached")
+								return new Error("Max reconnection attempts reached")
+							}
+							// Exponential backoff: 100ms, 200ms, 400ms, ...
+							return Math.min(100 * Math.pow(2, retries), 3000)
+						},
+					},
+				})
+
+				redis.on("error", (error) => console.error("redis error:", error))
+				redis.on("reconnecting", () => console.log("redis: reconnecting..."))
+				redis.on("ready", () => console.log("redis: connection ready"))
+
+				await redis.connect()
+			} finally {
+				isConnecting = false
+			}
+		}
 	}
 
 	return redis
+}
+
+/**
+ * Gracefully close Redis connection
+ * Should be called on process shutdown
+ */
+export const closeRedisConnection = async () => {
+	if (redis) {
+		try {
+			await redis.quit()
+			redis = undefined
+		} catch (error) {
+			console.error("redis: failed to close connection gracefully:", error)
+			try {
+				await redis?.disconnect()
+				redis = undefined
+			} catch (disconnectError) {
+				console.error("redis: failed to disconnect:", disconnectError)
+			}
+		}
+	}
 }
 
 export const getPubSubKey = (runId: number) => `evals:${runId}`
