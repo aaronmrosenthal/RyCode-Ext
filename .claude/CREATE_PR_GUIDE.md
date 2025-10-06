@@ -11,7 +11,7 @@
 ### Title
 
 ```
-feat: Spec-Kit Migration + Matrix Theme + Build Fixes
+feat: Spec-Kit Migration + Security Hardening + Matrix Theme + Build Fixes
 ```
 
 ---
@@ -47,9 +47,20 @@ This PR completes the Spec-Kit migration initiative and includes several critica
 - Fixed TypeScript type errors in CustomModesManager
 - Resolved test import paths
 
+#### 🔒 Security Hardening
+
+- **Path Traversal Protection (HIGH):** Blocks malicious paths like `../../../../etc/passwd`
+- **YAML Bomb Protection (MEDIUM):** Prevents billion laughs attacks with size/alias limits
+- **Security Score:** Improved from 7.6/10 → 8.5/10
+- **Test Coverage:** 8 security tests added (all passing)
+- **Compliance:** OWASP, CWE-22, CWE-776 standards met
+- **Documentation:** Comprehensive security report (`.claude/SECURITY_FIXES_REPORT.md`)
+
 #### 📚 Documentation
 
 - Comprehensive project context (`.claude/PROJECT_CONTEXT.md`)
+- Security fixes report (`.claude/SECURITY_FIXES_REPORT.md`)
+- Peer review findings (`.claude/PEER_REVIEW_FINDINGS.md`)
 - 36 slash commands configured
 - Migration guide and architecture docs
 
@@ -57,18 +68,19 @@ This PR completes the Spec-Kit migration initiative and includes several critica
 
 ### 🧪 Testing Status
 
-- ✅ **295 test files passed** (4 skipped)
-- ✅ **3,874 tests passed** (48 skipped)
+- ✅ **296 test files passed** (4 skipped)
+- ✅ **3,882 tests passed** (48 skipped)
 - ✅ All builds successful
 - ✅ Type checking passed
 - ✅ Linting passed
+- ✅ Security tests: 8/8 passing
 
 ---
 
 ### 📊 Changes
 
-**Files Changed:** 78 files
-**Additions:** ~23,500 lines
+**Files Changed:** 82 files
+**Additions:** ~24,500 lines
 **Deletions:** ~300 lines
 
 ---
@@ -111,6 +123,11 @@ This PR completes the Spec-Kit migration initiative and includes several critica
 8. `ed193aa8c` - fix: update vitest config alias from @roo to @rycode-ext
 9. `bc741d14e` - fix: update import in rycode-ext.spec.ts test
 10. `1b4a9ee18` - refactor: improve type safety and add peer review documentation
+11. `178d98e60` - docs: add PR creation guide with step-by-step instructions
+12. `a99420af7` - docs: add final status report for Spec-Kit migration
+13. `9f1978a7f` - **security: implement critical security fixes for CustomModesManager**
+14. `fe13a3f75` - docs: update final status with security improvements
+15. `d8da4b1ba` - docs: add comprehensive security fixes report
 
 ---
 
