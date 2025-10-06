@@ -31,6 +31,17 @@ import { Logger, getTag, isDockerContainer } from "./utils.js"
 import { redisClient, getPubSubKey, registerRunner, deregisterRunner } from "./redis.js"
 import { runUnitTest } from "./runUnitTest.js"
 
+// Timing constants (in milliseconds)
+const VSCODE_SPAWN_DELAY_MIN = 5_000 // 5 seconds minimum wait between VSCode windows
+const VSCODE_SPAWN_DELAY_MAX = 10_000 // 10 seconds maximum wait
+const VSCODE_SOCKET_WAIT = 3_000 // 3 seconds to wait for VSCode socket creation
+const IPC_CONNECTION_TIMEOUT = 1_000 // 1 second timeout for IPC connection
+const IPC_CONNECTION_INTERVAL = 250 // 250ms interval for IPC connection polling
+const IPC_CONNECTION_RETRIES = 5 // Maximum connection attempts
+const TASK_CANCEL_DELAY = 5_000 // 5 seconds to allow task cancellation
+const WINDOW_CLOSE_DELAY = 2_000 // 2 seconds to allow window closure
+const SUBPROCESS_SHUTDOWN_TIMEOUT = 10_000 // 10 seconds for graceful subprocess shutdown
+
 class SubprocessTimeoutError extends Error {
 	constructor(timeout: number) {
 		super(`Subprocess timeout after ${timeout}ms`)
@@ -208,7 +219,8 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 	// running in a container, in which case there are no issues with flooding
 	// VSCode with new windows.
 	if (!containerized) {
-		await new Promise((resolve) => setTimeout(resolve, Math.random() * 5_000 + 5_000))
+		const delay = Math.random() * (VSCODE_SPAWN_DELAY_MAX - VSCODE_SPAWN_DELAY_MIN) + VSCODE_SPAWN_DELAY_MIN
+		await new Promise((resolve) => setTimeout(resolve, delay))
 	}
 
 	const subprocess = execa({ env, shell: "/bin/bash", cancelSignal })`${codeCommand}`
@@ -217,14 +229,17 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 	// subprocess.stdout.pipe(process.stdout)
 
 	// Give VSCode some time to spawn before connecting to its unix socket.
-	await new Promise((resolve) => setTimeout(resolve, 3_000))
+	await new Promise((resolve) => setTimeout(resolve, VSCODE_SOCKET_WAIT))
 	let client: IpcClient | undefined = undefined
-	let attempts = 5
+	let attempts = IPC_CONNECTION_RETRIES
 
 	while (true) {
 		try {
 			client = new IpcClient(ipcSocketPath)
-			await pWaitFor(() => client!.isReady, { interval: 250, timeout: 1_000 })
+			await pWaitFor(() => client!.isReady, {
+				interval: IPC_CONNECTION_INTERVAL,
+				timeout: IPC_CONNECTION_TIMEOUT,
+			})
 			break
 		} catch (_error) {
 			client?.disconnect()
@@ -368,7 +383,7 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 		if (rooTaskId && !isClientDisconnected) {
 			logger.info("cancelling task")
 			client.sendCommand({ commandName: TaskCommandName.CancelTask, data: rooTaskId })
-			await new Promise((resolve) => setTimeout(resolve, 5_000)) // Allow some time for the task to cancel.
+			await new Promise((resolve) => setTimeout(resolve, TASK_CANCEL_DELAY))
 		}
 
 		taskFinishedAt = Date.now()
@@ -387,7 +402,7 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 	if (rooTaskId && !isClientDisconnected) {
 		logger.info("closing task")
 		client.sendCommand({ commandName: TaskCommandName.CloseTask, data: rooTaskId })
-		await new Promise((resolve) => setTimeout(resolve, 2_000)) // Allow some time for the window to close.
+		await new Promise((resolve) => setTimeout(resolve, WINDOW_CLOSE_DELAY))
 	}
 
 	if (!isClientDisconnected) {
@@ -399,13 +414,14 @@ export const runTask = async ({ run, task, publish, logger }: RunTaskOptions) =>
 	controller.abort()
 
 	// Wait for subprocess to finish gracefully, with a timeout.
-	const SUBPROCESS_TIMEOUT = 10_000
-
 	try {
 		await Promise.race([
 			subprocess,
 			new Promise((_, reject) =>
-				setTimeout(() => reject(new SubprocessTimeoutError(SUBPROCESS_TIMEOUT)), SUBPROCESS_TIMEOUT),
+				setTimeout(
+					() => reject(new SubprocessTimeoutError(SUBPROCESS_SHUTDOWN_TIMEOUT)),
+					SUBPROCESS_SHUTDOWN_TIMEOUT,
+				),
 			),
 		])
 

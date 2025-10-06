@@ -482,7 +482,9 @@ export class CustomModesManager {
 			if (filePath.endsWith(MODES_FILENAME)) {
 				try {
 					// Try parsing the original content as JSON (not the cleaned content)
-					return JSON.parse(content)
+					const parsed = JSON.parse(content)
+					// Security: Sanitize JSON content same as YAML to prevent prototype pollution
+					return this.sanitizeObject(parsed ?? {})
 				} catch (jsonError) {
 					// JSON also failed, show the original YAML error
 					const errorMsg = yamlError instanceof Error ? yamlError.message : String(yamlError)
