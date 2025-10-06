@@ -274,4 +274,116 @@ modes:
 			}
 		})
 	})
+
+	describe("Prototype Pollution Protection (CWE-1321)", () => {
+		it("should block __proto__ pollution attempts", async () => {
+			const maliciousConfig = `version: '1.0'
+__proto__:
+  isAdmin: true
+modes:
+  - slug: "test-mode"
+    name: "Test Mode"
+    roleDefinition: "Test"
+    groups: ["read"]
+`
+
+			;(fileExistsAtPath as Mock).mockImplementation(async (p: string) => {
+				if (p === mockSpecifyConfig) return true
+				return false
+			})
+			;(fs.readFile as Mock).mockImplementation(async (p: string) => {
+				if (p === mockSpecifyConfig) return maliciousConfig
+				throw new Error("File not found")
+			})
+
+			const modes = await manager.getCustomModes()
+
+			// Verify pollution didn't occur
+			expect((Object.prototype as any).isAdmin).toBeUndefined()
+		})
+
+		it("should block constructor pollution attempts", async () => {
+			const maliciousConfig = `version: '1.0'
+constructor:
+  prototype:
+    isAdmin: true
+modes:
+  - slug: "test-mode"
+    name: "Test Mode"
+    roleDefinition: "Test"
+    groups: ["read"]
+`
+
+			;(fileExistsAtPath as Mock).mockImplementation(async (p: string) => {
+				if (p === mockSpecifyConfig) return true
+				return false
+			})
+			;(fs.readFile as Mock).mockImplementation(async (p: string) => {
+				if (p === mockSpecifyConfig) return maliciousConfig
+				throw new Error("File not found")
+			})
+
+			const modes = await manager.getCustomModes()
+
+			// Verify pollution didn't occur
+			expect((Object.prototype as any).isAdmin).toBeUndefined()
+		})
+
+		it("should block nested prototype pollution", async () => {
+			const maliciousConfig = `version: '1.0'
+modes:
+  - slug: "test-mode"
+    name: "Test Mode"
+    roleDefinition: "Test"
+    groups: ["read"]
+    __proto__:
+      polluted: true
+`
+
+			;(fileExistsAtPath as Mock).mockImplementation(async (p: string) => {
+				if (p === mockSpecifyConfig) return true
+				return false
+			})
+			;(fs.readFile as Mock).mockImplementation(async (p: string) => {
+				if (p === mockSpecifyConfig) return maliciousConfig
+				throw new Error("File not found")
+			})
+
+			const modes = await manager.getCustomModes()
+
+			// Verify pollution didn't occur
+			expect((Object.prototype as any).polluted).toBeUndefined()
+		})
+
+		it("should allow normal configs without dangerous keys", async () => {
+			const safeConfig = `version: '1.0'
+modes:
+  - slug: "test-mode"
+    name: "Test Mode"
+    roleDefinition: "A safe test mode"
+    groups: ["read"]
+    metadata:
+      author: "Test Author"
+      version: "1.0"
+`
+
+			;(fileExistsAtPath as Mock).mockImplementation(async (p: string) => {
+				if (p === mockSpecifyConfig) return true
+				if (p.endsWith("test-mode.md")) return true
+				return false
+			})
+			;(fs.readFile as Mock).mockImplementation(async (p: string) => {
+				if (p === mockSpecifyConfig) return safeConfig
+				if (p.endsWith("test-mode.md")) return "# Test Mode\n\nA safe mode."
+				throw new Error("File not found")
+			})
+
+			const modes = await manager.getCustomModes()
+
+			// Should load mode successfully
+			const testMode = modes.find((m) => m.slug === "test-mode")
+			expect(testMode).toBeDefined()
+			expect(testMode?.name).toBe("Test Mode")
+		})
+	})
 })

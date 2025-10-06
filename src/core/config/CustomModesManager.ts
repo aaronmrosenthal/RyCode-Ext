@@ -139,6 +139,43 @@ export class CustomModesManager {
 		return resolvedPath
 	}
 
+	/**
+	 * Sanitize parsed object to prevent prototype pollution (CWE-1321)
+	 * Removes dangerous keys that could affect Object.prototype
+	 *
+	 * Security: Prevents attacks like:
+	 * { "__proto__": { "isAdmin": true } }
+	 * { "constructor": { "prototype": { "isAdmin": true } } }
+	 */
+	private sanitizeObject(obj: any): any {
+		if (obj === null || typeof obj !== "object") {
+			return obj
+		}
+
+		// Block dangerous keys that could pollute prototypes
+		const dangerousKeys = ["__proto__", "constructor", "prototype"]
+
+		if (Array.isArray(obj)) {
+			return obj.map((item) => this.sanitizeObject(item))
+		}
+
+		// Create object with null prototype (no inherited properties)
+		const sanitized: Record<string, any> = Object.create(null)
+
+		for (const [key, value] of Object.entries(obj)) {
+			if (!dangerousKeys.includes(key)) {
+				sanitized[key] = this.sanitizeObject(value)
+			} else {
+				logger.warn("[Security] Blocked prototype pollution attempt", {
+					key,
+					type: "prototype_pollution",
+				})
+			}
+		}
+
+		return sanitized
+	}
+
 	private async getWorkspaceModes(): Promise<string | undefined> {
 		const workspaceFolders = vscode.workspace.workspaceFolders
 
@@ -423,8 +460,11 @@ export class CustomModesManager {
 				strict: true,
 			})
 
+			// Security: Sanitize to prevent prototype pollution (CWE-1321)
+			const sanitized = this.sanitizeObject(parsed ?? {})
+
 			// Security: Check expanded size after parsing
-			const jsonStr = JSON.stringify(parsed ?? {})
+			const jsonStr = JSON.stringify(sanitized)
 			if (jsonStr.length > MAX_EXPANDED_SIZE) {
 				const errorMsg = `Parsed YAML too large: ${filePath} (${jsonStr.length} bytes expanded, max ${MAX_EXPANDED_SIZE})`
 				logger.warn("[Security] Parsed YAML too large", {
@@ -435,8 +475,8 @@ export class CustomModesManager {
 				throw new SecurityError(errorMsg)
 			}
 
-			// Ensure we never return null or undefined
-			return parsed ?? {}
+			// Return sanitized object
+			return sanitized
 		} catch (yamlError) {
 			// For .modes files, try JSON as fallback
 			if (filePath.endsWith(MODES_FILENAME)) {
