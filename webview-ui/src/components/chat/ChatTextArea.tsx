@@ -1075,6 +1075,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									"resize-none",
 									"overflow-x-hidden",
 									"overflow-y-auto",
+									"matrix-scrollbar",
 									isEditMode ? "pr-20" : "pr-9",
 									"flex-none flex-grow",
 									"z-[2]",

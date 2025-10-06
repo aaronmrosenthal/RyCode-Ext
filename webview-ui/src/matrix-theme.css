@@ -19,12 +19,24 @@
 
 	/* Exact toolkit-cli.com backgrounds */
 	--matrix-bg-dark: #1a1b26;
+	--matrix-bg-darker: #16161e;
+	--matrix-bg-code: rgba(26, 27, 38, 0.6);
 	--matrix-bg-light: #f0f2f5;
+
+	/* Text colors */
 	--matrix-text-light: #2c2e3a;
 	--matrix-text-dark: #c0caf5;
+	--matrix-text-primary: #c0caf5;
+	--matrix-text-secondary: #9aa5ce;
+	--matrix-text-muted: #565f89;
+
+	/* Border colors */
+	--matrix-border: rgba(122, 162, 247, 0.2);
+	--matrix-border-bright: rgba(122, 162, 247, 0.5);
 
 	/* Exact toolkit-cli.com shadows */
 	--matrix-glow-shadow: 0 0 20px rgba(122, 162, 247, 0.3);
+	--matrix-glow-shadow-strong: 0 0 30px rgba(122, 162, 247, 0.5);
 	--matrix-glow-shadow-green: 0 0 20px rgba(0, 255, 0, 0.3);
 
 	/* Exact toolkit-cli.com fonts */
