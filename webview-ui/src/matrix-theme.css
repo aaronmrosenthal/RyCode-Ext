@@ -6,35 +6,33 @@
  */
 
 @layer theme {
-	/* ===== Matrix Core Colors ===== */
+	/* ===== Exact toolkit-cli.com Colors ===== */
 	--matrix-green-primary: #00ff00;
-	--matrix-green-glow: rgba(0, 255, 0, 0.5);
-	--matrix-green-dark: #00cc00;
-	--matrix-green-darker: #008800;
+	--matrix-green-glow: rgba(0, 255, 0, 0.3);
+	--matrix-green-aa: #00ffaa;
 
-	/* LLM-specific accent colors from toolkit-cli */
+	/* Exact LLM accent colors from toolkit-cli.com */
 	--claude-blue: #7aa2f7;
 	--gemini-green: #9ece6a;
 	--codex-magenta: #bb9af7;
 	--qwen-cyan: #00ffff;
 
-	/* Matrix dark theme */
-	--matrix-bg-dark: #0a0e0a;
-	--matrix-bg-darker: #050705;
-	--matrix-bg-code: #0d120d;
-	--matrix-text-primary: #c0caf5;
-	--matrix-text-secondary: #9ece6a;
-	--matrix-text-muted: #7aa2f7;
+	/* Exact toolkit-cli.com backgrounds */
+	--matrix-bg-dark: #1a1b26;
+	--matrix-bg-light: #f0f2f5;
+	--matrix-text-light: #2c2e3a;
+	--matrix-text-dark: #c0caf5;
 
-	/* Terminal borders and shadows */
-	--matrix-border: rgba(0, 255, 0, 0.3);
-	--matrix-border-bright: rgba(0, 255, 0, 0.6);
-	--matrix-glow-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-	--matrix-glow-shadow-strong: 0 0 20px rgba(0, 255, 0, 0.5);
+	/* Exact toolkit-cli.com shadows */
+	--matrix-glow-shadow: 0 0 20px rgba(122, 162, 247, 0.3);
+	--matrix-glow-shadow-green: 0 0 20px rgba(0, 255, 0, 0.3);
 
-	/* TUI monospace fonts */
-	--font-mono: "Fira Code", "Cascadia Code", "JetBrains Mono", "Monaco", "Consolas", monospace;
-	--font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	/* Exact toolkit-cli.com fonts */
+	--font-mono: "Fira Code", monospace;
+	--font-display: "Inter", sans-serif;
+
+	/* Exact toolkit-cli.com gradient */
+	--matrix-gradient: linear-gradient(90deg, #00ff00 0%, #00ffaa 25%, #00ffff 50%, #7aa2f7 75%, #bb9af7 100%);
 }
 
 /* ===== Matrix Animation Keyframes ===== */
@@ -82,16 +80,10 @@
 @keyframes float-orb {
 	0%,
 	100% {
-		transform: translate(0, 0);
-	}
-	25% {
-		transform: translate(10px, -10px);
+		transform: translateY(0px);
 	}
 	50% {
-		transform: translate(-5px, -20px);
-	}
-	75% {
-		transform: translate(-15px, -5px);
+		transform: translateY(-20px);
 	}
 }
 
@@ -122,10 +114,17 @@
 
 .matrix-theme {
 	background: var(--matrix-bg-dark);
-	color: var(--matrix-text-primary);
-	font-family: var(--font-mono);
+	color: var(--matrix-text-dark);
+	font-family: var(--font-display);
 	position: relative;
 	overflow: hidden;
+}
+
+/* Gradient background - exact toolkit-cli.com style */
+.matrix-gradient-bg {
+	background: var(--matrix-gradient);
+	background-size: 200% auto;
+	animation: gradient-shift 8s ease infinite;
 }
 
 /* Animated scanline effect */
@@ -154,9 +153,9 @@
 .matrix-orb {
 	position: absolute;
 	border-radius: 50%;
-	filter: blur(60px);
-	opacity: 0.15;
-	animation: float-orb 20s ease-in-out infinite;
+	filter: blur(80px);
+	opacity: 0.3;
+	animation: float-orb 6s ease-in-out infinite;
 }
 
 .matrix-orb:nth-child(1) {
@@ -258,48 +257,47 @@
 	transform: translateY(0);
 }
 
-/* Matrix code block */
+/* Matrix code block - toolkit-cli.com style */
 .matrix-code-block {
-	background: var(--matrix-bg-code);
-	border: 1px solid var(--matrix-border);
+	background: rgba(26, 27, 38, 0.8);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(122, 162, 247, 0.2);
 	border-left: 3px solid var(--matrix-green-primary);
 	padding: 16px;
 	margin: 12px 0;
-	border-radius: 4px;
+	border-radius: 0.75rem;
 	font-family: var(--font-mono);
 	position: relative;
 	overflow-x: auto;
+	box-shadow: var(--matrix-glow-shadow-green);
 }
 
-.matrix-code-block::before {
-	content: ">";
-	position: absolute;
-	left: 8px;
-	color: var(--matrix-green-primary);
-	font-weight: bold;
-}
-
-/* Matrix chat message */
+/* Matrix chat message - toolkit-cli.com toast style */
 .matrix-message {
-	background: var(--matrix-bg-darker);
-	border: 1px solid var(--matrix-border);
+	background: rgba(26, 27, 38, 0.6);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(122, 162, 247, 0.2);
 	padding: 16px;
 	margin: 8px 0;
-	border-radius: 4px;
+	border-radius: 0.75rem;
 	animation: slide-up-fade-in 0.3s ease-out;
 	position: relative;
+	box-shadow: var(--matrix-glow-shadow);
 }
 
 .matrix-message.user {
 	border-left: 3px solid var(--claude-blue);
+	box-shadow: 0 0 20px rgba(122, 162, 247, 0.3);
 }
 
 .matrix-message.assistant {
 	border-left: 3px solid var(--matrix-green-primary);
+	box-shadow: var(--matrix-glow-shadow-green);
 }
 
 .matrix-message.system {
 	border-left: 3px solid var(--qwen-cyan);
+	box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 
 /* Matrix badge */

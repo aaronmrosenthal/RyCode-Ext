@@ -10,16 +10,21 @@ const RyCodeExtHero = () => {
 		<div className="flex flex-col items-center justify-center pb-4 forced-color-adjust-none">
 			<div
 				style={{
-					backgroundColor: "var(--vscode-foreground)",
-					WebkitMaskImage: `url('${imagesBaseUri}/rycode-ext-logo.svg')`,
-					WebkitMaskRepeat: "no-repeat",
-					WebkitMaskSize: "contain",
-					maskImage: `url('${imagesBaseUri}/rycode-ext-logo.svg')`,
-					maskRepeat: "no-repeat",
-					maskSize: "contain",
+					background: "var(--matrix-gradient)",
+					backgroundSize: "200% auto",
+					WebkitBackgroundClip: "text",
+					backgroundClip: "text",
+					WebkitTextFillColor: "transparent",
 				}}
-				className="mx-auto">
-				<img src={imagesBaseUri + "/rycode-ext-logo.svg"} alt="Roo logo" className="h-8 opacity-0" />
+				className="mx-auto matrix-gradient-text">
+				<img
+					src={imagesBaseUri + "/rycode-ext-logo.svg"}
+					alt="RyCode-Ext logo"
+					className="h-8"
+					style={{
+						filter: "drop-shadow(0 0 20px rgba(122, 162, 247, 0.3))",
+					}}
+				/>
 			</div>
 		</div>
 	)
