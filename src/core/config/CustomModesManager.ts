@@ -20,6 +20,22 @@ const MODES_FILENAME = ".modes"
 const SPECIFY_CONFIG_PATH = ".specify/config.yml"
 const SPECIFY_MODES_DIR = ".specify/memory/specifications/modes"
 
+// Security configuration
+const MAX_YAML_SIZE = 1_000_000 // 1MB raw content
+const MAX_EXPANDED_SIZE = 10_000_000 // 10MB after parsing
+const MAX_YAML_ALIAS_COUNT = 100 // Prevent YAML bombs
+const REGEX_TIMEOUT_MS = 100 // Regex execution timeout
+
+/**
+ * Security error for path traversal and other security violations
+ */
+class SecurityError extends Error {
+	constructor(message: string) {
+		super(message)
+		this.name = "SecurityError"
+	}
+}
+
 // Type definitions for import/export functionality
 interface RuleFile {
 	relativePath: string
@@ -89,6 +105,38 @@ export class CustomModesManager {
 		} finally {
 			this.isWriting = false
 		}
+	}
+
+	/**
+	 * Validates that a path stays within the allowed base directory
+	 * Prevents path traversal attacks (CWE-22)
+	 *
+	 * @param basePath - The base directory that paths must stay within
+	 * @param userInput - The user-provided path component
+	 * @returns The validated absolute path
+	 * @throws SecurityError if path traversal is detected
+	 */
+	private validateSafePath(basePath: string, userInput: string): string {
+		// Reject absolute paths
+		if (path.isAbsolute(userInput)) {
+			logger.warn("[Security] Absolute path blocked:", { userInput })
+			throw new SecurityError(`Absolute paths not allowed: ${userInput}`)
+		}
+
+		// Resolve both paths to absolute form
+		const resolvedBase = path.resolve(basePath)
+		const resolvedPath = path.resolve(basePath, userInput)
+
+		// Calculate relative path from base to target
+		const relativePath = path.relative(resolvedBase, resolvedPath)
+
+		// Reject if path escapes the base directory
+		if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+			logger.warn("[Security] Path traversal blocked:", { basePath, userInput, resolvedPath })
+			throw new SecurityError(`Path traversal detected: ${userInput}`)
+		}
+
+		return resolvedPath
 	}
 
 	private async getWorkspaceModes(): Promise<string | undefined> {
@@ -259,11 +307,12 @@ export class CustomModesManager {
 
 				// Try to load and merge markdown specification
 				if (specifyModesDir) {
-					const mdPath = path.join(specifyModesDir, `${modeEntry.slug}.md`)
-					const mdExists = await fileExistsAtPath(mdPath)
+					try {
+						// Security: Validate path to prevent traversal attacks
+						const mdPath = this.validateSafePath(specifyModesDir, `${modeEntry.slug}.md`)
+						const mdExists = await fileExistsAtPath(mdPath)
 
-					if (mdExists) {
-						try {
+						if (mdExists) {
 							const mdContent = await fs.readFile(mdPath, "utf-8")
 							const mdConfig = this.parseModeSpecification(mdContent, modeEntry.slug)
 
@@ -276,9 +325,16 @@ export class CustomModesManager {
 								// Merge groups if markdown provides them and config.yml doesn't
 								groups: modeConfig.groups?.length ? modeConfig.groups : mdConfig.groups || ["read"],
 							}
-						} catch (error) {
+						}
+					} catch (error) {
+						// Handle both SecurityError and file read errors
+						if (error instanceof SecurityError) {
+							logger.error(`[Security] Mode specification blocked for ${modeEntry.slug}:`, {
+								error: error.message,
+							})
+						} else {
 							logger.warn(
-								`Failed to load mode specification from ${mdPath}: ${error instanceof Error ? error.message : String(error)}`,
+								`Failed to load mode specification for ${modeEntry.slug}: ${error instanceof Error ? error.message : String(error)}`,
 							)
 						}
 					}
@@ -342,14 +398,43 @@ export class CustomModesManager {
 
 	/**
 	 * Parse YAML content with enhanced error handling and preprocessing
+	 * Includes security protections against YAML bombs and oversized content
 	 */
 	private parseYamlSafely(content: string, filePath: string): any {
+		// Security: Check raw content size to prevent memory exhaustion
+		if (content.length > MAX_YAML_SIZE) {
+			const errorMsg = `YAML file too large: ${filePath} (${content.length} bytes, max ${MAX_YAML_SIZE})`
+			logger.warn("[Security] YAML file too large", {
+				filePath,
+				size: content.length,
+				maxSize: MAX_YAML_SIZE,
+			})
+			throw new SecurityError(errorMsg)
+		}
+
 		// Clean the content
 		let cleanedContent = stripBom(content)
 		cleanedContent = this.cleanInvisibleCharacters(cleanedContent)
 
 		try {
-			const parsed = yaml.parse(cleanedContent)
+			// Parse with security limits to prevent YAML bombs (billion laughs attack)
+			const parsed = yaml.parse(cleanedContent, {
+				maxAliasCount: MAX_YAML_ALIAS_COUNT,
+				strict: true,
+			})
+
+			// Security: Check expanded size after parsing
+			const jsonStr = JSON.stringify(parsed ?? {})
+			if (jsonStr.length > MAX_EXPANDED_SIZE) {
+				const errorMsg = `Parsed YAML too large: ${filePath} (${jsonStr.length} bytes expanded, max ${MAX_EXPANDED_SIZE})`
+				logger.warn("[Security] Parsed YAML too large", {
+					filePath,
+					expandedSize: jsonStr.length,
+					maxExpandedSize: MAX_EXPANDED_SIZE,
+				})
+				throw new SecurityError(errorMsg)
+			}
+
 			// Ensure we never return null or undefined
 			return parsed ?? {}
 		} catch (yamlError) {
