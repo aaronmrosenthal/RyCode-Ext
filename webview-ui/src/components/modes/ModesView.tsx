@@ -507,12 +507,14 @@ const ModesView = ({ onDone }: ModesViewProps) => {
 
 	return (
 		<Tab>
-			<TabHeader className="flex justify-between items-center">
-				<h3 className="text-vscode-foreground m-0">{t("prompts:title")}</h3>
-				<Button onClick={onDone}>{t("prompts:done")}</Button>
+			<TabHeader className="flex justify-between items-center matrix-panel">
+				<h3 className="text-vscode-foreground m-0 matrix-header">{t("prompts:title")}</h3>
+				<Button onClick={onDone} className="matrix-button">
+					{t("prompts:done")}
+				</Button>
 			</TabHeader>
 
-			<TabContent>
+			<TabContent className="matrix-theme">
 				<div>
 					<div onClick={(e) => e.stopPropagation()} className="flex justify-between items-center mb-3">
 						<h3 className="text-vscode-foreground m-0">{t("prompts:modes.title")}</h3>

@@ -60,11 +60,11 @@ const WelcomeView = () => {
 
 	return (
 		<Tab>
-			<TabContent className="flex flex-col gap-4 p-6">
+			<TabContent className="flex flex-col gap-4 p-6 matrix-theme">
 				<RyCodeExtHero />
-				<h2 className="mt-0 mb-4 text-xl text-center">{t("welcome:greeting")}</h2>
+				<h2 className="mt-0 mb-4 text-xl text-center matrix-header">{t("welcome:greeting")}</h2>
 
-				<div className="text-base text-vscode-foreground py-2 px-2 mb-4">
+				<div className="text-base text-vscode-foreground py-2 px-2 mb-4 matrix-panel">
 					<p className="mb-3 leading-relaxed">
 						<Trans i18nKey="welcome:introduction" />
 					</p>
