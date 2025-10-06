@@ -488,3 +488,45 @@
 .matrix-animate-glow {
 	animation: matrix-glow-pulse 2s ease-in-out infinite;
 }
+
+/* ===== Accessibility: Reduced Motion Support ===== */
+
+@media (prefers-reduced-motion: reduce) {
+	/* Disable all animations for users who prefer reduced motion */
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	/* Remove scanline effect */
+	.matrix-scanline {
+		display: none;
+	}
+
+	/* Disable floating orbs */
+	.matrix-orb {
+		animation: none;
+		opacity: 0.1;
+	}
+
+	/* Disable cursor blink */
+	.matrix-cursor {
+		animation: none;
+		opacity: 1;
+	}
+
+	/* Disable text flicker */
+	.matrix-status-active {
+		animation: none;
+	}
+
+	/* Disable gradient animations */
+	.matrix-gradient-bg,
+	.matrix-gradient-text {
+		animation: none;
+		background-position: 0% 50%;
+	}
+}

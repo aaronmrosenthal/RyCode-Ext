@@ -195,6 +195,7 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone, t
 		openRouterImageApiKey,
 		openRouterImageGenerationSelectedModel,
 		reasoningBlockCollapsed,
+		matrixThemeEnabled,
 	} = cachedState
 
 	const apiConfiguration = useMemo(() => cachedState.apiConfiguration ?? {}, [cachedState.apiConfiguration])
@@ -782,6 +783,7 @@ const SettingsView = forwardRef<SettingsViewRef, SettingsViewProps>(({ onDone, t
 					{activeTab === "ui" && (
 						<UISettings
 							reasoningBlockCollapsed={reasoningBlockCollapsed ?? true}
+							matrixThemeEnabled={matrixThemeEnabled ?? true}
 							setCachedStateField={setCachedStateField}
 						/>
 					)}

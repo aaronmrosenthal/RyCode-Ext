@@ -51,12 +51,14 @@ const McpView = ({ onDone }: McpViewProps) => {
 
 	return (
 		<Tab>
-			<TabHeader className="flex justify-between items-center">
-				<h3 className="text-vscode-foreground m-0">{t("mcp:title")}</h3>
-				<Button onClick={onDone}>{t("mcp:done")}</Button>
+			<TabHeader className="flex justify-between items-center matrix-panel">
+				<h3 className="text-vscode-foreground m-0 matrix-header">{t("mcp:title")}</h3>
+				<Button onClick={onDone} className="matrix-button">
+					{t("mcp:done")}
+				</Button>
 			</TabHeader>
 
-			<TabContent>
+			<TabContent className="matrix-theme">
 				<div
 					style={{
 						color: "var(--vscode-foreground)",

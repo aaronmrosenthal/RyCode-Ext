@@ -145,6 +145,8 @@ export interface ExtensionStateContextType extends ExtensionState {
 	setTerminalCompressProgressBar: (value: boolean) => void
 	setHistoryPreviewCollapsed: (value: boolean) => void
 	setReasoningBlockCollapsed: (value: boolean) => void
+	matrixThemeEnabled?: boolean
+	setMatrixThemeEnabled: (value: boolean) => void
 	autoCondenseContext: boolean
 	setAutoCondenseContext: (value: boolean) => void
 	autoCondenseContextPercent: number
@@ -509,7 +511,8 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		setMaxWorkspaceFiles: (value) => setState((prevState) => ({ ...prevState, maxWorkspaceFiles: value })),
 		setBrowserToolEnabled: (value) => setState((prevState) => ({ ...prevState, browserToolEnabled: value })),
 		setTelemetrySetting: (value) => setState((prevState) => ({ ...prevState, telemetrySetting: value })),
-		setShowRyCodeExtIgnoredFiles: (value) => setState((prevState) => ({ ...prevState, showRyCodeExtIgnoredFiles: value })),
+		setShowRyCodeExtIgnoredFiles: (value) =>
+			setState((prevState) => ({ ...prevState, showRyCodeExtIgnoredFiles: value })),
 		setRemoteBrowserEnabled: (value) => setState((prevState) => ({ ...prevState, remoteBrowserEnabled: value })),
 		setAwsUsePromptCache: (value) => setState((prevState) => ({ ...prevState, awsUsePromptCache: value })),
 		setMaxReadFileLine: (value) => setState((prevState) => ({ ...prevState, maxReadFileLine: value })),
@@ -537,6 +540,7 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 			setState((prevState) => ({ ...prevState, historyPreviewCollapsed: value })),
 		setReasoningBlockCollapsed: (value) =>
 			setState((prevState) => ({ ...prevState, reasoningBlockCollapsed: value })),
+		setMatrixThemeEnabled: (value) => setState((prevState) => ({ ...prevState, matrixThemeEnabled: value })),
 		setHasOpenedModeSelector: (value) => setState((prevState) => ({ ...prevState, hasOpenedModeSelector: value })),
 		setAutoCondenseContext: (value) => setState((prevState) => ({ ...prevState, autoCondenseContext: value })),
 		setAutoCondenseContextPercent: (value) =>

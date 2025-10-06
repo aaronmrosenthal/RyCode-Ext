@@ -11,10 +11,16 @@ import { ExtensionStateContextType } from "@/context/ExtensionStateContext"
 
 interface UISettingsProps extends HTMLAttributes<HTMLDivElement> {
 	reasoningBlockCollapsed: boolean
+	matrixThemeEnabled: boolean
 	setCachedStateField: SetCachedStateField<keyof ExtensionStateContextType>
 }
 
-export const UISettings = ({ reasoningBlockCollapsed, setCachedStateField, ...props }: UISettingsProps) => {
+export const UISettings = ({
+	reasoningBlockCollapsed,
+	matrixThemeEnabled,
+	setCachedStateField,
+	...props
+}: UISettingsProps) => {
 	const { t } = useAppTranslation()
 
 	const handleReasoningBlockCollapsedChange = (value: boolean) => {
@@ -22,6 +28,15 @@ export const UISettings = ({ reasoningBlockCollapsed, setCachedStateField, ...pr
 
 		// Track telemetry event
 		telemetryClient.capture("ui_settings_collapse_thinking_changed", {
+			enabled: value,
+		})
+	}
+
+	const handleMatrixThemeEnabledChange = (value: boolean) => {
+		setCachedStateField("matrixThemeEnabled", value)
+
+		// Track telemetry event
+		telemetryClient.capture("ui_settings_matrix_theme_changed", {
 			enabled: value,
 		})
 	}
@@ -37,6 +52,20 @@ export const UISettings = ({ reasoningBlockCollapsed, setCachedStateField, ...pr
 
 			<Section>
 				<div className="space-y-6">
+					{/* Matrix Theme Toggle */}
+					<div className="flex flex-col gap-1">
+						<VSCodeCheckbox
+							checked={matrixThemeEnabled ?? true}
+							onChange={(e: any) => handleMatrixThemeEnabledChange(e.target.checked)}
+							data-testid="matrix-theme-checkbox">
+							<span className="font-medium">Matrix Theme</span>
+						</VSCodeCheckbox>
+						<div className="text-vscode-descriptionForeground text-sm ml-5 mt-1">
+							Enable toolkit-cli.com inspired terminal aesthetic with animated effects, gradient text, and
+							retro styling
+						</div>
+					</div>
+
 					{/* Collapse Thinking Messages Setting */}
 					<div className="flex flex-col gap-1">
 						<VSCodeCheckbox

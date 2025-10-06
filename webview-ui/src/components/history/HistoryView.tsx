@@ -80,9 +80,9 @@ const HistoryView = ({ onDone }: HistoryViewProps) => {
 
 	return (
 		<Tab>
-			<TabHeader className="flex flex-col gap-2">
+			<TabHeader className="flex flex-col gap-2 matrix-panel">
 				<div className="flex justify-between items-center">
-					<h3 className="text-vscode-foreground m-0">{t("history:history")}</h3>
+					<h3 className="text-vscode-foreground m-0 matrix-header">{t("history:history")}</h3>
 					<div className="flex gap-2">
 						<StandardTooltip
 							content={
