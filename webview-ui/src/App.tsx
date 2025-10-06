@@ -22,6 +22,7 @@ import { HumanRelayDialog } from "./components/human-relay/HumanRelayDialog"
 import { CheckpointRestoreDialog } from "./components/chat/CheckpointRestoreDialog"
 import { DeleteMessageDialog, EditMessageDialog } from "./components/chat/MessageModificationConfirmationDialog"
 import ErrorBoundary from "./components/ErrorBoundary"
+import { ComponentErrorBoundary } from "./components/common/ErrorBoundary"
 import { CloudView } from "./components/cloud/CloudView"
 import { useAddNonInteractiveClickListener } from "./components/ui/hooks/useNonInteractiveClick"
 import { TooltipProvider } from "./components/ui/tooltip"
@@ -247,30 +248,50 @@ const App = () => {
 	// Do not conditionally load ChatView, it's expensive and there's state we
 	// don't want to lose (user input, disableInput, askResponse promise, etc.)
 	return showWelcome ? (
-		<WelcomeView />
+		<ComponentErrorBoundary componentName="WelcomeView">
+			<WelcomeView />
+		</ComponentErrorBoundary>
 	) : (
 		<>
-			{tab === "modes" && <ModesView onDone={() => switchTab("chat")} />}
-			{tab === "mcp" && <McpView onDone={() => switchTab("chat")} />}
-			{tab === "history" && <HistoryView onDone={() => switchTab("chat")} />}
+			{tab === "modes" && (
+				<ComponentErrorBoundary componentName="ModesView">
+					<ModesView onDone={() => switchTab("chat")} />
+				</ComponentErrorBoundary>
+			)}
+			{tab === "mcp" && (
+				<ComponentErrorBoundary componentName="McpView">
+					<McpView onDone={() => switchTab("chat")} />
+				</ComponentErrorBoundary>
+			)}
+			{tab === "history" && (
+				<ComponentErrorBoundary componentName="HistoryView">
+					<HistoryView onDone={() => switchTab("chat")} />
+				</ComponentErrorBoundary>
+			)}
 			{tab === "settings" && (
-				<SettingsView ref={settingsRef} onDone={() => setTab("chat")} targetSection={currentSection} />
+				<ComponentErrorBoundary componentName="SettingsView">
+					<SettingsView ref={settingsRef} onDone={() => setTab("chat")} targetSection={currentSection} />
+				</ComponentErrorBoundary>
 			)}
 			{tab === "marketplace" && (
-				<MarketplaceView
-					stateManager={marketplaceStateManager}
-					onDone={() => switchTab("chat")}
-					targetTab={currentMarketplaceTab as "mcp" | "mode" | undefined}
-				/>
+				<ComponentErrorBoundary componentName="MarketplaceView">
+					<MarketplaceView
+						stateManager={marketplaceStateManager}
+						onDone={() => switchTab("chat")}
+						targetTab={currentMarketplaceTab as "mcp" | "mode" | undefined}
+					/>
+				</ComponentErrorBoundary>
 			)}
 			{tab === "cloud" && (
-				<CloudView
-					userInfo={cloudUserInfo}
-					isAuthenticated={cloudIsAuthenticated}
-					cloudApiUrl={cloudApiUrl}
-					organizations={cloudOrganizations}
-					onDone={() => switchTab("chat")}
-				/>
+				<ComponentErrorBoundary componentName="CloudView">
+					<CloudView
+						userInfo={cloudUserInfo}
+						isAuthenticated={cloudIsAuthenticated}
+						cloudApiUrl={cloudApiUrl}
+						organizations={cloudOrganizations}
+						onDone={() => switchTab("chat")}
+					/>
+				</ComponentErrorBoundary>
 			)}
 			<ChatView
 				ref={chatViewRef}
