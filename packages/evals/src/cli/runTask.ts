@@ -138,7 +138,13 @@ export const processTaskInContainer = async ({
 
 	logger.error(`all ${maxRetries + 1} attempts failed, giving up`)
 
-	// TODO: Mark task as failed.
+	// Mark task as failed after all retry attempts exhausted
+	await updateTask(taskId, {
+		passed: false,
+		finishedAt: new Date(),
+	})
+
+	logger.error(`task ${taskId} marked as failed after ${maxRetries + 1} failed attempts`)
 }
 
 type RunTaskOptions = {
