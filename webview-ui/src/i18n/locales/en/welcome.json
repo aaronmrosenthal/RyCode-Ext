@@ -13,10 +13,10 @@
 		},
 		"roo": {
 			"description": "The best free models to get started",
-			"incentive": "Try Roo out for free"
+			"incentive": "Try RyCode-Ext for free"
 		}
 	},
-	"chooseProvider": "To do its magic, Roo needs an API key.",
+	"chooseProvider": "To do its magic, RyCode-Ext needs an API key.",
 	"startRouter": "We recommend using an LLM Router:",
 	"startCustom": "Or you can bring your provider API key:",
 	"telemetry": {
