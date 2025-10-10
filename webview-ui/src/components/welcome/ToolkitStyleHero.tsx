@@ -1,8 +1,8 @@
 import { TerminalWindow, TerminalPrompt, TerminalLine } from "../common/TerminalWindow"
 
-const RyCodeExtHero = () => {
+const ToolkitStyleHero = () => {
 	return (
-		<div className="flex flex-col items-center justify-center pb-4 forced-color-adjust-none">
+		<div className="toolkit-hero">
 			<TerminalWindow title="~/rycode-ext">
 				<TerminalPrompt command="rycode-ext" args='--ai "claude gemini qwen codex"' />
 
@@ -26,13 +26,18 @@ const RyCodeExtHero = () => {
 				</TerminalLine>
 			</TerminalWindow>
 
-			<div className="text-center mt-6">
+			<div className="text-center mt-8 mb-4">
+				<h1
+					className="text-2xl font-bold matrix-gradient-text mb-2"
+					style={{ fontFamily: "var(--font-display)" }}>
+					Where LLMs Collaborate, Not Compete
+				</h1>
 				<p className="text-[var(--matrix-text-secondary)] text-sm font-mono">
-					&quot;Where LLMs Collaborate, Not Compete&quot;
+					Multi-agent AI development powered by toolkit-cli
 				</p>
 			</div>
 		</div>
 	)
 }
 
-export default RyCodeExtHero
+export default ToolkitStyleHero

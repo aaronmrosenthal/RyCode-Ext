@@ -8,7 +8,7 @@
 @layer theme {
 	/* ===== Exact toolkit-cli.com Colors ===== */
 	--matrix-green-primary: #00ff00;
-	--matrix-green-glow: rgba(0, 255, 0, 0.3);
+	--matrix-green-glow: rgba(0, 255, 0, 0.5);
 	--matrix-green-aa: #00ffaa;
 
 	/* Exact LLM accent colors from toolkit-cli.com */
@@ -17,34 +17,41 @@
 	--codex-magenta: #bb9af7;
 	--qwen-cyan: #00ffff;
 
-	/* Exact toolkit-cli.com backgrounds */
-	--matrix-bg-dark: #1a1b26;
-	--matrix-bg-darker: #16161e;
-	--matrix-bg-code: rgba(26, 27, 38, 0.6);
+	/* Exact toolkit-cli.com backgrounds - darker, more terminal-like */
+	--matrix-bg-dark: #0d1117;
+	--matrix-bg-darker: #010409;
+	--matrix-bg-terminal: #0a0e14;
+	--matrix-bg-code: rgba(13, 17, 23, 0.8);
 	--matrix-bg-light: #f0f2f5;
 
 	/* Text colors */
 	--matrix-text-light: #2c2e3a;
 	--matrix-text-dark: #c0caf5;
-	--matrix-text-primary: #c0caf5;
+	--matrix-text-primary: #e6edf3;
 	--matrix-text-secondary: #9aa5ce;
-	--matrix-text-muted: #565f89;
+	--matrix-text-muted: #6e7681;
 
-	/* Border colors */
-	--matrix-border: rgba(122, 162, 247, 0.2);
-	--matrix-border-bright: rgba(122, 162, 247, 0.5);
+	/* Border colors - subtle green tint like toolkit-cli */
+	--matrix-border: rgba(0, 255, 0, 0.1);
+	--matrix-border-bright: rgba(0, 255, 0, 0.3);
+	--matrix-border-terminal: rgba(0, 255, 0, 0.2);
 
 	/* Exact toolkit-cli.com shadows */
-	--matrix-glow-shadow: 0 0 20px rgba(122, 162, 247, 0.3);
-	--matrix-glow-shadow-strong: 0 0 30px rgba(122, 162, 247, 0.5);
-	--matrix-glow-shadow-green: 0 0 20px rgba(0, 255, 0, 0.3);
+	--matrix-glow-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+	--matrix-glow-shadow-strong: 0 0 30px rgba(0, 255, 0, 0.4);
+	--matrix-glow-shadow-green: 0 0 15px rgba(0, 255, 0, 0.3);
 
 	/* Exact toolkit-cli.com fonts */
-	--font-mono: "Fira Code", monospace;
-	--font-display: "Inter", sans-serif;
+	--font-mono: "Fira Code", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+	--font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
 	/* Exact toolkit-cli.com gradient */
-	--matrix-gradient: linear-gradient(90deg, #00ff00 0%, #00ffaa 25%, #00ffff 50%, #7aa2f7 75%, #bb9af7 100%);
+	--matrix-gradient: linear-gradient(90deg, #00ff00 0%, #9ece6a 25%, #00ffff 50%, #7aa2f7 75%, #bb9af7 100%);
+
+	/* Terminal chrome colors */
+	--terminal-red: #ff5f56;
+	--terminal-yellow: #ffbd2e;
+	--terminal-green: #27c93f;
 }
 
 /* ===== Matrix Animation Keyframes ===== */
@@ -120,6 +127,67 @@
 		opacity: 1;
 		transform: translateY(0);
 	}
+}
+
+/* ===== Terminal Window (toolkit-cli style) ===== */
+
+.terminal-window {
+	background: var(--matrix-bg-terminal);
+	border: 1px solid var(--matrix-border-terminal);
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow:
+		0 8px 32px rgba(0, 0, 0, 0.4),
+		0 0 0 1px rgba(0, 255, 0, 0.1);
+}
+
+.terminal-chrome {
+	background: var(--matrix-bg-darker);
+	border-bottom: 1px solid var(--matrix-border);
+	padding: 12px 16px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.terminal-buttons {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.terminal-button {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.terminal-button-red {
+	background: var(--terminal-red);
+}
+
+.terminal-button-yellow {
+	background: var(--terminal-yellow);
+}
+
+.terminal-button-green {
+	background: var(--terminal-green);
+}
+
+.terminal-title {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	color: var(--matrix-text-muted);
+	flex: 1;
+	text-align: center;
+	margin-right: 80px; /* Offset for buttons on left */
+}
+
+.terminal-content {
+	padding: 24px;
+	background: var(--matrix-bg-terminal);
+	min-height: 200px;
 }
 
 /* ===== Matrix TUI Theme Classes ===== */

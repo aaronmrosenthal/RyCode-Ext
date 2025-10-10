@@ -52,12 +52,6 @@ const WelcomeView = () => {
 		vscode.postMessage({ type: "upsertApiConfiguration", text: currentApiConfigName, apiConfiguration })
 	}, [apiConfiguration, currentApiConfigName])
 
-	// Using a lazy initializer so it reads once at mount
-	const [imagesBaseUri] = useState(() => {
-		const w = window as any
-		return w.IMAGES_BASE_URI || ""
-	})
-
 	return (
 		<Tab>
 			<TabContent className="flex flex-col gap-4 p-6 matrix-theme">
@@ -154,12 +148,8 @@ const WelcomeView = () => {
 											{provider.incentive}
 										</div>
 									)}
-									<div className="w-8 h-8 flex-shrink-0">
-										<img
-											src={`${imagesBaseUri}/${provider.slug}.png`}
-											alt={provider.name}
-											className="w-full h-full object-contain"
-										/>
+									<div className="w-8 h-8 flex-shrink-0 rounded-md bg-vscode-input-background border border-vscode-panel-border flex items-center justify-center font-mono text-xs font-bold text-vscode-foreground">
+										{provider.name.substring(0, 2).toUpperCase()}
 									</div>
 									<div>
 										<div className="text-sm font-medium text-vscode-foreground">
